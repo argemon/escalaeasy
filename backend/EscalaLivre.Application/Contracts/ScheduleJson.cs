@@ -129,7 +129,9 @@ public static class ScheduleJson
                 throw new JsonException("Requisição de planejamento incompleta.");
             var document = documentNode.Deserialize<EscalaLivreDocument>(options);
             var zone = document?.Company?.TimeZone ?? DefaultTimeZone;
-            return new(document!, Civil(startNode.GetString()!,zone), Civil(endNode.GetString()!,zone));
+            var preferences = root.TryGetProperty("preferences",out var preferencesNode) && preferencesNode.ValueKind != JsonValueKind.Null
+                ? preferencesNode.Deserialize<GenerationPreferences>(options) : null;
+            return new(document!, Civil(startNode.GetString()!,zone), Civil(endNode.GetString()!,zone),preferences);
         }
         public override void Write(Utf8JsonWriter writer, ScheduleRequest request, JsonSerializerOptions options)
         {
@@ -137,6 +139,7 @@ public static class ScheduleJson
             writer.WritePropertyName("document"); JsonSerializer.Serialize(writer,request.Document,options);
             writer.WriteString("start",Civil(request.Start.ToString("O",CultureInfo.InvariantCulture),request.Document.Company.TimeZone).ToString("yyyy-MM-dd'T'HH:mm:ss",CultureInfo.InvariantCulture));
             writer.WriteString("end",Civil(request.End.ToString("O",CultureInfo.InvariantCulture),request.Document.Company.TimeZone).ToString("yyyy-MM-dd'T'HH:mm:ss",CultureInfo.InvariantCulture));
+            if(request.Preferences is not null) { writer.WritePropertyName("preferences"); JsonSerializer.Serialize(writer,request.Preferences,options); }
             writer.WriteEndObject();
         }
     }

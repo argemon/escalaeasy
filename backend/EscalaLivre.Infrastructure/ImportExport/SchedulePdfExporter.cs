@@ -27,48 +27,100 @@ internal static class SchedulePdfExporter
         section.PageSetup.LeftMargin=section.PageSetup.RightMargin=Unit.FromCentimeter(1.7);
         section.PageSetup.TopMargin=Unit.FromCentimeter(1.8);section.PageSetup.BottomMargin=Unit.FromCentimeter(1.6);
         section.PageSetup.HeaderDistance=section.PageSetup.FooterDistance=Unit.FromCentimeter(.7);
-        var header=section.Headers.Primary.AddParagraph("ESCALA LIVRE / ESCALA DA EQUIPE"+(publicationLabel is null?"":" · "+publicationLabel));
-        header.Format.Font.Size=8;header.Format.Font.Color=Colors.Gray;
-        var footer=section.Footers.Primary.AddParagraph();footer.Format.Alignment=ParagraphAlignment.Right;
-        footer.AddText("Página ");footer.AddPageField();footer.AddText(" de ");footer.AddNumPagesField();
 
         var title=section.AddParagraph(BreakLongWords(schedule.Company.Name));
         title.Format.Font.Size=17;title.Format.Font.Bold=true;title.Format.SpaceAfter=Unit.FromPoint(7);
         if(publicationLabel is not null)section.AddParagraph(publicationLabel).Format.Font.Bold=true;
         if(schedule.PlanningPeriod is { } period)
             section.AddParagraph($"Planejamento: {period.Start:dd/MM/yyyy} a {period.End:dd/MM/yyyy}");
-        section.AddParagraph($"Inclui todos os {schedule.Assignments.Count} turnos salvos.")
-            .Format.SpaceAfter=Unit.FromPoint(12);
-        if(publicationLabel is not null && schedule.Employees.Count==1)section.AddParagraph("Pessoa: "+BreakLongWords(schedule.Employees[0].Name));
-        if(schedule.Assignments.Count==0)section.AddParagraph("Nenhum turno salvo neste documento.");
+        var rows=SchedulePdfRows.Build(schedule);
+        if(rows.Count==0)section.AddParagraph("Nenhum turno salvo neste período.");
         else
         {
             var table=section.AddTable();table.Borders.Width=.35;table.Borders.Color=Colors.LightGray;
-            table.Rows.LeftIndent=Unit.Zero;table.TopPadding=table.BottomPadding=Unit.FromPoint(5);
-            foreach(double width in publicationLabel is null?new[]{6,3.5,4,4,6,2.8}:new[]{6.8,3.5,4.5,4.5,7.0})table.AddColumn(Unit.FromCentimeter(width));
+            table.Rows.LeftIndent=Unit.Zero;table.TopPadding=table.BottomPadding=Unit.FromPoint(1.5);
+            table.Format.SpaceBefore=table.Format.SpaceAfter=Unit.Zero;
+            foreach(double width in new[]{5.0,3.5,6.0,5.0,6.5})table.AddColumn(Unit.FromCentimeter(width));
             var heading=table.AddRow();heading.HeadingFormat=true;heading.Format.Font.Bold=true;
+            heading.TopPadding=heading.BottomPadding=Unit.FromPoint(2.5);
             heading.Shading.Color=Color.FromRgb(26,92,75);heading.Format.Font.Color=Colors.White;
-            string[] labels=["Funcionário","Função","Início","Fim","Intervalo","Origem"];
-            for(int i=0;i<(publicationLabel is null?labels.Length:5);i++)heading.Cells[i].AddParagraph(labels[i]);
-            var employees=schedule.Employees.ToDictionary(e=>e.Id);
-            string Name(ShiftAssignment shift)=>employees.TryGetValue(shift.EmployeeId,out var person)?person.Name:shift.EmployeeId.ToString();
-            int index=0;
-            foreach(var shift in schedule.Assignments.OrderBy(Name,StringComparer.Create(CultureInfo.GetCultureInfo("pt-BR"),true)).ThenBy(s=>s.Start).ThenBy(s=>s.Id))
+            string[] labels=["Funcionário","Função","Dias","Horário","Intervalo"];
+            for(int i=0;i<labels.Length;i++)heading.Cells[i].AddParagraph(labels[i]);
+            int personIndex=-1;
+            foreach(var group in rows)
             {
-                var row=table.AddRow();if(index++%2==1)row.Shading.Color=Color.FromRgb(243,247,245);
-                string[] cells=[Name(shift),shift.Role,Clock(shift.Start),Clock(shift.End),
-                    shift.Break is { } pause?$"{Clock(pause.Start)} - {Clock(pause.End)}":"Sem intervalo",shift.Source=="manual"?"Manual":"Gerado"];
-                for(int i=0;i<(publicationLabel is null?cells.Length:5);i++)row.Cells[i].AddParagraph(BreakLongWords(cells[i],i==1?10:20));
+                if(group.StartsEmployee)personIndex++;
+                var row=table.AddRow();
+                if(personIndex%2==1)row.Shading.Color=Color.FromRgb(243,247,245);
+                // Keep each person's rows together visually instead of striping individual date ranges.
+                row.Borders.Top.Width=row.Borders.Bottom.Width=0;
+                if(group.StartsEmployee)
+                {
+                    row.Borders.Top.Width=.8;
+                    row.Borders.Top.Color=Color.FromRgb(174,197,187);
+                    row.Cells[0].Format.Font.Bold=true;
+                }
+                string dates=group.From==group.To?group.From.ToString("dd/MM/yyyy"):$"{group.From:dd/MM/yyyy} a {group.To:dd/MM/yyyy}";
+                string[] cells=[group.StartsEmployee?group.Name:"",group.StartsRole?group.Role:"",dates,group.Hours,group.Interval];
+                for(int i=0;i<cells.Length;i++)row.Cells[i].AddParagraph(BreakLongWords(cells[i],i==1?10:20));
             }
+            table.Rows[^1].Borders.Bottom.Width=.35;
         }
-        if(publicationLabel is not null)section.AddParagraph("Legenda: intervalo = pausa sem cobertura; sem intervalo = nenhuma pausa registrada. O fim pode ocorrer no dia seguinte.");
+        if(rows.Any(row=>row.Hours.Contains("(+")||row.Interval.Contains("(+")))section.AddParagraph("+1d = dia seguinte à entrada do turno.");
         var renderer=new PdfDocumentRenderer{Document=document};renderer.RenderDocument();
+        DrawFooters(renderer.PdfDocument);
         /* Full fonts preserve nested composite accents in this PDFsharp release. */
         foreach(var style in new[]{XFontStyleEx.Regular,XFontStyleEx.Bold})
             renderer.PdfDocument.AddCharacters(new XFont("Escala Sans",8.5,style,new XPdfFontOptions(PdfFontEmbedding.EmbedCompleteFontFile))," ");
         using var output=new MemoryStream();renderer.PdfDocument.Save(output,false);return output.ToArray();
     }
-    private static string Clock(DateTime value)=>value.ToString("dd/MM/yyyy HH:mm:ss",CultureInfo.InvariantCulture);
+
+    private static void DrawFooters(PdfDocument document)
+    {
+        var brandColor=XColor.FromArgb(0x16,0x4e,0x63);
+        var brandFont=new XFont("Escala Sans",9,XFontStyleEx.Bold);
+        var pageFont=new XFont("Escala Sans",8.5);
+        for(int i=0;i<document.PageCount;i++)
+        {
+            var page=document.Pages[i];
+            using var graphics=XGraphics.FromPdfPage(page,XGraphicsPdfPageOptions.Append);
+            string pagination=$"Página {i+1} de {document.PageCount}";
+            double pageWidth=graphics.MeasureString(pagination,pageFont).Width;
+            double nameWidth=graphics.MeasureString("Escala Livre",brandFont).Width;
+            double pageLeft=page.Width.Point-XUnit.FromCentimeter(1.7).Point-pageWidth;
+            double top=page.Height.Point-31;
+            const double iconSize=18,gap=5;
+            double logoLeft=pageLeft-14-iconSize-gap-nameWidth;
+            // Reuse the calendar geometry from frontend/public/brand/icon.svg as vector paths.
+            var state=graphics.Save();
+            graphics.TranslateTransform(logoLeft,top+1);
+            graphics.ScaleTransform(iconSize/64);
+            var pen=new XPen(brandColor,6){LineJoin=XLineJoin.Round};
+            graphics.DrawLine(pen,25,19,39,19);
+            var outline=new XGraphicsPath();
+            outline.AddLine(15,19,14,19);
+            outline.AddBezier(14,19,8.477,19,4,23.477,4,29);
+            outline.AddLine(4,29,4,49);
+            outline.AddBezier(4,49,4,54.523,8.477,59,14,59);
+            outline.AddLine(14,59,50,59);
+            outline.AddBezier(50,59,55.523,59,60,54.523,60,49);
+            outline.AddLine(60,49,60,45);
+            graphics.DrawPath(pen,outline);
+            var corner=new XGraphicsPath();
+            corner.AddLine(49,19,50,19);
+            corner.AddBezier(50,19,55.523,19,60,23.477,60,29);
+            corner.AddLine(60,29,60,32);
+            graphics.DrawPath(pen,corner);
+            var rings=new XPen(brandColor,6){LineCap=XLineCap.Round};
+            graphics.DrawLine(rings,20,11,20,22);graphics.DrawLine(rings,44,11,44,22);
+            graphics.DrawRoundedRectangle(new XSolidBrush(XColor.FromArgb(0x53,0xb5,0x8a)),18,32,20,20,8,8);
+            graphics.Restore(state);
+            graphics.DrawString("Escala Livre",brandFont,new XSolidBrush(brandColor),
+                new XRect(logoLeft+iconSize+gap,top,nameWidth,20),XStringFormats.CenterLeft);
+            graphics.DrawString(pagination,pageFont,XBrushes.DarkSlateGray,
+                new XRect(pageLeft,top,pageWidth,20),XStringFormats.CenterLeft);
+        }
+    }
     // Discretionary breaks keep valid, long unspaced names within their table cells.
     private static string BreakLongWords(string text,int maximumRun=20)
     {

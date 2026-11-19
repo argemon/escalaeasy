@@ -11,6 +11,28 @@ const apiDirectory = path.join(__dirname, 'EscalaLivre.Api');
 const assembly = path.join(apiDirectory, `bin/${process.env.SECURITY_BUILD_CONFIGURATION || 'Debug'}/net10.0/EscalaLivre.Api.dll`);
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
+test('monthly fixed-start generation covers closing with verified minimal interval extensions', async () => {
+ await withServer({}, async ({post}) => {
+  const document=structuredClone(require('../shared/monthly-interval-generation.json'));
+  const response=await post('/solve',{document,start:'2026-11-01T00:00:00',end:'2026-11-30T23:59:59'});
+  assert.equal(response.status,200);
+  const result=(await response.json()).data;
+  assert.ok(['optimal','feasible'].includes(result.optimization.status));
+  assert.equal(result.coverageScore,1);
+  assert.deepEqual(result.gaps,[]);
+  assert.equal(result.conflicts.some(c=>c.severity==='error'),false);
+  const generated=result.assignments.filter(a=>a.start.startsWith('2026-11-'));
+  assert.equal(generated.length,38);
+  for(const a of generated) {
+   const seconds=(Date.parse(a.break.end)-Date.parse(a.break.start))/1000;
+   if(seconds>3600) assert.ok(a.tags.includes('interval-extension-verified'));
+  }
+  const {analyzeDocument}=require('../frontend/tests/source-loader.cjs')()('lib/analysis.ts');
+  const {digest}=require('../shared/parity-contract.cjs');
+  assert.deepEqual(digest(result),digest(analyzeDocument({...document,assignments:result.assignments})));
+ });
+});
+
 test('mixed contract minima are mandatory with surplus staff, no demand and an explicit 42h exception', async()=>{
  await withServer({},async({post})=>{
   const r=structuredClone(require('../shared/mixed-contract-generation.json'));
@@ -766,3 +788,36 @@ test('pinned shifts and subperiod generation preserve exact commitments across w
 });
 
 test('absence events block generation and preserve explicit credits through HTTP',async()=>{const scenarios=require('../shared/absence-scenarios.json').scenarios,{analyzeDocument}=require('../frontend/tests/source-loader.cjs')()('lib/analysis.ts'),{digest}=require('../shared/parity-contract.cjs');await withServer({},async({post})=>{for(const s of scenarios){const response=await post('/analyze',s.request);assert.equal(response.status,200,s.id);assert.deepEqual(digest((await response.json()).data),digest(analyzeDocument(s.request.document)),s.id);}const r=scenarios[0].request;const generated=await post('/solve',{...r,document:{...r.document,assignments:[]}});assert.equal(generated.status,200);assert.equal((await generated.json()).data.assignments.length,0);const exported=await (await post('/export',{document:r.document,format:'native'})).json(),imported=await (await post('/import',{fileName:'absence.escalalivre',format:'native',contentBase64:exported.data.contentBase64})).json();assert.deepEqual(imported.data.employees[0].absences,r.document.employees[0].absences);});});
+
+
+test('minimized queued input preserves quality preferences through the worker', async()=>{
+ await withServer({},async({post,url})=>{
+  const load=require('../frontend/tests/source-loader.cjs')(),{calculationDocument}=load('lib/calculationDocument.ts');
+  const r=request(2),d=r.document;
+  d.planningPeriod={start:'2026-10-19',end:'2026-10-19'};
+  d.company.opensAt='10:00:00';d.company.closesAt='14:00:00';
+  d.company.defaultWorkload.defaultShiftDuration='04:00:00';
+  d.company.lunch={minimum:'00:00:00',maximum:'00:00:00',preferredAfter:'02:00:00'};
+  d.company.coverage=[{role:'Atendimento',day:1,start:'10:00:00',end:'14:00:00',minimumEmployees:1}];
+  d.employees.forEach(e=>{e.workload={...d.company.defaultWorkload};});
+  const saved={id:randomUUID(),employeeId:d.employees[0].id,role:'Atendimento',start:'2026-10-19T10:00:00',end:'2026-10-19T14:00:00',source:'manual',tags:[]};
+  const history={...saved,id:randomUUID(),start:'2026-10-05T10:00:00',end:'2026-10-05T14:00:00'};
+  d.assignments=[history];
+  for(const preserve of [false,true]){
+   if(preserve)d.assignments.push(saved);
+   const remote=calculationDocument(d),body={...r,document:remote,preferences:{preserveExisting:preserve,balanceUndesirableShifts:true}};
+   assert.doesNotMatch(JSON.stringify(remote),/ConfidentialCompany|ConfidentialPerson/);
+   const accepted=await post('/solve/jobs',body);assert.equal(accepted.status,202);
+   let job=(await accepted.json()).data;
+   for(let i=0;i<100&&!['completed','failed'].includes(job.state);i++){
+    await sleep(100);job=(await(await fetch(url+'/solve/jobs/'+job.id)).json()).data;
+   }
+   assert.equal(job.state,'completed',job.error);
+   assert.equal(job.result.coverageScore,1);
+   assert.equal(job.result.conflicts.some(c=>c.severity==='error'),false);
+   const current=job.result.assignments.filter(a=>a.start.startsWith('2026-10-19'));
+   assert.equal(current.length,1);
+   assert.equal(current[0].employeeId,d.employees[preserve?0:1].id);
+  }
+ });
+});

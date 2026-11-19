@@ -1,0 +1,9 @@
+{
+  "scenarios": [
+    {"id":"sunday-holiday-closing","opensAt":"08:00:00","closesAt":"18:00:00","start":"2026-11-15T10:00:00","end":"2026-11-15T18:00:00","holiday":"2026-11-15","expected":["sunday","holiday","closing"]},
+    {"id":"night-before-midnight","opensAt":"08:00:00","closesAt":"23:00:00","start":"2026-11-16T14:00:00","end":"2026-11-16T22:00:01","expected":["night"]},
+    {"id":"exact-night-boundary","opensAt":"08:00:00","closesAt":"23:00:00","start":"2026-11-16T14:00:00","end":"2026-11-16T22:00:00","expected":[]},
+    {"id":"overnight-closing","opensAt":"22:00:00","closesAt":"06:00:00","start":"2026-11-14T22:00:00","end":"2026-11-15T06:00:00","holiday":"2026-11-15","expected":["closing","night"]},
+    {"id":"early-start","opensAt":"04:00:00","closesAt":"12:00:00","start":"2026-11-16T05:59:59","end":"2026-11-16T10:00:00","expected":["night"]}
+  ]
+}

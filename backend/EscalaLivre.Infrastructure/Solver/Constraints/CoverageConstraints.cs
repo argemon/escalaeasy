@@ -35,10 +35,16 @@ public sealed class CoverageConstraints : IScheduleConstraintTranslator
                 var allocated = new List<LinearExpr>();
                 foreach (var person in eligible.Select(a => a.EmployeeId).Distinct())
                 {
-                    var eligiblePerson=model.NewBoolVar($"eligible_{blockIndex}_{person:N}_{context.ShortageTerms.Count}");
                     var choices=eligible.Where(a=>a.EmployeeId==person).Select(a=>decisions[a.Id]).ToArray();
-                    foreach(var choice in choices)model.Add(choice<=eligiblePerson);
-                    model.Add(eligiblePerson<=LinearExpr.Sum(choices));
+                    // Reuse presence only when every covering assignment grants this role.
+                    // Historical assignments with different role grants still need their own OR.
+                    var eligiblePerson = present[person];
+                    if (choices.Length != covering.Count(a => a.EmployeeId == person))
+                    {
+                        eligiblePerson=model.NewBoolVar($"eligible_{blockIndex}_{person:N}_{context.ShortageTerms.Count}");
+                        foreach(var choice in choices)model.Add(choice<=eligiblePerson);
+                        model.Add(eligiblePerson<=LinearExpr.Sum(choices));
+                    }
                     var employee=request.Document.Employees.First(e=>e.Id==person);
                     if(request.Document.Company.CoverageMode=="exclusive" && requirement.Scope!="team" && (employee.AccumulationRoleIds is null || employee.AccumulationRoleIds.Count==0)){
                         var allocation=model.NewBoolVar($"allocation_{blockIndex}_{person:N}_{context.ShortageTerms.Count}");model.Add(allocation<=eligiblePerson);

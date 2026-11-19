@@ -4,6 +4,8 @@ O diagnóstico local (`frontend/src/lib/laborRules.ts`) e o domínio C# (`backen
 
 ## Inventário e decisões
 
+Turnos sobrepostos na edição manual — 19/11/2026: `ShiftOverlapPolicy` e `policies/shiftOverlap.ts` bloqueiam novas interseções entre turnos da mesma pessoa, com segundos civis e limite final exclusivo. A confirmação com ciência de outros conflitos não dispensa o bloqueio. Documentos antigos continuam carregáveis e reparáveis; não há exclusão automática. Os 12 casos compartilhados estão em `shared/shift-overlap-scenarios.json`. Fluxo simplificado e limites na [decisão 031](decisions/031-manual-shift-overlap.md).
+
 Entrega 3 de proteção da validação (31/10/2026): Zod 3.25.76 substituído por
 4.6.7; o frontend verifica limites de coleções antes da migração e interrompe
 coleções na primeira falha detalhada. O conjunto de documentos aceitos mantém
@@ -339,6 +341,22 @@ RoleCoveragePolicy/CanCover e o equivalente TypeScript recebem o catálogo compl
 
 ## Preferência pelo intervalo mínimo — 03/11/2026
 
+Correção mensal de 19/11/2026 na decisão 023: a união otimista dos candidatos
+mínimos permite provar lacunas inevitáveis sem repetir buscas equivalentes.
+Ela não é uma solução admissível nem autoriza ampliação por timeout. Busca
+ampliada continua exigindo melhora estrita e menor ampliação total comprovada.
+Regressão do mês completo em `shared/monthly-interval-generation.json`, adaptador
+real e HTTP/worker, incluindo paridade com a análise TypeScript. Sem mudança nas
+políticas puras C#/TS, prévia, diagnósticos ou arquivo.
+
+Reforço de 19/11/2026 na [decisão 023](decisions/023-minimum-automatic-interval.md):
+ampliação automática exige uma solução mínima inicial, impossibilidade comprovada
+de atingir a mesma cobertura com pausas mínimas (inclusive antecipadas) e prova da
+menor ampliação total necessária. Timeout não justifica ampliar. A busca permanece
+em cinco segundos. As políticas puras de mínimo efetivo e prévia C#/TS não mudam;
+a verificação é exclusiva da otimização. Os cartões destacam duração acima do
+mínimo sem atribuir necessidade de cobertura a pausas históricas não verificadas.
+
 A [decisão 023](decisions/023-minimum-automatic-interval.md) exige uma solução inicial
 com o intervalo mínimo efetivo e aceita ampliação apenas com redução estrita de
 lacunas. Entre alternativas ampliadas, cobertura precede menor ampliação, carga
@@ -398,6 +416,12 @@ Validação da decisão 029: 872/872 testes .NET, 728/728 testes frontend em Ame
 
 ## Mínimos por função e aviso de acumulação — 12/11/2026
 
+Nota de apresentação em 19/11/2026: a impressão passa a download direto somente
+em PDF dos turnos salvos no período atual. A saída agrupa dias consecutivos por
+pessoa com função, horário e intervalo iguais, sem atravessar folgas ou ocultar
+segundos e viradas de dia. Não há alteração de diagnósticos, cobertura, geração,
+horários salvos ou arquivo nativo. Detalhes na decisão 028 atualizada.
+
 A interface identifica explicitamente o mínimo de pessoas na função e o mínimo da equipe. O cadastro individual explica a opção de ocupar duas ou mais funções ao mesmo tempo e exige selecionar pelo menos duas. Substituição continua direcional; a autorização para substituir, sozinha, não ativa acumulação no modo exclusivo.
 
 O painel de cobertura mostra o nome, as funções e os períodos em que a mesma pessoa contribui simultaneamente para dois ou mais mínimos. Os períodos adjacentes são agrupados sem atravessar pausas. A equipe continua contando a pessoa uma única vez. No exemplo de 1 farmacêutico e 2 atendentes, o farmacêutico com acumulação autorizada satisfaz o mínimo de farmacêutico e conta como 1 atendente; ainda é necessária outra pessoa para o segundo atendente.
@@ -405,3 +429,30 @@ O painel de cobertura mostra o nome, as funções e os períodos em que a mesma 
 Os avisos são uma projeção das contribuições efetivas. O rastreio opcional de IDs do alocador legado não muda o formato público, pontuação, lacunas, gerações ou dados salvos. As regressões verificam mínimos, autorização, revogação, pausa, presença da equipe, legado, formulário e aviso visível sem abrir os detalhes.
 
 Validação local desta apresentação: 738/738 testes frontend em America/Cuiaba e America/New_York; 872/872 testes .NET; 34/34 HTTP/worker; 224 casos diferenciais em cada fuso. Os 10 novos testes incluem o exemplo farmacêutico/atendente, mínimo de duas pessoas, autorização explícita, pausas, revogação, legado e controles reais. Lint e build aprovados. Sem publicação.
+
+
+## Geração com aplicação imediata — 19/11/2026
+
+Aviso de apresentação dos intervalos: pausas acima do mínimo efetivo aparecem em
+um aviso visível em todas as visualizações do período, agrupado por pessoa,
+motivo e datas. Para ampliações verificadas com entrada fixa correspondente ao
+turno, o aviso informa entrada, jornada líquida, saída com a pausa mínima e saída
+com a pausa ampliada para atender a cobertura. Pausas fixas e pausas legadas sem
+comprovação mantêm justificativas distintas. Não há mudança de geração,
+diagnósticos C#/TS ou formato do documento; trata-se de apresentação dos dados
+e marcadores existentes. Regressões em `interval-notice.test.cjs`.
+
+Por solicitação do usuário, Gerar escala agora aplica o resultado admissível diretamente ao planejamento, sem proposta pendente, confirmação ou rejeição posterior. A operação entra no histórico de Desfazer/Refazer. Não existe estado de rascunho para a escala gerada; avisos e conflitos continuam visíveis. Textos de edição e exportação usam escala, sem marca de rascunho.
+
+Preservados: validação de estrutura, fixações e carga contratada, recorte, histórico fora do recorte, checkpoint de recuperação e proteção contra respostas de um planejamento já alterado. Cancelamento, falha, resultado inviável ou checkpoint indisponível não substituem os turnos. Mudança de orquestração/apresentação no frontend, sem alteração de regras C#, API ou formato do arquivo. Regressões em generation-store.test.cjs cobrem aplicação imediata, geração repetida, cancelamento, resultado obsoleto, falhas e Desfazer/Refazer com o store real.
+
+Validação local: 750/750 testes frontend em America/Cuiaba, lint e build aprovados. Em America/New_York, 749 testes passaram na execução inicial; a única expectativa textual antiga foi atualizada e os 17 testes do arquivo afetado passaram na repetição. Sem integração ou publicação nesta entrega.
+
+Validação do aviso de intervalos: 752/752 testes frontend em America/Cuiaba; 7/7 testes específicos também em America/New_York; build e lint aprovados. Interface conferida com o arquivo recebido, exibindo o motivo e os três dias afetados na escala diária. Sem alteração das regras do gerador nem publicação.
+
+
+Ajuste visual de 19/11/2026: o aviso de intervalos usa faixas de datas consecutivas (de ... a ...), explica o horário de atendimento da empresa e pode ser fechado. A dispensa vale para o mesmo conteúdo durante a sessão; mudanças de pessoa, duração, datas, motivo ou período tornam o aviso visível novamente. Indicadores compactos de acréscimo aparecem na mesma linha do nome/horário no diário, semanal e mensal. Não se agrupam lacunas de datas como se fossem dias afetados. Sem mudança de regras ou horários.
+
+## Preferências de preservação e equilíbrio — 19/11/2026
+
+`ScheduleQualityPolicy` é a referência de classificação para a preferência do gerador; `scheduleQuality.ts` mantém o equivalente local, com cenários compartilhados em `shared/schedule-quality-scenarios.json` (domingo, feriado, fechamento noturno e fronteira de segundos às 22h). As preferências opcionais não criam conflitos nem alteram invariantes. Entrada reduzida de cálculo preserva regras temporais e créditos, neutralizando os dados descritivos que não participam das políticas. Contrato, precedência, comparação por pessoa e limitações na [decisão 030](decisions/030-planning-privacy-and-quality.md).

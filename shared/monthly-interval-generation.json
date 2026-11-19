@@ -1,0 +1,1100 @@
+{
+  "planningPeriod": {
+    "start": "2026-11-01",
+    "end": "2026-11-30"
+  },
+  "roles": [
+    {
+      "id": "bca5fa4c-d452-4269-a97d-0b44199ddc60",
+      "name": "STAFF",
+      "coverageRoleIds": [
+        "4a0c2835-2bdb-42af-a161-00f8d975a250"
+      ]
+    },
+    {
+      "id": "4a0c2835-2bdb-42af-a161-00f8d975a250",
+      "name": "Monitor",
+      "coverageRoleIds": [
+        "bca5fa4c-d452-4269-a97d-0b44199ddc60"
+      ]
+    }
+  ],
+  "setup": {
+    "companyConfigured": true
+  },
+  "schemaVersion": "1.0.0",
+  "id": "0cf5da35-d79f-4264-967d-ea66c4ac1fa9",
+  "updatedAt": "2026-11-19T19:09:17.654Z",
+  "company": {
+    "timeZone": "America/Cuiaba",
+    "name": "Loja",
+    "opensAt": "07:30:00",
+    "closesAt": "17:30:00",
+    "operatingDays": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "defaultWorkload": {
+      "regimeType": "dayBased",
+      "workUnits": 5,
+      "restUnits": 2,
+      "weeklyLimitHours": 44,
+      "defaultShiftDuration": "08:00:00"
+    },
+    "minimumRest": "11:00:00",
+    "lunch": {
+      "minimum": "01:00:00",
+      "maximum": "02:00:00",
+      "preferredAfter": "04:00:00"
+    },
+    "coverage": [
+      {
+        "daysMode": "operating",
+        "allowsOutsideHours": false,
+        "roleId": "bca5fa4c-d452-4269-a97d-0b44199ddc60",
+        "role": "STAFF",
+        "day": 1,
+        "start": "07:30:00",
+        "end": "17:30:00",
+        "minimumEmployees": 1
+      },
+      {
+        "daysMode": "operating",
+        "allowsOutsideHours": false,
+        "roleId": "bca5fa4c-d452-4269-a97d-0b44199ddc60",
+        "role": "STAFF",
+        "day": 2,
+        "start": "07:30:00",
+        "end": "17:30:00",
+        "minimumEmployees": 1
+      },
+      {
+        "daysMode": "operating",
+        "allowsOutsideHours": false,
+        "roleId": "bca5fa4c-d452-4269-a97d-0b44199ddc60",
+        "role": "STAFF",
+        "day": 3,
+        "start": "07:30:00",
+        "end": "17:30:00",
+        "minimumEmployees": 1
+      },
+      {
+        "daysMode": "operating",
+        "allowsOutsideHours": false,
+        "roleId": "bca5fa4c-d452-4269-a97d-0b44199ddc60",
+        "role": "STAFF",
+        "day": 4,
+        "start": "07:30:00",
+        "end": "17:30:00",
+        "minimumEmployees": 1
+      },
+      {
+        "daysMode": "operating",
+        "allowsOutsideHours": false,
+        "roleId": "bca5fa4c-d452-4269-a97d-0b44199ddc60",
+        "role": "STAFF",
+        "day": 5,
+        "start": "07:30:00",
+        "end": "17:30:00",
+        "minimumEmployees": 1
+      },
+      {
+        "daysMode": "operating",
+        "allowsOutsideHours": false,
+        "roleId": "4a0c2835-2bdb-42af-a161-00f8d975a250",
+        "role": "Monitor",
+        "day": 1,
+        "start": "07:30:00",
+        "end": "17:30:00",
+        "minimumEmployees": 1
+      },
+      {
+        "daysMode": "operating",
+        "allowsOutsideHours": false,
+        "roleId": "4a0c2835-2bdb-42af-a161-00f8d975a250",
+        "role": "Monitor",
+        "day": 2,
+        "start": "07:30:00",
+        "end": "17:30:00",
+        "minimumEmployees": 1
+      },
+      {
+        "daysMode": "operating",
+        "allowsOutsideHours": false,
+        "roleId": "4a0c2835-2bdb-42af-a161-00f8d975a250",
+        "role": "Monitor",
+        "day": 3,
+        "start": "07:30:00",
+        "end": "17:30:00",
+        "minimumEmployees": 1
+      },
+      {
+        "daysMode": "operating",
+        "allowsOutsideHours": false,
+        "roleId": "4a0c2835-2bdb-42af-a161-00f8d975a250",
+        "role": "Monitor",
+        "day": 4,
+        "start": "07:30:00",
+        "end": "17:30:00",
+        "minimumEmployees": 1
+      },
+      {
+        "daysMode": "operating",
+        "allowsOutsideHours": false,
+        "roleId": "4a0c2835-2bdb-42af-a161-00f8d975a250",
+        "role": "Monitor",
+        "day": 5,
+        "start": "07:30:00",
+        "end": "17:30:00",
+        "minimumEmployees": 1
+      }
+    ]
+  },
+  "employees": [
+    {
+      "id": "756cdaaa-8a6c-40dd-a2f5-81f2ed7e330a",
+      "name": "Pessoa 1",
+      "roleId": "bca5fa4c-d452-4269-a97d-0b44199ddc60",
+      "role": "STAFF",
+      "inheritsCompanyDefaults": true,
+      "coverageRoleIds": [
+        "4a0c2835-2bdb-42af-a161-00f8d975a250"
+      ],
+      "coverageRoles": [
+        "Monitor"
+      ],
+      "shiftStartsAt": "07:30:00",
+      "workload": {
+        "regimeType": "dayBased",
+        "workUnits": 5,
+        "restUnits": 2,
+        "weeklyLimitHours": 44,
+        "defaultShiftDuration": "08:00:00"
+      },
+      "availability": [],
+      "restrictions": [],
+      "preferences": [],
+      "allowsOvertime": false,
+      "allowsNightWork": false,
+      "preferredDaysOff": [],
+      "workingDays": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "013b7e8e-873b-4a72-8f32-8e0513e634f4",
+      "name": "Pessoa 2",
+      "roleId": "4a0c2835-2bdb-42af-a161-00f8d975a250",
+      "role": "Monitor",
+      "inheritsCompanyDefaults": true,
+      "coverageRoleIds": [
+        "bca5fa4c-d452-4269-a97d-0b44199ddc60"
+      ],
+      "coverageRoles": [
+        "STAFF"
+      ],
+      "shiftStartsAt": "07:30:00",
+      "workload": {
+        "regimeType": "dayBased",
+        "workUnits": 5,
+        "restUnits": 2,
+        "weeklyLimitHours": 44,
+        "defaultShiftDuration": "08:00:00"
+      },
+      "availability": [],
+      "restrictions": [],
+      "preferences": [],
+      "allowsOvertime": false,
+      "allowsNightWork": false,
+      "preferredDaysOff": [],
+      "workingDays": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    }
+  ],
+  "assignments": [
+    {
+      "id": "af68ff9a-2966-4a74-bcd3-a73d1c1522d1",
+      "employeeId": "756cdaaa-8a6c-40dd-a2f5-81f2ed7e330a",
+      "roleId": "bca5fa4c-d452-4269-a97d-0b44199ddc60",
+      "role": "STAFF",
+      "start": "2026-10-14T07:30:00",
+      "end": "2026-10-14T17:30:00",
+      "break": {
+        "start": "2026-10-14T11:30:00",
+        "end": "2026-10-14T13:30:00"
+      },
+      "source": "solver",
+      "tags": [
+        "net-work-duration",
+        "opening",
+        "closing",
+        "morning"
+      ]
+    },
+    {
+      "id": "5e61903b-6965-4152-b81a-812dbcccdb6e",
+      "employeeId": "013b7e8e-873b-4a72-8f32-8e0513e634f4",
+      "roleId": "4a0c2835-2bdb-42af-a161-00f8d975a250",
+      "role": "Monitor",
+      "start": "2026-10-14T07:30:00",
+      "end": "2026-10-14T17:30:00",
+      "break": {
+        "start": "2026-10-14T13:30:00",
+        "end": "2026-10-14T15:30:00"
+      },
+      "source": "solver",
+      "tags": [
+        "net-work-duration",
+        "opening",
+        "closing",
+        "morning"
+      ]
+    },
+    {
+      "id": "1e1dbd46-bd55-4b7a-b92e-7dde8b5de254",
+      "employeeId": "756cdaaa-8a6c-40dd-a2f5-81f2ed7e330a",
+      "roleId": "bca5fa4c-d452-4269-a97d-0b44199ddc60",
+      "role": "STAFF",
+      "start": "2026-10-15T07:30:00",
+      "end": "2026-10-15T17:30:00",
+      "break": {
+        "start": "2026-10-15T11:30:00",
+        "end": "2026-10-15T13:30:00"
+      },
+      "source": "solver",
+      "tags": [
+        "net-work-duration",
+        "opening",
+        "closing",
+        "morning"
+      ]
+    },
+    {
+      "id": "972f71fa-d322-4ee0-9b3b-96b63c1c51dc",
+      "employeeId": "013b7e8e-873b-4a72-8f32-8e0513e634f4",
+      "roleId": "4a0c2835-2bdb-42af-a161-00f8d975a250",
+      "role": "Monitor",
+      "start": "2026-10-15T07:30:00",
+      "end": "2026-10-15T17:30:00",
+      "break": {
+        "start": "2026-10-15T13:30:00",
+        "end": "2026-10-15T15:30:00"
+      },
+      "source": "solver",
+      "tags": [
+        "net-work-duration",
+        "opening",
+        "closing",
+        "morning"
+      ]
+    },
+    {
+      "id": "b5796339-bda2-4415-9d26-be69c50a62af",
+      "employeeId": "756cdaaa-8a6c-40dd-a2f5-81f2ed7e330a",
+      "roleId": "bca5fa4c-d452-4269-a97d-0b44199ddc60",
+      "role": "STAFF",
+      "start": "2026-10-16T07:30:00",
+      "end": "2026-10-16T17:30:00",
+      "break": {
+        "start": "2026-10-16T11:30:00",
+        "end": "2026-10-16T13:30:00"
+      },
+      "source": "solver",
+      "tags": [
+        "net-work-duration",
+        "opening",
+        "closing",
+        "morning"
+      ]
+    },
+    {
+      "id": "fdfb8431-fd0f-4e11-afdd-79a1db745d15",
+      "employeeId": "013b7e8e-873b-4a72-8f32-8e0513e634f4",
+      "roleId": "4a0c2835-2bdb-42af-a161-00f8d975a250",
+      "role": "Monitor",
+      "start": "2026-10-16T07:30:00",
+      "end": "2026-10-16T17:30:00",
+      "break": {
+        "start": "2026-10-16T13:30:00",
+        "end": "2026-10-16T15:30:00"
+      },
+      "source": "solver",
+      "tags": [
+        "net-work-duration",
+        "opening",
+        "closing",
+        "morning"
+      ]
+    },
+    {
+      "id": "78522c36-d648-41f9-b9f3-6276d550187e",
+      "employeeId": "756cdaaa-8a6c-40dd-a2f5-81f2ed7e330a",
+      "roleId": "bca5fa4c-d452-4269-a97d-0b44199ddc60",
+      "role": "STAFF",
+      "start": "2026-10-19T07:30:00",
+      "end": "2026-10-19T17:30:00",
+      "break": {
+        "start": "2026-10-19T13:00:00",
+        "end": "2026-10-19T15:00:00"
+      },
+      "source": "solver",
+      "tags": [
+        "net-work-duration",
+        "opening",
+        "closing",
+        "morning"
+      ]
+    },
+    {
+      "id": "64110519-c538-40ac-9534-5b3b21d41c32",
+      "employeeId": "013b7e8e-873b-4a72-8f32-8e0513e634f4",
+      "roleId": "4a0c2835-2bdb-42af-a161-00f8d975a250",
+      "role": "Monitor",
+      "start": "2026-10-19T07:30:00",
+      "end": "2026-10-19T17:00:00",
+      "break": {
+        "start": "2026-10-19T11:30:00",
+        "end": "2026-10-19T13:00:00"
+      },
+      "source": "solver",
+      "tags": [
+        "net-work-duration",
+        "opening",
+        "morning"
+      ]
+    },
+    {
+      "id": "b79ea2b2-fc9c-4de3-bc5b-2f9548ea2b93",
+      "employeeId": "756cdaaa-8a6c-40dd-a2f5-81f2ed7e330a",
+      "roleId": "bca5fa4c-d452-4269-a97d-0b44199ddc60",
+      "role": "STAFF",
+      "start": "2026-10-20T07:30:00",
+      "end": "2026-10-20T17:30:00",
+      "break": {
+        "start": "2026-10-20T13:00:00",
+        "end": "2026-10-20T15:00:00"
+      },
+      "source": "solver",
+      "tags": [
+        "net-work-duration",
+        "opening",
+        "closing",
+        "morning"
+      ]
+    },
+    {
+      "id": "74cf30ea-81a3-41d4-a35c-ada2f8c49987",
+      "employeeId": "013b7e8e-873b-4a72-8f32-8e0513e634f4",
+      "roleId": "4a0c2835-2bdb-42af-a161-00f8d975a250",
+      "role": "Monitor",
+      "start": "2026-10-20T07:30:00",
+      "end": "2026-10-20T17:00:00",
+      "break": {
+        "start": "2026-10-20T11:30:00",
+        "end": "2026-10-20T13:00:00"
+      },
+      "source": "solver",
+      "tags": [
+        "net-work-duration",
+        "opening",
+        "morning"
+      ]
+    },
+    {
+      "id": "93b97689-eb35-4d4d-ad56-e50674895e9f",
+      "employeeId": "756cdaaa-8a6c-40dd-a2f5-81f2ed7e330a",
+      "roleId": "bca5fa4c-d452-4269-a97d-0b44199ddc60",
+      "role": "STAFF",
+      "start": "2026-11-03T07:30:00",
+      "end": "2026-11-03T16:30:00",
+      "break": {
+        "start": "2026-11-03T11:30:00",
+        "end": "2026-11-03T12:30:00"
+      },
+      "source": "solver",
+      "tags": [
+        "net-work-duration",
+        "opening",
+        "morning"
+      ]
+    },
+    {
+      "id": "804aa2b4-02b2-4955-94e2-33f72e5dbced",
+      "employeeId": "013b7e8e-873b-4a72-8f32-8e0513e634f4",
+      "roleId": "4a0c2835-2bdb-42af-a161-00f8d975a250",
+      "role": "Monitor",
+      "start": "2026-11-03T07:30:00",
+      "end": "2026-11-03T16:30:00",
+      "break": {
+        "start": "2026-11-03T12:30:00",
+        "end": "2026-11-03T13:30:00"
+      },
+      "source": "solver",
+      "tags": [
+        "net-work-duration",
+        "opening",
+        "morning"
+      ]
+    },
+    {
+      "id": "22a0b6c8-a1eb-4ec9-bfd0-b55369eaf12e",
+      "employeeId": "756cdaaa-8a6c-40dd-a2f5-81f2ed7e330a",
+      "roleId": "bca5fa4c-d452-4269-a97d-0b44199ddc60",
+      "role": "STAFF",
+      "start": "2026-11-04T07:30:00",
+      "end": "2026-11-04T16:30:00",
+      "break": {
+        "start": "2026-11-04T11:30:00",
+        "end": "2026-11-04T12:30:00"
+      },
+      "source": "solver",
+      "tags": [
+        "net-work-duration",
+        "opening",
+        "morning"
+      ]
+    },
+    {
+      "id": "a6879ee3-f800-4e78-9c45-e682e3c37813",
+      "employeeId": "013b7e8e-873b-4a72-8f32-8e0513e634f4",
+      "roleId": "4a0c2835-2bdb-42af-a161-00f8d975a250",
+      "role": "Monitor",
+      "start": "2026-11-04T07:30:00",
+      "end": "2026-11-04T16:30:00",
+      "break": {
+        "start": "2026-11-04T12:30:00",
+        "end": "2026-11-04T13:30:00"
+      },
+      "source": "solver",
+      "tags": [
+        "net-work-duration",
+        "opening",
+        "morning"
+      ]
+    },
+    {
+      "id": "0843655c-8750-40bb-983e-3ffdeb407011",
+      "employeeId": "756cdaaa-8a6c-40dd-a2f5-81f2ed7e330a",
+      "roleId": "bca5fa4c-d452-4269-a97d-0b44199ddc60",
+      "role": "STAFF",
+      "start": "2026-11-05T07:30:00",
+      "end": "2026-11-05T16:30:00",
+      "break": {
+        "start": "2026-11-05T11:30:00",
+        "end": "2026-11-05T12:30:00"
+      },
+      "source": "solver",
+      "tags": [
+        "net-work-duration",
+        "opening",
+        "morning"
+      ]
+    },
+    {
+      "id": "af0e9a31-a4d5-43af-a167-7e06f82aaadd",
+      "employeeId": "013b7e8e-873b-4a72-8f32-8e0513e634f4",
+      "roleId": "4a0c2835-2bdb-42af-a161-00f8d975a250",
+      "role": "Monitor",
+      "start": "2026-11-05T07:30:00",
+      "end": "2026-11-05T16:30:00",
+      "break": {
+        "start": "2026-11-05T12:30:00",
+        "end": "2026-11-05T13:30:00"
+      },
+      "source": "solver",
+      "tags": [
+        "net-work-duration",
+        "opening",
+        "morning"
+      ]
+    },
+    {
+      "id": "75a66157-2f68-461f-887e-7d29100f4b12",
+      "employeeId": "756cdaaa-8a6c-40dd-a2f5-81f2ed7e330a",
+      "roleId": "bca5fa4c-d452-4269-a97d-0b44199ddc60",
+      "role": "STAFF",
+      "start": "2026-11-06T07:30:00",
+      "end": "2026-11-06T16:30:00",
+      "break": {
+        "start": "2026-11-06T11:30:00",
+        "end": "2026-11-06T12:30:00"
+      },
+      "source": "solver",
+      "tags": [
+        "net-work-duration",
+        "opening",
+        "morning"
+      ]
+    },
+    {
+      "id": "23ec6d60-ef29-4095-9468-7fc2552bda0c",
+      "employeeId": "013b7e8e-873b-4a72-8f32-8e0513e634f4",
+      "roleId": "4a0c2835-2bdb-42af-a161-00f8d975a250",
+      "role": "Monitor",
+      "start": "2026-11-06T07:30:00",
+      "end": "2026-11-06T16:30:00",
+      "break": {
+        "start": "2026-11-06T12:30:00",
+        "end": "2026-11-06T13:30:00"
+      },
+      "source": "solver",
+      "tags": [
+        "net-work-duration",
+        "opening",
+        "morning"
+      ]
+    },
+    {
+      "id": "0a4f582d-f336-4e98-b7ef-cf900c08c5dd",
+      "employeeId": "756cdaaa-8a6c-40dd-a2f5-81f2ed7e330a",
+      "roleId": "bca5fa4c-d452-4269-a97d-0b44199ddc60",
+      "role": "STAFF",
+      "start": "2026-11-09T07:30:00",
+      "end": "2026-11-09T16:30:00",
+      "break": {
+        "start": "2026-11-09T11:30:00",
+        "end": "2026-11-09T12:30:00"
+      },
+      "source": "solver",
+      "tags": [
+        "net-work-duration",
+        "opening",
+        "morning"
+      ]
+    },
+    {
+      "id": "85c9cd37-4821-4956-b7b3-f8c672390228",
+      "employeeId": "013b7e8e-873b-4a72-8f32-8e0513e634f4",
+      "roleId": "4a0c2835-2bdb-42af-a161-00f8d975a250",
+      "role": "Monitor",
+      "start": "2026-11-09T07:30:00",
+      "end": "2026-11-09T16:30:00",
+      "break": {
+        "start": "2026-11-09T12:30:00",
+        "end": "2026-11-09T13:30:00"
+      },
+      "source": "solver",
+      "tags": [
+        "net-work-duration",
+        "opening",
+        "morning"
+      ]
+    },
+    {
+      "id": "16009c3d-fe4f-45af-8209-d1b566715c35",
+      "employeeId": "756cdaaa-8a6c-40dd-a2f5-81f2ed7e330a",
+      "roleId": "bca5fa4c-d452-4269-a97d-0b44199ddc60",
+      "role": "STAFF",
+      "start": "2026-11-10T07:30:00",
+      "end": "2026-11-10T16:30:00",
+      "break": {
+        "start": "2026-11-10T11:30:00",
+        "end": "2026-11-10T12:30:00"
+      },
+      "source": "solver",
+      "tags": [
+        "net-work-duration",
+        "opening",
+        "morning"
+      ]
+    },
+    {
+      "id": "ad48d72d-7354-44e2-93cc-75372cee3f94",
+      "employeeId": "013b7e8e-873b-4a72-8f32-8e0513e634f4",
+      "roleId": "4a0c2835-2bdb-42af-a161-00f8d975a250",
+      "role": "Monitor",
+      "start": "2026-11-10T07:30:00",
+      "end": "2026-11-10T16:30:00",
+      "break": {
+        "start": "2026-11-10T12:30:00",
+        "end": "2026-11-10T13:30:00"
+      },
+      "source": "solver",
+      "tags": [
+        "net-work-duration",
+        "opening",
+        "morning"
+      ]
+    },
+    {
+      "id": "3b850076-2a0b-46b6-831d-a08af6ab9d59",
+      "employeeId": "756cdaaa-8a6c-40dd-a2f5-81f2ed7e330a",
+      "roleId": "bca5fa4c-d452-4269-a97d-0b44199ddc60",
+      "role": "STAFF",
+      "start": "2026-11-11T07:30:00",
+      "end": "2026-11-11T16:30:00",
+      "break": {
+        "start": "2026-11-11T11:30:00",
+        "end": "2026-11-11T12:30:00"
+      },
+      "source": "solver",
+      "tags": [
+        "net-work-duration",
+        "opening",
+        "morning"
+      ]
+    },
+    {
+      "id": "69311925-0924-47ca-85e7-c036d190f288",
+      "employeeId": "013b7e8e-873b-4a72-8f32-8e0513e634f4",
+      "roleId": "4a0c2835-2bdb-42af-a161-00f8d975a250",
+      "role": "Monitor",
+      "start": "2026-11-11T07:30:00",
+      "end": "2026-11-11T16:30:00",
+      "break": {
+        "start": "2026-11-11T12:30:00",
+        "end": "2026-11-11T13:30:00"
+      },
+      "source": "solver",
+      "tags": [
+        "net-work-duration",
+        "opening",
+        "morning"
+      ]
+    },
+    {
+      "id": "1ed844e5-232d-43fd-af5a-7815eb2103aa",
+      "employeeId": "756cdaaa-8a6c-40dd-a2f5-81f2ed7e330a",
+      "roleId": "bca5fa4c-d452-4269-a97d-0b44199ddc60",
+      "role": "STAFF",
+      "start": "2026-11-12T07:30:00",
+      "end": "2026-11-12T16:30:00",
+      "break": {
+        "start": "2026-11-12T11:30:00",
+        "end": "2026-11-12T12:30:00"
+      },
+      "source": "solver",
+      "tags": [
+        "net-work-duration",
+        "opening",
+        "morning"
+      ]
+    },
+    {
+      "id": "9b92b77f-cdc2-48ff-aa99-b4a76a29348d",
+      "employeeId": "013b7e8e-873b-4a72-8f32-8e0513e634f4",
+      "roleId": "4a0c2835-2bdb-42af-a161-00f8d975a250",
+      "role": "Monitor",
+      "start": "2026-11-12T07:30:00",
+      "end": "2026-11-12T16:30:00",
+      "break": {
+        "start": "2026-11-12T12:30:00",
+        "end": "2026-11-12T13:30:00"
+      },
+      "source": "solver",
+      "tags": [
+        "net-work-duration",
+        "opening",
+        "morning"
+      ]
+    },
+    {
+      "id": "4e485769-fd4a-4bef-b09b-99d75da43f56",
+      "employeeId": "756cdaaa-8a6c-40dd-a2f5-81f2ed7e330a",
+      "roleId": "bca5fa4c-d452-4269-a97d-0b44199ddc60",
+      "role": "STAFF",
+      "start": "2026-11-13T07:30:00",
+      "end": "2026-11-13T16:30:00",
+      "break": {
+        "start": "2026-11-13T11:30:00",
+        "end": "2026-11-13T12:30:00"
+      },
+      "source": "solver",
+      "tags": [
+        "net-work-duration",
+        "opening",
+        "morning"
+      ]
+    },
+    {
+      "id": "34ccdd89-1da6-4fb8-bdd3-b4321b4df426",
+      "employeeId": "013b7e8e-873b-4a72-8f32-8e0513e634f4",
+      "roleId": "4a0c2835-2bdb-42af-a161-00f8d975a250",
+      "role": "Monitor",
+      "start": "2026-11-13T07:30:00",
+      "end": "2026-11-13T16:30:00",
+      "break": {
+        "start": "2026-11-13T12:30:00",
+        "end": "2026-11-13T13:30:00"
+      },
+      "source": "solver",
+      "tags": [
+        "net-work-duration",
+        "opening",
+        "morning"
+      ]
+    },
+    {
+      "id": "488eeec1-bb1f-4a33-9127-233e54c5e56d",
+      "employeeId": "756cdaaa-8a6c-40dd-a2f5-81f2ed7e330a",
+      "roleId": "bca5fa4c-d452-4269-a97d-0b44199ddc60",
+      "role": "STAFF",
+      "start": "2026-11-16T07:30:00",
+      "end": "2026-11-16T16:30:00",
+      "break": {
+        "start": "2026-11-16T11:30:00",
+        "end": "2026-11-16T12:30:00"
+      },
+      "source": "solver",
+      "tags": [
+        "net-work-duration",
+        "opening",
+        "morning"
+      ]
+    },
+    {
+      "id": "00630c2c-b014-444a-a09b-eaa81c540d12",
+      "employeeId": "013b7e8e-873b-4a72-8f32-8e0513e634f4",
+      "roleId": "4a0c2835-2bdb-42af-a161-00f8d975a250",
+      "role": "Monitor",
+      "start": "2026-11-16T07:30:00",
+      "end": "2026-11-16T16:30:00",
+      "break": {
+        "start": "2026-11-16T12:30:00",
+        "end": "2026-11-16T13:30:00"
+      },
+      "source": "solver",
+      "tags": [
+        "net-work-duration",
+        "opening",
+        "morning"
+      ]
+    },
+    {
+      "id": "c8210b1b-edae-44de-ae5b-7b7e84a88d42",
+      "employeeId": "756cdaaa-8a6c-40dd-a2f5-81f2ed7e330a",
+      "roleId": "bca5fa4c-d452-4269-a97d-0b44199ddc60",
+      "role": "STAFF",
+      "start": "2026-11-17T07:30:00",
+      "end": "2026-11-17T16:30:00",
+      "break": {
+        "start": "2026-11-17T11:30:00",
+        "end": "2026-11-17T12:30:00"
+      },
+      "source": "solver",
+      "tags": [
+        "net-work-duration",
+        "opening",
+        "morning"
+      ]
+    },
+    {
+      "id": "2f89e0ae-9722-4010-bd77-69d1544fd82d",
+      "employeeId": "013b7e8e-873b-4a72-8f32-8e0513e634f4",
+      "roleId": "4a0c2835-2bdb-42af-a161-00f8d975a250",
+      "role": "Monitor",
+      "start": "2026-11-17T07:30:00",
+      "end": "2026-11-17T16:30:00",
+      "break": {
+        "start": "2026-11-17T12:30:00",
+        "end": "2026-11-17T13:30:00"
+      },
+      "source": "solver",
+      "tags": [
+        "net-work-duration",
+        "opening",
+        "morning"
+      ]
+    },
+    {
+      "id": "5eecbce2-fcb4-469f-b8c1-12d6a09851ae",
+      "employeeId": "756cdaaa-8a6c-40dd-a2f5-81f2ed7e330a",
+      "roleId": "bca5fa4c-d452-4269-a97d-0b44199ddc60",
+      "role": "STAFF",
+      "start": "2026-11-18T07:30:00",
+      "end": "2026-11-18T16:30:00",
+      "break": {
+        "start": "2026-11-18T11:30:00",
+        "end": "2026-11-18T12:30:00"
+      },
+      "source": "solver",
+      "tags": [
+        "net-work-duration",
+        "opening",
+        "morning"
+      ]
+    },
+    {
+      "id": "a19f88ad-1e10-4c89-a573-1aed58a194d1",
+      "employeeId": "013b7e8e-873b-4a72-8f32-8e0513e634f4",
+      "roleId": "4a0c2835-2bdb-42af-a161-00f8d975a250",
+      "role": "Monitor",
+      "start": "2026-11-18T07:30:00",
+      "end": "2026-11-18T16:30:00",
+      "break": {
+        "start": "2026-11-18T12:30:00",
+        "end": "2026-11-18T13:30:00"
+      },
+      "source": "solver",
+      "tags": [
+        "net-work-duration",
+        "opening",
+        "morning"
+      ]
+    },
+    {
+      "id": "166b0590-1067-492c-882f-5dc046757fb8",
+      "employeeId": "756cdaaa-8a6c-40dd-a2f5-81f2ed7e330a",
+      "roleId": "bca5fa4c-d452-4269-a97d-0b44199ddc60",
+      "role": "STAFF",
+      "start": "2026-11-19T07:30:00",
+      "end": "2026-11-19T16:30:00",
+      "break": {
+        "start": "2026-11-19T11:30:00",
+        "end": "2026-11-19T12:30:00"
+      },
+      "source": "solver",
+      "tags": [
+        "net-work-duration",
+        "opening",
+        "morning"
+      ]
+    },
+    {
+      "id": "a970d0a9-d9df-4cf0-982c-417550261673",
+      "employeeId": "013b7e8e-873b-4a72-8f32-8e0513e634f4",
+      "roleId": "4a0c2835-2bdb-42af-a161-00f8d975a250",
+      "role": "Monitor",
+      "start": "2026-11-19T07:30:00",
+      "end": "2026-11-19T16:30:00",
+      "break": {
+        "start": "2026-11-19T12:30:00",
+        "end": "2026-11-19T13:30:00"
+      },
+      "source": "solver",
+      "tags": [
+        "net-work-duration",
+        "opening",
+        "morning"
+      ]
+    },
+    {
+      "id": "611a669b-fcb3-47ba-a96f-23a8f8e5de9f",
+      "employeeId": "756cdaaa-8a6c-40dd-a2f5-81f2ed7e330a",
+      "roleId": "bca5fa4c-d452-4269-a97d-0b44199ddc60",
+      "role": "STAFF",
+      "start": "2026-11-23T07:30:00",
+      "end": "2026-11-23T16:30:00",
+      "break": {
+        "start": "2026-11-23T11:30:00",
+        "end": "2026-11-23T12:30:00"
+      },
+      "source": "solver",
+      "tags": [
+        "net-work-duration",
+        "opening",
+        "morning"
+      ]
+    },
+    {
+      "id": "7c77be0d-7179-48be-b4e3-072612c133ef",
+      "employeeId": "013b7e8e-873b-4a72-8f32-8e0513e634f4",
+      "roleId": "4a0c2835-2bdb-42af-a161-00f8d975a250",
+      "role": "Monitor",
+      "start": "2026-11-23T07:30:00",
+      "end": "2026-11-23T16:30:00",
+      "break": {
+        "start": "2026-11-23T12:30:00",
+        "end": "2026-11-23T13:30:00"
+      },
+      "source": "solver",
+      "tags": [
+        "net-work-duration",
+        "opening",
+        "morning"
+      ]
+    },
+    {
+      "id": "f620f011-9727-4e16-a05a-ae1d439292d2",
+      "employeeId": "756cdaaa-8a6c-40dd-a2f5-81f2ed7e330a",
+      "roleId": "bca5fa4c-d452-4269-a97d-0b44199ddc60",
+      "role": "STAFF",
+      "start": "2026-11-24T07:30:00",
+      "end": "2026-11-24T16:30:00",
+      "break": {
+        "start": "2026-11-24T11:30:00",
+        "end": "2026-11-24T12:30:00"
+      },
+      "source": "solver",
+      "tags": [
+        "net-work-duration",
+        "opening",
+        "morning"
+      ]
+    },
+    {
+      "id": "f556b7b7-f9f7-4981-8b53-b73037b05011",
+      "employeeId": "013b7e8e-873b-4a72-8f32-8e0513e634f4",
+      "roleId": "4a0c2835-2bdb-42af-a161-00f8d975a250",
+      "role": "Monitor",
+      "start": "2026-11-24T07:30:00",
+      "end": "2026-11-24T16:30:00",
+      "break": {
+        "start": "2026-11-24T12:30:00",
+        "end": "2026-11-24T13:30:00"
+      },
+      "source": "solver",
+      "tags": [
+        "net-work-duration",
+        "opening",
+        "morning"
+      ]
+    },
+    {
+      "id": "1ed91bb1-e9dd-4d09-b1d4-148745b1795c",
+      "employeeId": "756cdaaa-8a6c-40dd-a2f5-81f2ed7e330a",
+      "roleId": "bca5fa4c-d452-4269-a97d-0b44199ddc60",
+      "role": "STAFF",
+      "start": "2026-11-25T07:30:00",
+      "end": "2026-11-25T16:30:00",
+      "break": {
+        "start": "2026-11-25T11:30:00",
+        "end": "2026-11-25T12:30:00"
+      },
+      "source": "solver",
+      "tags": [
+        "net-work-duration",
+        "opening",
+        "morning"
+      ]
+    },
+    {
+      "id": "417fdfed-a40d-478d-ba8f-78cec75ed42f",
+      "employeeId": "013b7e8e-873b-4a72-8f32-8e0513e634f4",
+      "roleId": "4a0c2835-2bdb-42af-a161-00f8d975a250",
+      "role": "Monitor",
+      "start": "2026-11-25T07:30:00",
+      "end": "2026-11-25T16:30:00",
+      "break": {
+        "start": "2026-11-25T12:30:00",
+        "end": "2026-11-25T13:30:00"
+      },
+      "source": "solver",
+      "tags": [
+        "net-work-duration",
+        "opening",
+        "morning"
+      ]
+    },
+    {
+      "id": "68a430fb-9720-410e-bb45-e6b63bc739e4",
+      "employeeId": "756cdaaa-8a6c-40dd-a2f5-81f2ed7e330a",
+      "roleId": "bca5fa4c-d452-4269-a97d-0b44199ddc60",
+      "role": "STAFF",
+      "start": "2026-11-26T07:30:00",
+      "end": "2026-11-26T16:30:00",
+      "break": {
+        "start": "2026-11-26T11:30:00",
+        "end": "2026-11-26T12:30:00"
+      },
+      "source": "solver",
+      "tags": [
+        "net-work-duration",
+        "opening",
+        "morning"
+      ]
+    },
+    {
+      "id": "03d708ec-274c-4c11-98f7-e39688a12abd",
+      "employeeId": "013b7e8e-873b-4a72-8f32-8e0513e634f4",
+      "roleId": "4a0c2835-2bdb-42af-a161-00f8d975a250",
+      "role": "Monitor",
+      "start": "2026-11-26T07:30:00",
+      "end": "2026-11-26T16:30:00",
+      "break": {
+        "start": "2026-11-26T12:30:00",
+        "end": "2026-11-26T13:30:00"
+      },
+      "source": "solver",
+      "tags": [
+        "net-work-duration",
+        "opening",
+        "morning"
+      ]
+    },
+    {
+      "id": "11d2ec5f-1327-4e09-8e2c-3a7e029fc6b5",
+      "employeeId": "756cdaaa-8a6c-40dd-a2f5-81f2ed7e330a",
+      "roleId": "bca5fa4c-d452-4269-a97d-0b44199ddc60",
+      "role": "STAFF",
+      "start": "2026-11-27T07:30:00",
+      "end": "2026-11-27T16:30:00",
+      "break": {
+        "start": "2026-11-27T11:30:00",
+        "end": "2026-11-27T12:30:00"
+      },
+      "source": "solver",
+      "tags": [
+        "net-work-duration",
+        "opening",
+        "morning"
+      ]
+    },
+    {
+      "id": "3707f290-837c-4885-b114-936d260e2c10",
+      "employeeId": "013b7e8e-873b-4a72-8f32-8e0513e634f4",
+      "roleId": "4a0c2835-2bdb-42af-a161-00f8d975a250",
+      "role": "Monitor",
+      "start": "2026-11-27T07:30:00",
+      "end": "2026-11-27T16:30:00",
+      "break": {
+        "start": "2026-11-27T12:30:00",
+        "end": "2026-11-27T13:30:00"
+      },
+      "source": "solver",
+      "tags": [
+        "net-work-duration",
+        "opening",
+        "morning"
+      ]
+    },
+    {
+      "id": "0b98b30e-5d93-4e3b-a4c7-347d7bc63d7f",
+      "employeeId": "756cdaaa-8a6c-40dd-a2f5-81f2ed7e330a",
+      "roleId": "bca5fa4c-d452-4269-a97d-0b44199ddc60",
+      "role": "STAFF",
+      "start": "2026-11-30T07:30:00",
+      "end": "2026-11-30T16:30:00",
+      "break": {
+        "start": "2026-11-30T11:30:00",
+        "end": "2026-11-30T12:30:00"
+      },
+      "source": "solver",
+      "tags": [
+        "net-work-duration",
+        "opening",
+        "morning"
+      ]
+    },
+    {
+      "id": "c6ba1f1b-9afe-4035-916c-dc1933b2e392",
+      "employeeId": "013b7e8e-873b-4a72-8f32-8e0513e634f4",
+      "roleId": "4a0c2835-2bdb-42af-a161-00f8d975a250",
+      "role": "Monitor",
+      "start": "2026-11-30T07:30:00",
+      "end": "2026-11-30T16:30:00",
+      "break": {
+        "start": "2026-11-30T12:30:00",
+        "end": "2026-11-30T13:30:00"
+      },
+      "source": "solver",
+      "tags": [
+        "net-work-duration",
+        "opening",
+        "morning"
+      ]
+    }
+  ]
+}

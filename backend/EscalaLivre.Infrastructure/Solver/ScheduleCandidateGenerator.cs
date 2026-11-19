@@ -13,6 +13,17 @@ public sealed class ScheduleCandidateGenerator
     {
         var settings = new PlanningSettings(request.Document.Company, request.Document.Employees);
         var company = settings.Company;
+        // Include exact saved times (including seconds) as optional, validated candidates.
+        // They remain subject to every aggregate constraint; this never fixes a shift.
+        if (request.Preferences?.PreserveExisting == true)
+        foreach (var saved in request.Document.Assignments.Where(a => ScheduleWindow.Contains(a,request.Start,request.End)
+            && a.Pinned != true && !LaborRules.AuthorizedHolidayShift(company,a)))
+        {
+            var owner = settings.Employees.FirstOrDefault(e => e.Id == saved.EmployeeId);
+            if (owner is not null && IntervalTimingPolicy.HasWorkAroundPause(saved)
+                && !ScheduleRules.ShiftDiagnostics(company,owner,saved,request.Document.Roles).Any(i => i.Severity == "error"))
+                yield return saved;
+        }
         foreach (DateTime day in CalendarDays.Inclusive(request.Start, request.End))
         {
             if (LaborRules.ClosedHoliday(company,day)) continue;

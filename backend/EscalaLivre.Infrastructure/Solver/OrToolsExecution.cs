@@ -16,7 +16,9 @@ public sealed class OrToolsExecution
     {
         var solver = new CpSolver
         {
-            StringParameters = $"max_time_in_seconds:{seconds.ToString(System.Globalization.CultureInfo.InvariantCulture)},num_search_workers:1"
+            // Repeated short priority/proof runs must reach search rather than spend
+            // their budget probing the same candidate implications on every attempt.
+            StringParameters = $"max_time_in_seconds:{seconds.ToString(System.Globalization.CultureInfo.InvariantCulture)},num_search_workers:1,cp_model_probing_level:0"
         };
         return new(solver.Solve(model), solver);
     }

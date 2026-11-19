@@ -1,3 +1,4 @@
+import { assertNoNewShiftOverlap } from "../lib/policies/shiftOverlap";
 import { closePublication,selectPublication,retainPublications,freezePublications } from "../lib/publications";
 import { generationProposal } from "../lib/generationProposal";
 import { PlanningHistory } from "../lib/planningHistory";
@@ -122,13 +123,16 @@ export const useScheduleStore = create<ScheduleState>()(persist((rawSet, get) =>
     const previous=state.document.assignments.find(a=>a.id===id),employee=state.document.employees.find(e=>e.id===previous?.employeeId);
     if(employee && !activeOn(employee,start) && previous?.start.slice(0,10)!==start.slice(0,10))throw new Error("Pessoa inativa na data inicial do turno.");
     const document = {...state.document,updatedAt:nowInstant(),assignments:state.document.assignments.map(a => a.id === id ? moveShift(a,start,end,state.document.company.timeZone) : a)};
+    assertNoNewShiftOverlap(state.document,document);
     return {document,analysis:analyzeDocument(document),solverStatus:"idle"};
   }),
   upsertAssignment:assignment => set(state => {
     const employee=state.document.employees.find(e=>e.id===assignment.employeeId);
     const existing=state.document.assignments.find(a=>a.id===assignment.id);
     if(!employee || ((!existing || existing.employeeId!==assignment.employeeId || existing.start.slice(0,10)!==assignment.start.slice(0,10)) && !activeOn(employee,assignment.start)))throw new Error("Pessoa inativa na data inicial do turno.");
-    return presentDocument({...replaceAssignment(state.document,assignment),updatedAt:nowInstant()});
+    const document={...replaceAssignment(state.document,assignment),updatedAt:nowInstant()};
+    assertNoNewShiftOverlap(state.document,document);
+    return presentDocument(document);
   })
 });},{
   name:"escalalivre-state",

@@ -6,6 +6,29 @@ namespace EscalaLivre.Adapter.Tests;
 
 public sealed class MinimumIntervalGenerationTests
 {
+    [Fact]
+    public void FullMonthExtendsIntervalsToCoverClosing()
+    {
+        var document = System.Text.Json.JsonSerializer.Deserialize<EscalaLivreDocument>(
+            File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "monthly-interval-generation.json")), ScheduleJson.CreateOptions())!;
+        var start = new DateTime(2026, 11, 1);
+        var end = new DateTime(2026, 11, 30);
+        var result = AdapterComposition.Generate().Execute(new(document, start, end));
+        Assert.NotNull(result.Optimization);
+        Assert.True(result.Optimization.Status is "optimal" or "feasible", result.Optimization.Status);
+        Assert.Empty(result.Gaps);
+        Assert.DoesNotContain(result.Conflicts, c => c.Severity == "error");
+        var generated = result.Assignments.Where(a => ScheduleWindow.Contains(a, start, end)).ToArray();
+        Assert.Equal(38, generated.Length);
+        Assert.Equal(19 * 60, generated.Sum(a => (a.Break!.End - a.Break.Start).TotalMinutes - 60));
+        Assert.All(generated, a => Assert.Equal(TimeSpan.FromHours(8), EffectiveWorkPolicy.Measure(a)));
+        Assert.Contains(generated, a => a.End.TimeOfDay == new TimeSpan(17, 30, 0));
+        Assert.All(generated.Where(a => a.Break!.End - a.Break.Start > TimeSpan.FromHours(1)),
+            a => Assert.Contains("interval-extension-verified", a.Tags));
+        foreach (var previous in document.Assignments.Where(a => !ScheduleWindow.Contains(a, start, end)))
+            Assert.Contains(result.Assignments, a => GenerationConformance.SameAssignment(previous, a));
+    }
+
     private static ScheduleRequest Request(int days = 1, int closingMinute = 30, int closingHour = 16, int people = 2)
     {
         var work = new WorkloadRule("dayBased", 5, 2, 44, TimeSpan.FromHours(8));
@@ -47,6 +70,11 @@ public sealed class MinimumIntervalGenerationTests
         Assert.Empty(result.Gaps);
         Assert.DoesNotContain(result.Conflicts, c => c.Severity == "error");
         Assert.Equal(extraMinutes, result.Assignments.Sum(a => (a.Break!.End - a.Break.Start).TotalMinutes - 60));
+        Assert.All(result.Assignments.Where(a => a.Break!.End - a.Break.Start > TimeSpan.FromHours(1)), a =>
+        {
+            Assert.Contains("interval-extension-verified", a.Tags);
+            Assert.Contains("interval-extended-for-coverage", a.Tags);
+        });
         Assert.All(result.Assignments, a => Assert.True(IntervalTimingPolicy.HasWorkAroundPause(a)));
     }
 

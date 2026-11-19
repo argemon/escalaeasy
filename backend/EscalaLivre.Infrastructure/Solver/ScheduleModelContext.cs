@@ -13,12 +13,23 @@ public sealed class ScheduleModelContext(ScheduleModelInput input)
     internal List<LinearExpr> CoverageDeficitTerms { get; } = [];
     internal LinearExpr? ContractCredit { get; set; }
     internal LinearExpr? PreferenceObjective { get; set; }
+    internal LinearExpr? StabilityObjective { get; set; }
+    internal LinearExpr? BalanceObjective { get; set; }
     internal List<LinearExpr> ShortageTerms { get; } = [];
     internal List<LinearExpr> OccupancyTerms { get; } = [];
     internal Dictionary<Guid, long> IntervalExtensionSeconds { get; } = new();
     internal LinearExpr? IntervalExtension { get; set; }
     internal BoolVar? PreferMinimumIntervals { get; set; }
     internal BoolVar? PreferUnanticipatedIntervals { get; set; }
+
+    // Ignoring exclusivity, workload and rest can only overestimate attainable coverage.
+    internal long MinimumIntervalCoverageBound()
+    {
+        var request = Input.Request;
+        var optimistic = Input.CoverageCandidates.Where(a => !IntervalExtensionSeconds.ContainsKey(a.Id)).ToArray();
+        return ScheduleCoverage.UncoveredPersonTicks(ScheduleCoverage.Evaluate(request.Document,
+            request.Start, request.End, optimistic));
+    }
 }
 
 public interface IScheduleConstraintTranslator

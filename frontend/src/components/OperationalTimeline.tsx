@@ -12,6 +12,7 @@ import {
 import { useScheduleStore } from "../store/scheduleStore";
 import type { CoverageBlock } from "../types/schedule";
 import { Badge } from "./ui";
+import { intervalNotice } from "../lib/intervalNotice";
 
 const dayLabels = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"];
 
@@ -83,7 +84,12 @@ function TimelineRows({ onEmployeeClick,selectedDate,setSelectedDate }: { onEmpl
         return (
           <div data-employee-row={employee.id} key={employee.id} className="grid min-h-20 grid-cols-[180px_1fr] border-b border-border last:border-b-0">
             <button className="border-r border-border px-3 py-3 text-left hover:bg-muted" onClick={() => onEmployeeClick(employee.id)}>
-              <p className="text-sm font-medium">{employee.name}</p>
+              <p className="flex items-center gap-2 text-sm font-medium"><span>{employee.name}</span>
+              {assignments.map(assignment => {
+                const notice = intervalNotice(document.company, employee, assignment);
+                return notice && <span key={assignment.id} className="whitespace-nowrap text-xs font-semibold text-amber-700 dark:text-amber-300" aria-label={notice.label} title={notice.label + ". " + notice.description}>{notice.shortLabel}</span>;
+              })}
+              </p>
               <p className="text-xs text-muted-foreground capitalize">{employee.role}</p>
             </button>
             <div className="relative min-h-20 bg-[linear-gradient(90deg,hsl(var(--border))_1px,transparent_1px)] bg-[length:4.166%_100%]">

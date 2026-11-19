@@ -1,6 +1,7 @@
-import { normalizeDocumentTimes, normalizeResultTimes } from "./dateTime";
+import { normalizeResultTimes } from "./dateTime";
 import { planningPeriod } from "./analysis";
 import type { EscalaLivreDocument, ScheduleResult } from "../types/schedule";
+import { calculationDocument, restoreCalculationLabels, type GenerationPreferences } from "./calculationDocument";
 
 const API_URL = (import.meta.env.VITE_API_URL ?? (import.meta.env.DEV ? "http://localhost:5003" : "")).replace(/\/$/, "");
 export type JobProgress = {
@@ -30,9 +31,9 @@ export function cancelQueuedSolve(id: string) {
   return request("/solve/jobs/" + encodeURIComponent(id), { method: "DELETE" });
 }
 
-export async function solveQueued(document: EscalaLivreDocument, onProgress: (progress: JobProgress) => void): Promise<ScheduleResult | null> {
-  const normalized = normalizeDocumentTimes(document);
-  const body = JSON.stringify({ document: normalized, ...planningPeriod(normalized) });
+export async function solveQueued(document: EscalaLivreDocument, onProgress: (progress: JobProgress) => void, preferences?: GenerationPreferences): Promise<ScheduleResult | null> {
+  const normalized = calculationDocument(document);
+  const body = JSON.stringify({ document: normalized, ...planningPeriod(normalized), preferences });
   if (new TextEncoder().encode(body).byteLength > 2 * 1024 * 1024)
     throw new Error("O planejamento é maior que o limite de 2 MB.");
   let progress: JobProgress;
@@ -46,7 +47,7 @@ export async function solveQueued(document: EscalaLivreDocument, onProgress: (pr
     onProgress(progress);
     if (progress.state === "completed") {
       if (!progress.result) throw new Error("O servidor não retornou a escala. Tente novamente.");
-      return normalizeResultTimes(progress.result, document.company.timeZone);
+      return restoreCalculationLabels(normalizeResultTimes(progress.result, document.company.timeZone), document);
     }
     if (progress.state === "cancelled") return null;
     if (progress.state === "failed") throw new Error(progress.error || "Não foi possível gerar a escala.");

@@ -9,7 +9,7 @@ function load(file) {
   const exports={};cache.set(file,exports);
   const source=fs.readFileSync(path.join(__dirname,'../src',file),'utf8').replaceAll('import.meta.env','testEnv');
   const code=ts.transpileModule(source,{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText;
-  vm.runInNewContext(code,{exports,Date,Set,Map,TextEncoder,window:{get localStorage(){return storage;}},Intl,crypto,structuredClone,AbortSignal,DOMException,testEnv:{DEV:false},fetch:async(url,options)=>{outgoing=JSON.parse(options.body);return Response.json({success:true,data:{assignments:outgoing.document.assignments}});},require:r=>r.startsWith('.')?load(path.posix.normalize(path.posix.join(path.posix.dirname(file),r))+'.ts'):require(r)});
+  vm.runInNewContext(code,{exports,Date,Set,Map,TextEncoder,window:{get localStorage(){return storage;}},Intl,crypto,structuredClone,AbortSignal,DOMException,testEnv:{DEV:false},fetch:async(url,options)=>{outgoing=JSON.parse(options.body);return Response.json({success:true,data:{assignments:outgoing.document.assignments,conflicts:[],decisions:[],optimizationSuggestions:[]}});},require:r=>r.startsWith('.')?load(path.posix.normalize(path.posix.join(path.posix.dirname(file),r))+'.ts'):require(r)});
   return exports;
 }
 const time=load('lib/dateTime.ts'),{sampleDocument}=load('data/sample.ts'),{useScheduleStore:store}=load('store/scheduleStore.ts');

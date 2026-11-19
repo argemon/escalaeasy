@@ -1,5 +1,5 @@
+import { displayDuration as secondsDuration } from "../lib/displayTime";
 import type { WorkloadSummary } from "../types/schedule";
-import { secondsDuration } from "../lib/policies/weeklyWorkPlan";
 
 export function WorkloadSummaryCard({ summary: w, name }: { summary: WorkloadSummary; name?: string }) {
   return <section className="space-y-2 rounded border border-border p-3">

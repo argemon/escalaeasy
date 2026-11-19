@@ -1,0 +1,334 @@
+{
+  "scenarios": [
+    {
+      "id": "identical-new-id",
+      "before": [
+        {
+          "id": "1",
+          "employee": "A",
+          "start": "2026-11-04T07:30:00",
+          "end": "2026-11-04T17:30:00"
+        }
+      ],
+      "after": [
+        {
+          "id": "1",
+          "employee": "A",
+          "start": "2026-11-04T07:30:00",
+          "end": "2026-11-04T17:30:00"
+        },
+        {
+          "id": "2",
+          "employee": "A",
+          "start": "2026-11-04T07:30:00",
+          "end": "2026-11-04T17:30:00"
+        }
+      ],
+      "blocked": true
+    },
+    {
+      "id": "partial-overlap",
+      "before": [
+        {
+          "id": "1",
+          "employee": "A",
+          "start": "2026-11-04T07:30:00",
+          "end": "2026-11-04T17:30:00"
+        }
+      ],
+      "after": [
+        {
+          "id": "1",
+          "employee": "A",
+          "start": "2026-11-04T07:30:00",
+          "end": "2026-11-04T17:30:00"
+        },
+        {
+          "id": "2",
+          "employee": "A",
+          "start": "2026-11-04T16:00:00",
+          "end": "2026-11-04T18:00:00"
+        }
+      ],
+      "blocked": true
+    },
+    {
+      "id": "contained-in-pause",
+      "before": [
+        {
+          "id": "1",
+          "employee": "A",
+          "start": "2026-11-04T07:30:00",
+          "end": "2026-11-04T17:30:00"
+        }
+      ],
+      "after": [
+        {
+          "id": "1",
+          "employee": "A",
+          "start": "2026-11-04T07:30:00",
+          "end": "2026-11-04T17:30:00"
+        },
+        {
+          "id": "2",
+          "employee": "A",
+          "start": "2026-11-04T12:00:00",
+          "end": "2026-11-04T13:00:00"
+        }
+      ],
+      "blocked": true
+    },
+    {
+      "id": "different-person",
+      "before": [
+        {
+          "id": "1",
+          "employee": "A",
+          "start": "2026-11-04T07:30:00",
+          "end": "2026-11-04T17:30:00"
+        }
+      ],
+      "after": [
+        {
+          "id": "1",
+          "employee": "A",
+          "start": "2026-11-04T07:30:00",
+          "end": "2026-11-04T17:30:00"
+        },
+        {
+          "id": "2",
+          "employee": "B",
+          "start": "2026-11-04T07:30:00",
+          "end": "2026-11-04T17:30:00"
+        }
+      ],
+      "blocked": false
+    },
+    {
+      "id": "touching-boundary",
+      "before": [
+        {
+          "id": "1",
+          "employee": "A",
+          "start": "2026-11-04T07:30:00",
+          "end": "2026-11-04T17:30:00"
+        }
+      ],
+      "after": [
+        {
+          "id": "1",
+          "employee": "A",
+          "start": "2026-11-04T07:30:00",
+          "end": "2026-11-04T17:30:00"
+        },
+        {
+          "id": "2",
+          "employee": "A",
+          "start": "2026-11-04T17:30:00",
+          "end": "2026-11-04T18:00:00"
+        }
+      ],
+      "blocked": false
+    },
+    {
+      "id": "one-second-overlap",
+      "before": [
+        {
+          "id": "1",
+          "employee": "A",
+          "start": "2026-11-04T07:30:00",
+          "end": "2026-11-04T17:30:00"
+        }
+      ],
+      "after": [
+        {
+          "id": "1",
+          "employee": "A",
+          "start": "2026-11-04T07:30:00",
+          "end": "2026-11-04T17:30:00"
+        },
+        {
+          "id": "2",
+          "employee": "A",
+          "start": "2026-11-04T17:29:59",
+          "end": "2026-11-04T18:00:00"
+        }
+      ],
+      "blocked": true
+    },
+    {
+      "id": "self-edit",
+      "before": [
+        {
+          "id": "1",
+          "employee": "A",
+          "start": "2026-11-04T07:30:00",
+          "end": "2026-11-04T17:30:00"
+        }
+      ],
+      "after": [
+        {
+          "id": "1",
+          "employee": "A",
+          "start": "2026-11-04T07:30:00",
+          "end": "2026-11-04T16:30:00"
+        }
+      ],
+      "blocked": false
+    },
+    {
+      "id": "overnight-overlap",
+      "before": [
+        {
+          "id": "1",
+          "employee": "A",
+          "start": "2026-11-04T22:00:00",
+          "end": "2026-11-05T06:00:00"
+        }
+      ],
+      "after": [
+        {
+          "id": "1",
+          "employee": "A",
+          "start": "2026-11-04T22:00:00",
+          "end": "2026-11-05T06:00:00"
+        },
+        {
+          "id": "2",
+          "employee": "A",
+          "start": "2026-11-05T05:59:59",
+          "end": "2026-11-05T08:00:00"
+        }
+      ],
+      "blocked": true
+    },
+    {
+      "id": "inherited-overlap-untouched",
+      "before": [
+        {
+          "id": "1",
+          "employee": "A",
+          "start": "2026-11-04T07:30:00",
+          "end": "2026-11-04T17:30:00"
+        },
+        {
+          "id": "2",
+          "employee": "A",
+          "start": "2026-11-04T16:00:00",
+          "end": "2026-11-04T18:00:00"
+        }
+      ],
+      "after": [
+        {
+          "id": "1",
+          "employee": "A",
+          "start": "2026-11-04T07:30:00",
+          "end": "2026-11-04T17:30:00"
+        },
+        {
+          "id": "2",
+          "employee": "A",
+          "start": "2026-11-04T16:00:00",
+          "end": "2026-11-04T18:00:00"
+        }
+      ],
+      "blocked": false
+    },
+    {
+      "id": "repair-reduces-old-overlap",
+      "before": [
+        {
+          "id": "1",
+          "employee": "A",
+          "start": "2026-11-04T07:30:00",
+          "end": "2026-11-04T17:30:00"
+        },
+        {
+          "id": "2",
+          "employee": "A",
+          "start": "2026-11-04T16:00:00",
+          "end": "2026-11-04T18:00:00"
+        }
+      ],
+      "after": [
+        {
+          "id": "1",
+          "employee": "A",
+          "start": "2026-11-04T07:30:00",
+          "end": "2026-11-04T17:30:00"
+        },
+        {
+          "id": "2",
+          "employee": "A",
+          "start": "2026-11-04T17:00:00",
+          "end": "2026-11-04T18:00:00"
+        }
+      ],
+      "blocked": false
+    },
+    {
+      "id": "edit-increases-overlap",
+      "before": [
+        {
+          "id": "1",
+          "employee": "A",
+          "start": "2026-11-04T07:30:00",
+          "end": "2026-11-04T17:30:00"
+        },
+        {
+          "id": "2",
+          "employee": "A",
+          "start": "2026-11-04T16:00:00",
+          "end": "2026-11-04T18:00:00"
+        }
+      ],
+      "after": [
+        {
+          "id": "1",
+          "employee": "A",
+          "start": "2026-11-04T07:30:00",
+          "end": "2026-11-04T17:30:00"
+        },
+        {
+          "id": "2",
+          "employee": "A",
+          "start": "2026-11-04T15:59:59",
+          "end": "2026-11-04T18:00:00"
+        }
+      ],
+      "blocked": true
+    },
+    {
+      "id": "reassign-to-occupied-person",
+      "before": [
+        {
+          "id": "1",
+          "employee": "A",
+          "start": "2026-11-04T07:30:00",
+          "end": "2026-11-04T17:30:00"
+        },
+        {
+          "id": "2",
+          "employee": "B",
+          "start": "2026-11-04T10:00:00",
+          "end": "2026-11-04T14:00:00"
+        }
+      ],
+      "after": [
+        {
+          "id": "1",
+          "employee": "A",
+          "start": "2026-11-04T07:30:00",
+          "end": "2026-11-04T17:30:00"
+        },
+        {
+          "id": "2",
+          "employee": "A",
+          "start": "2026-11-04T10:00:00",
+          "end": "2026-11-04T14:00:00"
+        }
+      ],
+      "blocked": true
+    }
+  ]
+}

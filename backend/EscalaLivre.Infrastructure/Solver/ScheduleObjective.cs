@@ -26,5 +26,6 @@ public sealed class ScheduleObjective
         context.PreferenceObjective = LinearExpr.Sum(terms.Concat(context.OccupancyTerms));
         if (context.ContractCredit is not null || context.IntervalExtension is not null) context.Model.Minimize(LinearExpr.Sum(context.CoverageDeficitTerms));
         else context.Model.Maximize(LinearExpr.Sum(terms.Concat(context.ShortageTerms).Concat(context.OccupancyTerms)));
+        ScheduleQualityObjective.Apply(context);
     }
 }

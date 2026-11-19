@@ -14,6 +14,7 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import { outsideOperatingHours } from "../lib/coverageRules";
 import { WeeklySchedule } from "./WeeklySchedule";
 import { weeklyCoverage } from "../lib/weeklyCoverage";
+import { intervalNotice } from "../lib/intervalNotice";
 import { useMemo, useState } from "react";
 import { useScheduleStore } from "../store/scheduleStore";
 
@@ -42,7 +43,7 @@ export function ScheduleCalendar() {
         return {
           id: assignment.id,
           title: `${assignment.pinned?"🔒 ":""}${!authorizedHolidayShift(document.company,assignment) && outsideOperatingHours(document.company,new Date(assignment.start).getDay(),timePart(assignment.start),timePart(assignment.end)) ? "⚠ Fora do expediente · " : ""}${employee?.name ?? "Funcionario"} · ${assignment.role}`,
-          extendedProps: {employeeId:assignment.employeeId,role:assignment.role,break:assignment.break,planned:"planned" in assignment && assignment.planned},
+          extendedProps: {employeeId:assignment.employeeId,role:assignment.role,break:assignment.break,intervalNotice:intervalNotice(document.company,employee,assignment),planned:"planned" in assignment && assignment.planned},
           editable: !("planned" in assignment && assignment.planned),
           start: assignment.start,
           end: assignment.end,
@@ -65,7 +66,7 @@ export function ScheduleCalendar() {
 
   return (
     <main className="flex min-h-0 min-w-0 flex-1 flex-col bg-background">
-      <div className="flex shrink-0 flex-wrap items-center gap-x-4 gap-y-1 border-b border-border px-4 py-2 text-xs text-muted-foreground" aria-label="Resumo da escala mensal">
+      <div className="flex shrink-0 flex-wrap items-center gap-x-4 gap-y-1 border-b border-border px-4 py-1 text-xs text-muted-foreground" aria-label="Resumo da escala mensal">
         <span>{document.employees.length} pessoas</span>
         <span>{document.assignments.length} turnos salvos</span>
         <span>{new Set(document.employees.map(employee=>employee.role)).size} funções</span>
@@ -75,7 +76,7 @@ export function ScheduleCalendar() {
       </div>
 
       {addingHoliday && <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/50 p-4"><form role="dialog" aria-modal="true" aria-label="Adicionar feriado" className="w-full max-w-sm space-y-4 rounded-xl border border-border bg-card p-5" onSubmit={e=>{e.preventDefault();const chosenDate=String(new FormData(e.currentTarget).get("holidayDate"));setAddingHoliday(false);setHolidayDate(chosenDate);}}><h2 className="text-xl font-semibold">Adicionar feriado</h2><label className="block">Data<input type="date" name="holidayDate" required value={holidayPickerDate} onChange={e=>setHolidayPickerDate(e.target.value)} className="mt-2 w-full rounded border border-border bg-background p-2" /></label><div className="flex gap-2"><Button type="submit">Continuar</Button><Button type="button" onClick={()=>setAddingHoliday(false)}>Cancelar</Button></div></form></div>}
-      <section className="min-h-0 flex-1 overflow-hidden p-4 monthly-calendar">
+      <section className="min-h-0 flex-1 overflow-hidden px-4 pb-4 pt-2 monthly-calendar">
         <FullCalendar
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
           initialView={viewMode === "month" ? "dayGridMonth" : "timeGridWeek"}
@@ -86,7 +87,7 @@ export function ScheduleCalendar() {
           datesSet={arg => {setVisibleDate(dateKey(arg.view.currentStart));setRange(previous => previous?.start.getTime() === arg.start.getTime() && previous?.end.getTime() === arg.end.getTime() ? previous : {start:arg.start,end:arg.end});}}
           buttonText={{today:"Hoje"}}
           displayEventTime={false}
-          eventContent={arg => <div className="month-entry"><div className="month-entry-header"><strong>{arg.event.title}</strong>{arg.event.extendedProps.planned && <small className="month-status">Prévia</small>}</div><span>{arg.event.start?.toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"})}–{arg.event.end?.toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"})}</span>{arg.event.extendedProps.break && <small>Intervalo {new Date(arg.event.extendedProps.break.start).toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"})}–{new Date(arg.event.extendedProps.break.end).toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"})}</small>}</div>}
+          eventContent={arg => <div className="month-entry"><div className="month-entry-header"><strong>{arg.event.title}</strong>{arg.event.extendedProps.planned && <small className="month-status">Prévia</small>}</div><span className="flex items-center gap-1 whitespace-nowrap">{arg.event.start?.toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"})}–{arg.event.end?.toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"})}{arg.event.extendedProps.intervalNotice && <small className="font-semibold text-amber-700 dark:text-amber-300" aria-label={arg.event.extendedProps.intervalNotice.label} title={arg.event.extendedProps.intervalNotice.label + ". " + arg.event.extendedProps.intervalNotice.description}>{arg.event.extendedProps.intervalNotice.shortLabel}</small>}</span>{arg.event.extendedProps.break && <small>Intervalo {new Date(arg.event.extendedProps.break.start).toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"})}–{new Date(arg.event.extendedProps.break.end).toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"})}</small>}</div>}
           dayMaxEvents={3}
           expandRows={false}
           headerToolbar={{

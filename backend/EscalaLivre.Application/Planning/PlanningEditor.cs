@@ -23,6 +23,8 @@ public sealed class PlanningEditor(IScheduleAnalyzer analyzer)
         }
         var document = mapping.ToDocument(writePeriod) with { UpdatedAt = updatedAt.ToUniversalTime() };
         if (DocumentSafety.Error(document) is { } error) throw new FormatException(error);
+        if (ShiftOverlapPolicy.FindIntroduced(request.Document.Assignments,document.Assignments) is { } overlap)
+            throw new InvalidOperationException($"Turno coincide com outro turno da mesma pessoa, de {overlap.Existing.Start:dd/MM/yyyy HH:mm:ss} até {overlap.Existing.End:dd/MM/yyyy HH:mm:ss}. Edite o turno existente ou escolha outro horário.");
         var period = mapping.Schedule.Period;
         var analysis = analyzer.Analyze(new(document, period.Start.ToDateTime(TimeOnly.MinValue), period.End.ToDateTime(new(23,59,59))));
         return new(document, analysis);

@@ -26,9 +26,9 @@ internal static class ScheduleSearchHints
                         && ScheduleWindow.WeekStart(a.Start) == week.Key).All(a => WeeklyIntervalPolicy.Pattern(a) == g.Key.Pause))
                     .OrderByDescending(g => g.Select(a => a.Start.Date).Distinct().Count())
                     .ThenByDescending(g => WeeklyWorkPlanPolicy.For(company,employee) is null ? 0 : g.Sum(a=>ContractWorkPolicy.Recognized(company,employee,a.Start,EffectiveWorkPolicy.Measure(a).Ticks/TimeSpan.TicksPerSecond)))
+                    .ThenBy(g => Uncovered(picked.Concat(g)))
                     .ThenBy(g => g.Sum(a => context.IntervalExtensionSeconds.GetValueOrDefault(a.Id)))
                     .ThenByDescending(g => g.Max(a=>a.End-a.Start))
-                    .ThenBy(g => Uncovered(picked.Concat(g)))
                     .ThenBy(g => g.Key.Pause is {} pause ? lunches.Sum(other =>
                         Math.Max(0, (Math.Min((pause.Start + pause.Duration).Ticks, other.End.Ticks)
                             - Math.Max(pause.Start.Ticks, other.Start.Ticks)))) : 0)

@@ -125,7 +125,16 @@ button:disabled { cursor: not-allowed; }
 .monthly-calendar .fc-daygrid-day-number { padding:2px 8px; line-height:1.2; min-width:0; max-width:100%; }
 .monthly-calendar .calendar-day-label { display:flex; align-items:baseline; justify-content:flex-end; gap:4px; min-width:0; max-width:100%; text-align:right; }
 .monthly-calendar .calendar-day-label > span { flex-shrink:0; }
-.monthly-calendar .fc-col-header-cell { padding:8px; text-transform:uppercase; font-size:12px; }
+.monthly-calendar { container-type:inline-size; }
+.monthly-calendar .fc .fc-toolbar.fc-header-toolbar { display:grid; grid-template-columns:minmax(0,1fr) auto minmax(0,1fr); margin-bottom:8px; gap:8px; }
+.monthly-calendar .fc-header-toolbar > .fc-toolbar-chunk:nth-child(2) { text-align:center; }
+@container (max-width:480px) {
+  .monthly-calendar .fc .fc-toolbar.fc-header-toolbar { grid-template-columns:1fr; }
+  .monthly-calendar .fc-header-toolbar > .fc-toolbar-chunk:nth-child(2) { grid-row:1; }
+  .monthly-calendar .fc-header-toolbar > .fc-toolbar-chunk:last-child { display:none; }
+}
+.monthly-calendar .fc-button { padding:4px 10px; }
+.monthly-calendar .fc-col-header-cell { padding:3px 8px; text-transform:uppercase; font-size:12px; line-height:1.25; }
 
 .monthly-calendar .calendar-holiday { background:hsl(var(--primary) / .07); }
 .monthly-calendar .calendar-holiday .fc-daygrid-day-top { border-top:3px solid hsl(var(--primary)); }
@@ -246,11 +255,25 @@ button:disabled { cursor: not-allowed; }
 .header-tools > summary::-webkit-details-marker, .header-view-help > summary::-webkit-details-marker { display:none; }
 .header-tools-content { position:absolute; right:0; top:calc(100% + 8px); width:min(350px,calc(100vw - 24px)); padding:14px; display:grid; gap:10px; background:hsl(var(--card)); border:1px solid hsl(var(--border)); border-radius:12px; box-shadow:0 8px 30px #0002; max-height:75vh; overflow:auto; z-index:40; }
 .header-tools-content > details { padding:10px 0 0; }
-.planning-period { display:flex; flex-wrap:wrap; align-items:center; gap:8px 12px; padding:5px 16px; border-top:1px solid hsl(var(--border)); }
+.planning-period, .planning-view-bar, .planning-actions { --planning-control-height:30px; min-height:39px; padding:4px 12px; }
+.planning-period { display:flex; flex-wrap:wrap; align-items:center; gap:8px 12px; border-top:1px solid hsl(var(--border)); }
 .planning-period label { white-space:nowrap; }
-.planning-period button { height:28px; }
-.header-view-nav { display:flex; gap:4px; overflow-x:auto; padding:4px 190px 4px 12px; border-top:1px solid hsl(var(--border)); }
-.header-view-actions { position:absolute; right:12px; bottom:8px; display:flex; align-items:center; gap:4px; background:hsl(var(--card)); }
+.planning-period input, .planning-period button,
+.header-view-nav > button, .planning-view-bar .header-view-actions > button,
+.planning-view-bar .header-view-help > summary, .planning-actions > button { height:var(--planning-control-height); }
+.planning-actions > button { padding-inline:12px; }
+.planning-actions > details > summary { min-height:var(--planning-control-height); padding:5px 8px; line-height:18px; }
+.planning-actions > details:not(:has(> summary.border)) > summary { padding-block:6px; }
+.header-view-nav { display:flex; flex:1; gap:4px; overflow-x:auto; padding:0; }
+.solver-range { display:flex; flex-wrap:wrap; gap:12px 24px; }
+.solver-range label { display:inline-flex; flex-wrap:wrap; align-items:center; gap:10px; font-size:14px; }
+.solver-range input { min-width:150px; min-height:38px; padding:7px 10px; border:1px solid hsl(var(--border)); border-radius:8px; background:hsl(var(--background)); color:hsl(var(--foreground)); color-scheme:light; }
+.solver-range input::-webkit-datetime-edit { color:inherit; }
+.dark .solver-range input { color-scheme:dark; }
+.manual-shift-editor { font-size:15px; line-height:1.5; }
+.manual-shift-editor input[type="datetime-local"] { color-scheme:light; }
+.dark .manual-shift-editor input[type="datetime-local"] { color-scheme:dark; }
+.header-view-actions { position:relative; display:flex; align-items:center; justify-content:flex-end; gap:4px; padding:0; background:hsl(var(--card)); }
 .header-view-help > summary { height:28px; background:hsl(var(--card)); padding:0 8px; border-radius:6px; }
 .header-view-help > p { position:absolute; right:0; top:100%; width:min(340px,calc(100vw - 24px)); padding:12px; background:hsl(var(--card)); border:1px solid hsl(var(--border)); border-radius:8px; box-shadow:0 8px 24px #0002; font-size:13px; }
 .setup-heading { padding:9px 10px 6px; display:grid; gap:5px; }
@@ -285,7 +308,7 @@ button:disabled { cursor: not-allowed; }
   .header-company { font-size:14px; max-width:48vw; }
   .header-brand-company { gap:8px; }
   .header-actions { width:100%; justify-content:flex-end; }
-  .planning-period { padding:6px 12px; gap:6px 10px; }
+  .planning-period { gap:6px 10px; }
   .planning-period > span:first-child { width:100%; }
   .period-hint { display:none; }
 }

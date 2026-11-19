@@ -1,7 +1,9 @@
+import { displayTemporalText } from "../lib/displayTime";
+import { displayDateTime } from "../lib/displayTime";
+import { displayDuration as secondsDuration } from "../lib/displayTime";
 import { useState } from "react";
 import { useScheduleStore } from "../store/scheduleStore";
 import { documentSchema } from "../lib/documentSchema";
-import { secondsDuration } from "../lib/policies/weeklyWorkPlan";
 import type { ShiftAssignment } from "../types/schedule";
 import { Button } from "./ui";
 
@@ -19,10 +21,10 @@ export function EmployeeShiftEditor({ shift }: { shift: ShiftAssignment }) {
     setError("");
   }
   return <div className="space-y-2 rounded border border-border p-3">
-    <p>Entrada: {shift.start.replace("T", " às ")}</p>
-    <label className="block">Saída neste dia<input type="datetime-local" step="1" required value={end} onChange={e => setEnd(e.target.value)} /></label>
+    <p>Entrada: {displayDateTime(shift.start)}</p>
+    <label className="block">Saída neste dia<input type="datetime-local" step="60" required value={end.slice(0,16)} onChange={e => setEnd(e.target.value)} /></label>
     <Button type="button" onClick={save}>Salvar saída manual</Button>
     {day && <p role="status">Previsto: {secondsDuration(day.expectedSeconds)} · Planejado: {secondsDuration(day.plannedSeconds)} · {day.unmetSeconds > 0 ? `Faltam ${secondsDuration(day.unmetSeconds)} para cumprir a jornada deste dia` : "Jornada do dia cumprida"}</p>}
-    {error && <p role="alert">{error}</p>}
+    {error && <p role="alert">{displayTemporalText(error)}</p>}
   </div>;
 }

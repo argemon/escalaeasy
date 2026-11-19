@@ -1,10 +1,9 @@
 import type { InputHTMLAttributes, FormEvent, FocusEvent, KeyboardEvent, ChangeEvent } from "react";
-import { formatDuration } from "./duration";
 
 type Options = Omit<InputHTMLAttributes<HTMLInputElement>, "value" | "onChange" | "type">;
 
 export function maskedTimeHandlers(value: string, onChange: (value: string) => void, duration: boolean, props: Options, showSeconds = false) {
-  const display = duration ? (showSeconds ? value : formatDuration(value)) || "00:00" : value.slice(0,5) || "00:00";
+  const display = duration ? (showSeconds ? value : value.split(":").slice(0,2).join(":")) || "00:00" : value.slice(0,5) || "00:00";
   const commit = (input: HTMLInputElement, text: string, caret: number) => {
     input.value = text;
     onChange(text.split(":").length === 2 ? text+":00" : text);

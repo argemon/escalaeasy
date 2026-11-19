@@ -1,5 +1,6 @@
-import { normalizeDocumentTimes, normalizeResultTimes } from "./dateTime";
-import { downloadText, readNativeFile, serializeNative } from "./nativeDocument";
+import { normalizeResultTimes } from "./dateTime";
+import { calculationDocument, restoreCalculationLabels } from "./calculationDocument";
+import { downloadText, nativeFilename, readNativeFile, serializeNative } from "./nativeDocument";
 export { serializeNative } from "./nativeDocument";
 import type { EscalaLivreDocument, ScheduleResult } from "../types/schedule";
 
@@ -16,7 +17,8 @@ type ApiEnvelope<T> = {
 };
 
 export async function solveSchedule(document: EscalaLivreDocument): Promise<ScheduleResult> {
-  document = normalizeDocumentTimes(document);
+  const local = document;
+  document = calculationDocument(document);
   // Measure the exact serialized UTF-8 body before opening the connection.
   const body = JSON.stringify({ document, ...planningPeriod(document) });
   if (new TextEncoder().encode(body).byteLength > 2 * 1024 * 1024)
@@ -46,11 +48,11 @@ export async function solveSchedule(document: EscalaLivreDocument): Promise<Sche
     throw new Error(envelope.errors?.map(error => error.message).join(", ") || "Não foi possível gerar a escala (HTTP " + response.status + ").");
   }
 
-  return normalizeResultTimes(envelope.data,document.company?.timeZone);
+  return restoreCalculationLabels(normalizeResultTimes(envelope.data,document.company?.timeZone),local);
 }
 
 export function exportNative(document: EscalaLivreDocument) {
-  downloadText(serializeNative(document), "escala.escalalivre");
+  downloadText(serializeNative(document), nativeFilename(document));
 }
 
 export async function importNative(file: File): Promise<EscalaLivreDocument> {

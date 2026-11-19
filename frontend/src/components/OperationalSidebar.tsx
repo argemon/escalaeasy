@@ -1,7 +1,7 @@
 import { CoverageAllocationPanel } from "./CoverageAllocationPanel";
 import { activeOn, employeeOn } from "../lib/policies/employment";
 import { TeamTools } from "./TeamTools";
-import { formatDuration } from "../lib/duration";
+const formatDuration = (value: string) => value.split(":").slice(0,2).join(":");
 import { formatCoverageDays, groupCoverageForDisplay } from "../lib/coverageDisplay";
 import { AlertTriangle, ArrowRight, Check, Clock3, ShieldCheck, Users } from "lucide-react";
 import { useState, type ReactNode } from "react";
@@ -29,13 +29,18 @@ export function OperationalSidebar() {
   const currentIndex = steps.findIndex(step => step.id === section);
   const nextPending = steps.find(step => !step.done);
   const currentStep = steps[currentIndex];
+  const [showSetup,setShowSetup] = useState(true);
+  const expanded = completed < steps.length || showSetup;
   return (
     <Panel className="flex h-full min-h-0 w-full flex-col border-r">
       <div className="setup-heading">
-        <div className="flex items-center justify-between gap-2"><h2 className="text-sm font-semibold">Configure sua escala</h2><span className="text-xs text-primary" role="status">{completed}/4 concluídas</span></div>
+        <div className="flex items-center justify-between gap-2"><h2 className="text-sm font-semibold">{completed===4?"Configurações":"Configure sua escala"}</h2><span className="text-xs text-primary" role="status">{completed}/4 concluídas</span></div>
+        {completed===4&&<Button type="button" className="w-full" aria-expanded={expanded} onClick={()=>setShowSetup(!showSetup)}>{expanded?"Recolher configurações":"Editar configurações"}</Button>}
         {nextPending && <p className="text-xs text-muted-foreground">Preencha as etapas em ordem para gerar.</p>}
         <progress className="setup-progress" value={completed} max={4} aria-label="Etapas de cadastro concluídas" />
       </div>
+      {!expanded&&<div className="flex flex-wrap gap-2 p-3">{steps.map(step=><Button type="button" key={step.id} onClick={()=>{setSection(step.id);setShowSetup(true);}}>{step.label}</Button>)}<p className="text-xs text-muted-foreground">Cadastros concluídos. Consulte a escala ou use Gerar para planejar.</p></div>}
+      {expanded&&<div className="flex min-h-0 flex-1 flex-col">
       <nav aria-label="Etapas de configuração" className="setup-steps">
         <ol>
           {steps.map((step, index) => <li key={step.id}>
@@ -143,6 +148,7 @@ export function OperationalSidebar() {
           <Button className="w-full" disabled={!currentStep.done} onClick={() => {const next=steps[currentIndex+1];if(next) setSection(next.id);else if(nextPending) setSection(nextPending.id);else useScheduleStore.getState().setViewMode("solver");}}>{currentIndex < 3 ? "Continuar para " + steps[currentIndex+1].label : nextPending ? "Completar " + nextPending.label : "Revisar e gerar escala"}<ArrowRight className="size-4" /></Button>
           {!currentStep.done && <p className="mt-2 text-xs text-muted-foreground">Salve este cadastro para continuar.</p>}
         </div>
+      </div>}
       {editor && <CompanyEditor tab={editor} onClose={() => setEditor(null)} onSaved={() => { if (editor === "company") setSection("roles"); }} />}
     </Panel>
   );

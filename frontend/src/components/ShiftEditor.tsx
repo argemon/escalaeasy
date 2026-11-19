@@ -1,11 +1,14 @@
+import { displayTemporalText } from "../lib/displayTime";
 import { useDialogFocus } from "../lib/useDialogFocus";
 import { useRef, useState } from "react";
 import { useScheduleStore } from "../store/scheduleStore";
 import { previewShift, type PlanningPreview } from "../lib/planningEdits";
 import { employeeOn } from "../lib/policies/employment";
+import { shiftOverlapMessage } from "../lib/policies/shiftOverlap";
 import { civilMillis, civilString, clockMillis } from "../lib/civilTime";
 import type { ShiftAssignment } from "../types/schedule";
-import { Button } from "./ui";
+import { X } from "lucide-react";
+import { Button, IconButton } from "./ui";
 export function ShiftEditor(){
  const {document,selectedShift}=useScheduleStore();if(!selectedShift)return null;
  const existing=document.assignments.find(a=>a.id===selectedShift.id),employee=document.employees.find(e=>e.id===selectedShift.employeeId)??document.employees[0];if(!employee)return null;
@@ -13,20 +16,70 @@ export function ShiftEditor(){
  const initial:ShiftAssignment=selectedShift.draft??existing??{id:crypto.randomUUID(),employeeId:employee.id,role:effective.role,roleId:effective.roleId,start,end:civilString(civilMillis(start)+clockMillis((employee.inheritsCompanyDefaults?document.company.defaultWorkload:employee.workload).defaultShiftDuration)),source:"manual",tags:[]};
  return <ShiftForm key={selectedShift.id??selectedShift.employeeId+selectedShift.date} initial={initial} />;
 }
-function ShiftForm({initial}:{initial:ShiftAssignment}){
- const {document,analysis,selectShift,applyPlanningPreview,setSelectedEmployeeId}=useScheduleStore();const [draft,setDraft]=useState(initial),[preview,setPreview]=useState<PlanningPreview|null>(null),[allow,setAllow]=useState(false),[error,setError]=useState("");
- const patch=(change:Partial<ShiftAssignment>)=>{setDraft({...draft,...change});setPreview(null);setAllow(false);};const run=(fn:()=>void)=>{try{setError("");fn();}catch(e){setError((e as Error).message);}};
- const dialogRef=useRef<HTMLElement>(null);useDialogFocus(dialogRef,()=>selectShift(undefined));
- const stamp=(v:string)=>v.length===16?v+":00":v;
- return <div className="absolute inset-0 z-40 flex justify-end bg-black/40"><aside ref={dialogRef} role="dialog" aria-modal="true" aria-label="Editar turno" className="w-full max-w-lg overflow-auto bg-card p-5 space-y-3" onKeyDown={e=>{if(e.key==="Escape")selectShift(undefined);}}><h2 className="text-xl">Turno salvo ou novo turno</h2>
- <label className="block">Pessoa do turno<select value={draft.employeeId} onChange={event=>{const e=employeeOn(document.employees.find(e=>e.id===event.target.value)!,draft.start);patch({employeeId:e.id,role:e.role,roleId:e.roleId});}}>{document.employees.map(e=><option key={e.id} value={e.id}>{e.name}</option>)}</select></label>
- {(["start","end"]as const).map(k=><label className="block" key={k}>{k==="start"?"Entrada do turno":"Saída do turno"}<input type="datetime-local" step="1" value={draft[k]} onChange={e=>patch({[k]:stamp(e.target.value)})}/></label>)}
- <label className="block">Função exercida<select value={draft.roleId??""} onChange={e=>{const role=document.roles?.find(r=>r.id===e.target.value);patch({roleId:role?.id,role:role?.name??""});}}>{document.roles?.map(r=><option key={r.id} value={r.id}>{r.name}</option>)}</select></label>
- <label className="block"><input type="checkbox" checked={Boolean(draft.break)} onChange={e=>patch({break:e.target.checked?{start:draft.start.slice(0,10)+"T12:00:00",end:draft.start.slice(0,10)+"T13:00:00"}:undefined})}/> Incluir intervalo</label>
- {draft.break&&(["start","end"]as const).map(k=><label className="block" key={k}>{k==="start"?"Início da pausa":"Fim da pausa"}<input type="datetime-local" step="1" value={draft.break![k]} onChange={e=>patch({break:{...draft.break!,[k]:stamp(e.target.value)}})}/></label>)}
- <label className="block"><input type="checkbox" checked={draft.pinned??false} onChange={e=>patch({pinned:e.target.checked})}/> Fixar este turno na geração</label>
- <p className="text-xs">Horários civis com segundos. A saída e a pausa podem estar no dia seguinte. Nada será ajustado automaticamente. Origem e anotações existentes são preservadas.</p>
- <Button type="button" onClick={()=>run(()=>setPreview(previewShift(document,draft)))}>Conferir turno</Button>{document.assignments.some(a=>a.id===draft.id)&&<Button type="button" onClick={()=>run(()=>setPreview(previewShift(document,undefined,draft.id)))}>Conferir remoção</Button>}
- {preview&&<section aria-label="Impacto do turno"><p>Cobertura: {Math.round(analysis.coverageScore*100)}% → {Math.round(preview.analysis.coverageScore*100)}% · Conflitos: {analysis.conflicts.filter(c=>c.severity==="error").length} → {preview.analysis.conflicts.filter(c=>c.severity==="error").length}</p><p>Horas planejadas: {analysis.workloads?.reduce((n,w)=>n+w.plannedSeconds,0)??"sem contrato"} → {preview.analysis.workloads?.reduce((n,w)=>n+w.plannedSeconds,0)??"sem contrato"} (segundos líquidos)</p>{preview.analysis.conflicts.filter(c=>c.employeeId===draft.employeeId).slice(0,30).map((c,i)=><p className="text-xs" key={i}>{c.message}<details><summary>Detalhes técnicos</summary>{c.code}</details></p>)}{preview.analysis.conflicts.some(c=>c.severity==="error")&&<label className="block"><input type="checkbox" checked={allow} onChange={e=>setAllow(e.target.checked)}/> Manter explicitamente como rascunho com os conflitos indicados</label>}<Button type="button" onClick={()=>run(()=>applyPlanningPreview(preview,allow))}>Confirmar alteração do turno</Button></section>}
- {error&&<p role="alert">{error}</p>}<Button type="button" onClick={()=>selectShift(undefined)}>Cancelar turno</Button><Button type="button" onClick={()=>setSelectedEmployeeId(draft.employeeId)}>Editar cadastro da pessoa</Button></aside></div>;
+function ShiftForm({initial}:{initial:ShiftAssignment}) {
+  const {document,analysis,selectShift,applyPlanningPreview}=useScheduleStore();
+  const [draft,setDraft]=useState(initial),[preview,setPreview]=useState<PlanningPreview|null>(null);
+  const [allow,setAllow]=useState(false),[error,setError]=useState("");
+  const existing=document.assignments.some(a=>a.id===draft.id);
+  const overlap=shiftOverlapMessage(document,draft);
+  const close=()=>selectShift(undefined);
+  const ref=useRef<HTMLElement>(null);useDialogFocus(ref,close);
+  const patch=(change:Partial<ShiftAssignment>)=>{setDraft({...draft,...change});setPreview(null);setAllow(false);setError("");};
+  const run=(fn:()=>void)=>{try{setError("");fn();}catch(e){setError((e as Error).message);}};
+  const stamp=(v:string)=>v.length===16?v+":00":v;
+  const inputClass="w-full min-w-0 rounded-lg border border-border bg-background px-3 py-2.5 text-base text-foreground";
+  const removing=Boolean(preview&&!preview.document.assignments.some(a=>a.id===draft.id));
+  const errors=preview?.analysis.conflicts.filter(c=>c.severity==="error")??[];
+  const messages=[...new Set(errors.map(c=>{const name=document.employees.find(e=>e.id===c.employeeId)?.name??"Equipe";const day=c.start?.slice(0,10).split("-").reverse().join("/");return name+(day?" · "+day:"")+": "+c.message;}))];
+  function save() {
+    const checked=previewShift(document,draft);
+    if(checked.analysis.conflicts.some(c=>c.severity==="error")){setPreview(checked);setAllow(false);return;}
+    applyPlanningPreview(checked,false);
+  }
+  return <div className="absolute inset-0 z-40 flex justify-end bg-black/40">
+    <aside ref={ref} role="dialog" aria-modal="true" aria-label={existing?"Editar turno":"Criar turno"} className="manual-shift-editor flex w-full max-w-lg flex-col overflow-auto bg-card text-foreground">
+      <header className="flex items-center justify-between border-b border-border px-5 py-4">
+        <h2 className="text-xl font-semibold">{existing?"Editar turno":"Novo turno"}</h2>
+        <IconButton type="button" aria-label="Fechar edição do turno" title="Fechar" onClick={close}><X className="size-5" /></IconButton>
+      </header>
+      <div className="space-y-5 p-5">
+        {(overlap||error)&&<p role="alert" className="rounded-lg border border-red-500/40 bg-red-500/10 p-3 text-sm leading-relaxed">{overlap||error}</p>}
+        <label className="grid gap-2 font-medium">Pessoa
+          <select className={inputClass} value={draft.employeeId} onChange={event=>{const e=employeeOn(document.employees.find(e=>e.id===event.target.value)!,draft.start);patch({employeeId:e.id,role:e.role,roleId:e.roleId});}}>
+            {document.employees.map(e=><option key={e.id} value={e.id}>{e.name}</option>)}
+          </select>
+        </label>
+        <fieldset className="space-y-3"><legend className="mb-2 font-semibold">Horário de trabalho</legend>
+          {(["start","end"]as const).map(k=><label className="grid gap-2" key={k}>{k==="start"?"Entrada":"Saída"}
+            <input className={inputClass} type="datetime-local" step={60} value={draft[k].slice(0,16)} onChange={e=>patch({[k]:stamp(e.target.value)})}/>
+          </label>)}
+        </fieldset>
+        <fieldset className="space-y-3 rounded-xl border border-border p-4"><legend className="px-1 font-semibold">Intervalo</legend>
+          <label className="flex items-center gap-2"><input type="checkbox" checked={Boolean(draft.break)} onChange={e=>run(()=>patch({break:e.target.checked?{start:civilString(civilMillis(draft.start)+4*3600000),end:civilString(civilMillis(draft.start)+5*3600000)}:undefined}))}/> Incluir intervalo</label>
+          {draft.break&&(["start","end"]as const).map(k=><label className="grid gap-2" key={k}>{k==="start"?"Início do intervalo":"Fim do intervalo"}
+            <input className={inputClass} type="datetime-local" step={60} value={draft.break![k].slice(0,16)} onChange={e=>patch({break:{...draft.break!,[k]:stamp(e.target.value)}})}/>
+          </label>)}
+        </fieldset>
+        <details className="rounded-xl border border-border p-4"><summary className="cursor-pointer font-medium">Mais opções</summary>
+          <div className="mt-4 space-y-4">
+            <label className="grid gap-2">Função<select className={inputClass} value={draft.roleId??""} onChange={e=>{const role=document.roles?.find(r=>r.id===e.target.value);patch({roleId:role?.id,role:role?.name??""});}}>{document.roles?.map(r=><option key={r.id} value={r.id}>{r.name}</option>)}</select></label>
+            <label className="flex items-start gap-2"><input type="checkbox" checked={draft.pinned??false} onChange={e=>patch({pinned:e.target.checked})}/> Manter este turno ao gerar a escala</label>
+          </div>
+        </details>
+        {preview&&<section aria-label="Revisão do turno" className="space-y-3 rounded-xl border border-border p-4">
+          <h3 className="font-semibold">{removing?"Remover este turno?":"Confira os conflitos da escala"}</h3>
+          {removing&&<p className="text-sm">Você poderá usar Desfazer para recuperar o turno.</p>}
+          {messages.slice(0,3).map(message=><p className="text-sm leading-relaxed" key={message}>{displayTemporalText(message)}</p>)}
+          {messages.length>3&&<details><summary className="cursor-pointer text-sm">Ver os outros {messages.length-3} conflitos</summary><div className="mt-2 space-y-2">{messages.slice(3).map(message=><p className="text-sm" key={message}>{displayTemporalText(message)}</p>)}</div></details>}
+          <details><summary className="cursor-pointer text-sm">Ver impacto na escala</summary><p className="mt-2 text-sm">Cobertura: {Math.round(analysis.coverageScore*100)}% → {Math.round(preview.analysis.coverageScore*100)}% · Conflitos: {analysis.conflicts.filter(c=>c.severity==="error").length} → {errors.length}</p></details>
+          {errors.length>0&&<label className="flex items-start gap-2 text-sm"><input type="checkbox" checked={allow} onChange={e=>setAllow(e.target.checked)}/> Estou ciente dos conflitos exibidos e quero continuar.</label>}
+        </section>}
+      </div>
+      <footer className="sticky bottom-0 mt-auto flex flex-wrap gap-2 border-t border-border bg-card p-4">
+        <Button type="button" disabled={preview?(!removing&&Boolean(overlap))||(errors.length>0&&!allow):Boolean(overlap)} onClick={()=>run(()=>preview?applyPlanningPreview(preview,allow):save())}>{preview?(removing?"Confirmar remoção":"Salvar com os conflitos indicados"):"Salvar turno"}</Button>
+        <Button type="button" className="bg-card text-foreground dark:bg-card dark:text-foreground" onClick={close}>Cancelar</Button>
+        {existing&&<button type="button" className="ml-auto px-2 text-sm text-red-600 dark:text-red-400" onClick={()=>run(()=>{setAllow(false);setPreview(previewShift(document,undefined,draft.id));})}>Remover turno</button>}
+      </footer>
+    </aside>
+  </div>;
 }

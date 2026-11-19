@@ -1,5 +1,80 @@
 # 028 — Fechamento independente e divulgação
 
+## Estado: PDF concluído e versão final aprovada — 19/11/2026
+
+Após os ajustes de nome do arquivo, agrupamento da função e compactação da tabela,
+o usuário aprovou o resultado e marcou a parte de PDF como concluída. O aceite
+inclui a tabela compacta atual, com nome e função sem repetição desnecessária,
+separação visual por funcionário e nome do arquivo no mesmo padrão do `.escalalivre`.
+
+O usuário aprovou expressamente o resultado atual e solicitou que a geração de
+PDF não seja mais alterada. Este é o contrato final: download direto em PDF da
+escala salva, agrupamento dos dias/horários/intervalos por funcionário, sem a linha
+de cabeçalho anterior e com a logo Escala Livre ao lado da paginação no rodapé.
+Qualquer mudança futura nesta geração depende de um novo pedido explícito do
+usuário para modificar o PDF. A orientação está registrada também no AGENTS.md
+do repositório para ser observada em trabalhos futuros.
+
+## Ajuste solicitado da tabela — 19/11/2026
+
+Por novo pedido explícito do usuário, a função deixa de se repetir nas faixas de
+datas de uma mesma pessoa. Ela aparece na primeira faixa e sempre que mudar,
+inclusive ao retornar a uma função anterior. Pessoas diferentes com a mesma
+função continuam identificadas individualmente. O nome permanece uma única vez.
+
+A tabela passa a alternar o fundo por funcionário, com nome em negrito e divisória
+entre pessoas, removendo as linhas horizontais internas de cada grupo. Datas,
+horários, intervalos, agrupamento de dias consecutivos, fontes, cabeçalho da tabela,
+logo e paginação são preservados. O padrão do nome do arquivo PDF permanece igual
+ao nativo, com extensão `.pdf`.
+
+Validação: 12 testes de PDF aprovados, incluindo regressões para faixas separadas,
+funções iguais em pessoas diferentes e mudanças de função com retorno. Três PDFs
+de conferência foram renderizados: tabela semelhante ao exemplo do usuário,
+30 pessoas em 8 páginas e nomes/funções longos em 2 páginas. A extração confirmou
+nomes/cargos sem repetição indevida, datas e mudanças de função; as páginas foram
+inspecionadas visualmente. A revisão não envolve implantação ou CI remota.
+
+### Compactação posterior solicitada — 19/11/2026
+
+A pedido do usuário, o preenchimento vertical das células caiu de 5 para 1,5 pt
+em cada lado e o espaço após os parágrafos da tabela foi zerado. O cabeçalho usa
+2,5 pt em cada lado; o tamanho da fonte continua em 8,5 pt. A distância medida
+entre linhas simples caiu de 24,58 para 14,58 pt (40,7%). No mesmo exemplo de
+30 funcionários e 150 faixas, o PDF passou de 8 para 5 páginas. Os 12 testes de
+PDF e a conferência de conteúdo foram aprovados; os exemplos compacto, extenso e
+com textos longos foram renderizados e inspecionados. Sem implantação/CI remota.
+
+## Substituição da interface — 19/11/2026
+
+Por solicitação do usuário, o cabeçalho oferece somente “Baixar PDF”, com download
+direto da escala atualmente salva no período. O painel de fechamento, seleção de
+versão/destinatário, reconhecimentos e botões PNG/XLSX foi retirado. Não se cria
+snapshot ao imprimir. Dados de versões anteriores continuam preservados nos
+arquivos e seus contratos de importação, recuperação e undo/redo.
+
+O PDF agrupa dias civis consecutivos com os mesmos horários, função e intervalo
+por identidade de funcionário. O nome aparece apenas no primeiro grupo da pessoa.
+Folgas e mudanças separam os grupos; segundos e offsets noturnos são mantidos.
+Somente turnos salvos dentro do período selecionado são enviados, com projeção
+sanitizada de nomes/funções/turnos. Propostas não aplicadas e prévias não são impressas.
+O documento atual não recebe marca de rascunho ou versão. O texto abaixo registra
+o contrato histórico, não o fluxo atual da interface.
+
+Ajuste visual de 19/11/2026: removido o cabeçalho “ESCALA LIVRE / ESCALA DA EQUIPE”.
+A logo vetorial do calendário e o nome Escala Livre aparecem no rodapé de todas
+as páginas, à esquerda da paginação. Exportação real renderizada e conferida;
+os 10 testes de agrupamento/PDF e a compilação da API passaram.
+
+Validação local da simplificação: 10 testes de agrupamento/PDF aprovados;
+750 testes frontend aprovados. O PDF de três dias com Edson e Alex foi exportado
+pela API, renderizado e inspecionado: uma página, duas linhas, cada nome uma vez,
+sem marca de rascunho. Paginação com muitos funcionários e nomes longos continua
+testada. O clique real em “Baixar PDF” no navegador baixou o arquivo diretamente,
+sem abrir painel. A suíte geral encontrou temporariamente expectativas antigas
+durante alterações simultâneas na geração; após alinhar a mensagem de uma
+asserção, as verificações finais passaram. Sem commit, envio ou CI remota.
+
 Data: 11/11/2026. Task 09. Baseline 18fc7f4; trabalho local sem commit/push.
 
 ## Decisão

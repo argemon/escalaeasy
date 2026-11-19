@@ -1,3 +1,4 @@
+import { displayTemporalText } from "../lib/displayTime";
 import { employeeOn, activeOn } from "../lib/policies/employment";
 import { documentSchema } from "../lib/documentSchema";
 import { datePart, timePart, displayClock, nowInstant } from "../lib/dateTime";
@@ -69,7 +70,7 @@ export function HolidayEditor({date,onClose}:{date:string;onClose:()=>void}) {
           <div className="flex gap-2"><Button type="button" onClick={()=>{setEditingId(a.id);setEmployeeId(a.employeeId);setStartsAt(timePart(a.start));setEndsAt(timePart(a.end));setError("");}}>Editar</Button><Button type="button" onClick={()=>{setShifts(rows=>rows.filter(s=>s.id!==a.id));if(editingId===a.id)setEditingId(undefined);}}>Remover</Button></div>
         </li>)}</ul>
       </section>
-      {error && <p role="alert" className="text-sm text-red-600">{error}</p>}
+      {error && <p role="alert" className="text-sm text-red-600">{displayTemporalText(error)}</p>}
       <div className="flex flex-wrap gap-2"><Button type="submit">Salvar feriado e escala</Button><Button type="button" onClick={onClose}>Cancelar</Button>{current && !current.national && <Button type="button" onClick={()=>{setDocument({...document,company:{...document.company,holidays:document.company.holidays?.filter(h=>h.date!==date)},updatedAt:nowInstant()});onClose();}}>Remover feriado local</Button>}</div>
     </form>
   </div>;

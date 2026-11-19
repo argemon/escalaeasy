@@ -33,7 +33,7 @@ Montar uma escala manualmente exige conciliar decisões que se afetam o tempo to
 
 ## Primeiros passos
 
-Na lateral **Configure sua escala**, preencha os quatro cadastros na ordem indicada. Os números, as marcações de conclusão e o contador ajudam a acompanhar o progresso; o botão **Continuar** leva à próxima etapa.
+Na lateral **Configure sua escala**, preencha os quatro cadastros na ordem indicada. Depois de concluídos, eles ficam recolhidos em **Configurações**, com acessos para editar. Os números, as marcações de conclusão e o contador ajudam a acompanhar o progresso; o botão **Continuar** leva à próxima etapa.
 
 | Etapa | O que preencher |
 | --- | --- |
@@ -45,12 +45,20 @@ Na lateral **Configure sua escala**, preencha os quatro cadastros na ordem indic
 Depois dos cadastros:
 
 1. No cabeçalho, escolha **Início** e **Fim (inclusive)** e clique em **Aplicar período**.
-2. Abra o botão verde **Assistente de escala**, com o ícone de brilho, e clique em **Gerar escala**. A etapa **5. Revisar e gerar** também abre o assistente quando os quatro cadastros estão completos.
-3. Revise a proposta e suas inclusões, alterações e remoções. Clique em **Aplicar proposta de geração** para confirmar ou rejeite para manter a escala atual. Depois confira cobertura, carga incompleta e conflitos no resumo operacional.
+2. Abra **Gerar**, com o ícone de brilho, e clique em **Gerar escala**. A etapa **5. Revisar e gerar** também abre o assistente quando os quatro cadastros estão completos.
+3. Ao concluir a geração, a escala já fica aplicada. Confira cobertura, carga incompleta e conflitos no resumo operacional. Use **Desfazer** se quiser voltar à escala anterior.
 4. Consulte a escala diária, semanal ou mensal. Na semana, cada pessoa aparece uma única vez, com os horários nas colunas dos dias.
-5. Edite e fixe os combinados, registre ausências e confira substituições quando necessário. Use **Fechar e divulgar** para guardar uma versão e baixar PDF, PNG ou XLSX; **Dados e opções → Exportar** guarda o arquivo completo `.escalalivre`.
+5. Edite e fixe os combinados, registre ausências e confira substituições quando necessário. Use **Baixar PDF** para imprimir a escala salva no período; **Dados e opções → Exportar** guarda o arquivo completo `.escalalivre`.
 
-**O Assistente de escala é onde a geração acontece.** As prévias exibidas antes da geração são estimativas dos cadastros; não confirmam jornada, folgas ou descanso. Para gerar, é necessário ter pessoas cadastradas e ao menos uma regra de cobertura com quantidade maior que zero, além da API disponível.
+**Gerar abre o Assistente de escala, onde a geração acontece.** As prévias exibidas antes da geração são estimativas dos cadastros; não confirmam jornada, folgas ou descanso. Para gerar, é necessário ter pessoas cadastradas e ao menos uma regra de cobertura com quantidade maior que zero, além da API disponível.
+
+## Navegação e qualidade do planejamento
+
+Acesse diretamente **Escala do dia**, **Escala semanal** e **Escala mensal**. Use **Cobertura** para pessoas por horário e lacunas e o botão destacado **Gerar Escala** para o cálculo e a revisão. Nas lacunas, **Entender e resolver** mostra alternativas locais, impedimentos e acessos ao cadastro e à escala. Um timeout não comprova impossibilidade.
+
+Em Gerar, escolha **Preservar o máximo possível dos horários atuais** e **Equilibrar domingos, feriados, fechamentos e noturnos**. Cobertura, intervalos e carga contratada têm prioridade. A preservação vem antes do equilíbrio; desmarque-a para dar mais liberdade ao rodízio. O equilíbrio considera a função, a carga de referência e até 28 dias anteriores presentes no arquivo, dentro do tempo disponível de cálculo. O indicador **Equilíbrio entre pessoas** separa as contagens do período das históricas e não declara conformidade ou justiça.
+
+Em **Dados e opções → Versões arquivadas**, guarde e consulte referências imutáveis, reconhecendo pendências quando permitido. Elas acompanham o arquivo nativo; o botão **Baixar PDF** mantém a escala salva do período atual. [Contrato e limites desta evolução](docs/decisions/030-planning-privacy-and-quality.md).
 
 ## Um exemplo: vendedores todos os dias
 
@@ -103,7 +111,7 @@ A execução possui limite de tempo e pode encontrar uma solução viável sem c
 | **Operação fora do expediente** | Autorizar necessidades específicas em outros horários ou dias, como segurança e limpeza. |
 | **Intervalos flexíveis ou fixos** | Priorizar a pausa mínima, ampliar somente para reduzir lacunas de cobertura ou respeitar o intervalo fixo de uma pessoa. |
 | **Feriados e turnos especiais** | Configurar abertura ou fechamento por data e manter turnos específicos mesmo com a empresa fechada. |
-| **Geração com revisão** | Gerar o período ou um recorte, preservar turnos fixados e aplicar somente uma proposta confirmada. |
+| **Geração direta** | Gerar e aplicar a escala do período ou recorte, preservar turnos fixados e permitir Desfazer. |
 | **Edição e desfazer/refazer** | Criar, editar e remover turnos com prévia do impacto, precisão de segundos e histórico de operações da sessão. |
 | **Cópia e troca de turnos** | Copiar uma semana, resolver colisões e conferir a troca completa de responsáveis antes de aplicar. |
 | **Fila e tempo de espera** | Acompanhar a posição real, os pedidos à frente, a estimativa de espera e o tempo decorrido até receber a escala. |
@@ -120,7 +128,7 @@ A execução possui limite de tempo e pode encontrar uma solução viável sem c
 | **Fechamento e divulgação** | Guardar versões independentes por período e exportar PDF paginado, PNG em páginas ou XLSX, para equipe ou pessoa. |
 | **Temas claro e escuro** | Usar a interface em português, com explicações das abas e contraste adaptado ao tema. |
 
-O formato `.escalalivre` guarda o documento completo, incluindo versões fechadas. O painel **Fechar e divulgar** prepara saídas para a equipe; PDF/XLSX usam o serviço de exportação, e PNG é gerado no navegador.
+O formato `.escalalivre` guarda o documento completo, incluindo versões fechadas. O botão **Baixar PDF** imprime diretamente a escala salva no período atual, agrupando dias consecutivos com horários e intervalos iguais.
 
 ## Período de planejamento e geração
 
@@ -130,7 +138,7 @@ Ao aplicar uma geração, o sistema substitui os turnos **pela data em que come�
 
 - Turnos **fixados** permanecem integralmente, com pessoa, horários e pausa. Turnos livres que começam dentro do período ou recorte podem ser substituídos por inteiro, mesmo que terminem no dia seguinte.
 - Turnos que começam antes ou depois são preservados e considerados nas regras de descanso, jornada e cobertura.
-- A geração apresenta uma proposta com inclusões, alterações e remoções, sem aplicá-la automaticamente. Rejeitar ou cancelar mantém a escala; falha ou resposta sem solução viável também preserva os turnos. Uma solução com lacunas pode ser revisada e confirmada.
+- A geração aplica automaticamente a escala assim que recebe um resultado válido. Desfazer restaura o planejamento anterior. Cancelamento, falha ou resposta sem solução viável preservam os turnos. Lacunas são exibidas como pontos de atenção na escala aplicada.
 
 Por exemplo, gerar de **19/10 a 21/10** pode substituir um turno livre iniciado às 22h de 21/10 e encerrado às 6h de 22/10. Um turno iniciado às 22h de 18/10 e qualquer turno fixado permanecem intactos. O recorte de geração deve estar dentro do período selecionado.
 
@@ -166,7 +174,7 @@ No menu **Dados e opções**, no cabeçalho:
 
 São mantidas até **três cópias de planejamento** para recuperação, além dos conteúdos preservados em falhas. Se não for possível confirmar a cópia anterior, a importação ou aplicação da geração é bloqueada para proteger o documento atual. Arquivos nativos têm limite de **1 MiB**; downloads brutos de recuperação em `.json` podem precisar de reparo antes de serem usados como planejamento.
 
-**Edição, análise local, PNG e importação/exportação nativa funcionam sem consultar a API. A geração automática e as saídas PDF/XLSX precisam do backend.** Ao gerar, o documento é enviado à API configurada. Consulte [recuperação de dados](docs/recovery.md) para o comportamento em falhas.
+**Edição, análise local, PNG e importação/exportação nativa funcionam sem consultar a API. A geração automática e as saídas PDF/XLSX precisam do backend.** Ao gerar, a API recebe uma projeção de cálculo: nomes são substituídos por identificadores, ausências usam categoria neutra e versões arquivadas não são enviadas. Horários, funções, restrições, créditos e histórico necessários às regras continuam presentes. Isso reduz dados enviados e não equivale a anonimização. O PDF envia os nomes necessários à impressão. Consulte [recuperação de dados](docs/recovery.md) para o comportamento em falhas.
 
 ## Recursos em detalhe
 
@@ -176,7 +184,7 @@ O cadastro começa pelos dados essenciais; configurações individuais ficam nos
 
 Mudanças de função podem ter uma **data de vigência** e uma opção explícita de adequar os turnos futuros. Turnos anteriores são preservados. Inativar uma pessoa impede novas alocações a partir da data escolhida e mantém os turnos existentes para revisão.
 
-Abra um turno salvo na escala diária, semanal ou mensal para conferir pessoa, função, entrada, saída, pausa e fixação. A alteração é aplicada somente após revisar seu impacto. Conflitos obrigatórios exigem ciência explícita para manter um rascunho; isso não torna a escala pronta para fechamento. **Desfazer/Refazer** guarda até 20 operações, sujeito à cota de memória da sessão; recarregar, importar ou recuperar um documento reinicia esse histórico. Versões fechadas não são apagadas por desfazer.
+Abra um turno salvo na escala diária, semanal ou mensal para conferir pessoa, função, entrada, saída, pausa e fixação. A alteração é aplicada somente após revisar seu impacto. Conflitos obrigatórios exigem ciência explícita para manter a escala com os conflitos indicados. **Desfazer/Refazer** guarda até 20 operações, sujeito à cota de memória da sessão; recarregar, importar ou recuperar um documento reinicia esse histórico. Versões fechadas não são apagadas por desfazer.
 
 Em **Ausências e substituições**, registre categoria, datas e eventuais dispensas explícitas por dia. A categoria, sozinha, não concede crédito de horas. Confira os turnos atingidos e escolha manter, remover ou substituir; um turno fixado precisa ser desafixado antes de uma substituição. A proposta inteira é reavaliada, e a busca pode informar que não há candidato elegível.
 
@@ -264,17 +272,15 @@ A **escala mensal** apresenta cartões por dia, com pessoa, função, entrada, s
 
 Os cabeçalhos dos dias permanecem visíveis durante a rolagem. As visualizações resumem horários como **07:30**; o editor e as exportações preservam segundos. **+1d** indica que o turno termina no dia seguinte. No calendário mensal, arrastar um turno salvo abre a alteração para revisão; prévias servem para consulta.
 
-### Feche uma versão e divulgue a escala
+### Imprima a escala em PDF
 
-Clique em **Fechar e divulgar** e escolha o rascunho ou uma versão fechada. O fechamento guarda uma cópia independente com identidade, número, período, instante, nomes, funções, turnos e pausas. Alterar o cadastro ou a escala depois disso não muda a versão entregue. Refazer o fechamento cria outra versão; a versão vigente é escolhida para cada período, preservando as anteriores. Em períodos sobrepostos, selecione explicitamente qual versão deseja divulgar.
+Clique em **Baixar PDF**. O arquivo contém a empresa e a escala salva no período atual. O conteúdo corresponde aos turnos salvos no momento do clique.
 
-Conflitos obrigatórios detectados, inclusive no histórico, bloqueiam o fechamento. Lacunas, carga incompleta, avisos e preferências exigem reconhecimento explícito por categoria. A versão guarda somente contagens dessas pendências, sem motivos privados. Fechar não equivale a assinatura digital ou proteção contra edição externa do arquivo.
+Cada funcionário aparece uma vez, seguido dos períodos em que fará o mesmo horário e intervalo. Por exemplo: **04/11/2026 a 06/11/2026 · 07:30 - 16:30 · intervalo 11:30 - 12:30**. Folgas e mudanças de horário, função ou pausa separam os grupos. Segundos diferentes de zero e viradas para o dia seguinte são preservados.
 
-Escolha **Equipe completa** ou uma pessoa e baixe **PDF**, **PNG (páginas em ZIP)** ou **XLSX**. As saídas incluem empresa, período, versão, horários com segundos, pausas e legenda. O rascunho recebe a marca **RASCUNHO**. O PDF usa A4 horizontal paginado, o PNG é dividido em imagens legíveis e o XLSX exporta texto seguro, sem fórmulas geradas a partir dos nomes. Ausências, anotações internas e detalhes pessoais desnecessários ficam fora da divulgação.
+O PDF usa A4 horizontal paginado. Ausências, anotações internas e detalhes pessoais ficam fora da impressão. Imprimir não altera o planejamento nem cria uma versão arquivada. A impressão depende da API disponível.
 
-A data e hora de fechamento são apresentadas conforme o PC de quem usa o sistema, sem imprimir a localização do horário. Os horários já registrados nos turnos são mantidos.
-
-São permitidas até **10 versões**, com **1.000 turnos e 200 pessoas por versão**, **256 KiB por versão** e **512 KiB no conjunto**, dentro do limite nativo de **1 MiB**. PNG tem limite de **200 páginas/64 MiB**. Ao atingir uma cota, reduza o período ou exporte/arquive e inicie outro documento; versões não são apagadas automaticamente para liberar espaço. Consulte o [contrato de fechamento e divulgação](docs/decisions/028-publication-snapshots.md).
+Versões existentes em arquivos antigos continuam preservadas no documento nativo. O [contrato histórico de fechamento](docs/decisions/028-publication-snapshots.md) registra a substituição da interface pela impressão direta.
 
 ## Por que a proposta é diferente
 
@@ -546,7 +552,7 @@ As direções abaixo são possibilidades de evolução, ainda não recursos comp
 
 ## Estado atual
 
-O EscalaLivre está em desenvolvimento, com cadastro/importação de equipe, histórico de vigências, cobertura exclusiva, geração com proposta, edição/desfazer, ausências/substituições, cópia/troca de turnos, resumo com ações e fechamento/exportação de versões implementados. O domínio contém tipos validados e operações protegidas de planejamento; análise e validação usam um avaliador comum, separado da otimização. Os regimes declaram capacidades de trabalho, descanso e ciclo, mantendo os tipos públicos `dayBased` e `hourBased`.
+O EscalaLivre está em desenvolvimento, com cadastro/importação de equipe, histórico de vigências, cobertura exclusiva, geração com aplicação automática, edição/desfazer, ausências/substituições, cópia/troca de turnos, resumo com ações e fechamento/exportação de versões implementados. O domínio contém tipos validados e operações protegidas de planejamento; análise e validação usam um avaliador comum, separado da otimização. Os regimes declaram capacidades de trabalho, descanso e ciclo, mantendo os tipos públicos `dayBased` e `hourBased`.
 
 O motor trabalha com candidatos discretos de turnos e intervalos e com as regras atualmente modeladas. A geração é reavaliada antes de aplicar o resultado, preservando os dados anteriores em falhas. A preparação para produção ainda exige validação da versão publicada na hospedagem escolhida, configuração de HTTPS/proxy/recursos e acompanhamento operacional. A fila atual pertence a uma única instância e perde pedidos/resultados ao reiniciar; os arquivos e as cópias locais continuam sob responsabilidade do dispositivo do usuário.
 

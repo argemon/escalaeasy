@@ -1,3 +1,4 @@
+import { displayTemporalText } from "../lib/displayTime";
 import { useEffect, useState } from "react";
 import { Clock3, Loader2 } from "lucide-react";
 import { durationLabel } from "../lib/queuedSolve";
@@ -30,6 +31,6 @@ export function GenerationProgress() {
       <p className="text-xs text-muted-foreground">O EscalaLivre é gratuito e atende os pedidos em fila para economizar recursos. Os tempos são aproximados e podem mudar. Mantenha esta página aberta; você pode consultar outras abas do app durante a espera.</p>
       <Button type="button" onClick={() => void cancel()} disabled={!progress || cancelling} className="bg-card text-foreground dark:bg-card dark:text-foreground">{cancelling ? "Aguardando cancelamento…" : "Cancelar geração"}</Button>
     </section>}
-    {message && <p role="status" className="text-sm text-foreground">{message}</p>}
+    {message && <p role="status" className="text-sm text-foreground">{displayTemporalText(message)}</p>}
   </>;
 }

@@ -1,3 +1,4 @@
+import { displayTemporalText } from "../lib/displayTime";
 import { documentSchema } from "../lib/documentSchema";
 import { nowInstant } from "../lib/dateTime";
 import { useState } from "react";
@@ -30,7 +31,7 @@ export function RolesEditor() {
       </fieldset>
       <Button type="submit">{editing ? "Salvar função" : "Cadastrar função"}</Button>
       {editing && <Button type="button" onClick={() => { setEditing(undefined); setName(""); setCoverageRoleIds([]); setError(""); }}>Cancelar</Button>}
-      {error && <p role="alert" className="text-sm text-red-500">{error}</p>}
+      {error && <p role="alert" className="text-sm text-red-500">{displayTemporalText(error)}</p>}
     </form>
   );
   return <section className="space-y-3">

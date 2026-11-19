@@ -14,10 +14,12 @@ public sealed class PdfExportTests
         var employee=new Employee(Guid.NewGuid(),longText?new string('W',256):"João Gonçalves (Equipe \\ A)",longText?new string('M',256):"Recepção",true,rule,[],[],[],false,false,[]);
         var company=new CompanyRules("Organização São José",new(8,0),new(18,0),[DayOfWeek.Monday],rule,
             new(TimeSpan.FromHours(1),TimeSpan.FromHours(2),TimeSpan.FromHours(4)),TimeSpan.FromHours(11),[]);
-        var assignments=Enumerable.Range(0,shifts).Select(i=>new ShiftAssignment(Guid.NewGuid(),employee.Id,employee.Role,
-            new DateTime(2026,10,1,22,0,0).AddDays(i),new DateTime(2026,10,2,6,0,0).AddDays(i),
-            new(new DateTime(2026,10,2,2,0,0).AddDays(i),new DateTime(2026,10,2,3,0,0).AddDays(i)),"manual",[])).ToArray();
-        return new("1.0.0",Guid.NewGuid(),company,[employee],assignments,DateTimeOffset.UtcNow,new(new(2026,10,1),new(2026,10,31)));
+        // Distinct people still require pagination; equal daily shifts now collapse into one range.
+        var employees=Enumerable.Range(0,Math.Max(shifts,1)).Select(_=>employee with{Id=Guid.NewGuid()}).ToArray();
+        var assignments=Enumerable.Range(0,shifts).Select(i=>new ShiftAssignment(Guid.NewGuid(),employees[i].Id,employee.Role,
+            new DateTime(2026,10,1,22,0,0),new DateTime(2026,10,2,6,0,0),
+            new(new DateTime(2026,10,2,2,0,0),new DateTime(2026,10,2,3,0,0)),"manual",[])).ToArray();
+        return new("1.0.0",Guid.NewGuid(),company,employees,assignments,DateTimeOffset.UtcNow,new(new(2026,10,1),new(2026,10,31)));
     }
     [Theory]
     [InlineData(0,false)]

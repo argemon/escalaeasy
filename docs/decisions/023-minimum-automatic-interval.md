@@ -1,5 +1,81 @@
 # Intervalo automático mínimo — 03/11/2026
 
+## Cobertura do mês completo — 19/11/2026
+
+O arquivo recebido para novembro reproduziu 90% de cobertura: entradas fixas às
+07:30, 8h líquidas e pausas de 1h encerravam todos os turnos às 16:30, antes do
+fechamento às 17:30. A busca ampliada não encontrava uma solução no tempo restante.
+
+A busca mínima parcial agora entrega seu resultado de cobertura antes de gastar
+tempo com preferências inferiores. A união de todos os candidatos de intervalo
+mínimo fornece um limite otimista de cobertura: ignora incompatibilidades entre
+candidatos, portanto nunca prova viabilidade. Quando até essa união deixa uma
+lacuna, ela prova que nenhuma seleção mínima pode eliminá-la. Isso permite evitar
+uma tentativa de antecipação incapaz de melhorar esse limite e, quando aplicável,
+a prova nativa redundante de impossibilidade. Nos demais casos a verificação
+nativa permanece obrigatória; timeout continua sem justificar ampliação.
+
+O adaptador reutiliza presença na função somente quando todos os candidatos
+presentes daquela pessoa são elegíveis à exigência. As sugestões iniciais ordenam
+cobertura antes de ampliação; continuam sendo sugestões, sujeitas a todas as
+restrições. Probing é desativado para que as buscas curtas sucessivas possam chegar
+à procura de soluções. Prazo total de cinco segundos e um worker são preservados.
+A menor ampliação total continua exigindo prova de otimalidade no modelo.
+
+Regressões incluem o mês recebido, com nomes descritivos substituídos, 38 turnos
+novos de 8h líquidas, cobertura integral, 19h totais de ampliação e histórico
+preservado; limite otimista; e HTTP/worker com comparação da análise TypeScript.
+Nenhuma política pura de intervalo, formato do arquivo ou PDF foi alterado.
+
+Validação local: suíte .NET completa com 896 testes aprovados, seguida de 15
+regressões de intervalo aprovadas após acrescentar a verificação do limite
+otimista; 781 testes frontend; 36 testes HTTP/worker, incluindo o mês completo e
+comparação C#/TypeScript. A primeira execução conjunta com a suíte frontend
+concorrente esgotou o prazo mensal; a matriz .NET repetida sem essa concorrência
+passou. O orçamento continua dependente da carga disponível, sem garantia geral
+contra timeout. Serviço local atualizado nas portas 5003 e 5082; regeneração do
+arquivo original conferida pelo serviço e análise TypeScript: 100%, zero lacunas,
+48 turnos totais (38 no período e 10 históricos), versões publicadas preservadas.
+Diff conferido. Sem integração ou publicação remota.
+
+## Reforço de necessidade — 19/11/2026
+
+Uma solução com pausas ampliadas não pode ser aceita apenas porque a primeira
+tentativa com pausas mínimas terminou com timeout, ou encontrou uma solução pior.
+Após encontrar melhora de cobertura, o gerador verifica novamente, com antecipação
+permitida, se pausas mínimas conseguem o mesmo déficit. Se conseguem, escolhe essa
+solução; se a verificação fica inconclusiva, conserva a solução mínima anterior.
+Só aceita a ampliação quando essa alternativa mínima é comprovadamente inviável
+no modelo e a menor ampliação total para a cobertura atingida é comprovada.
+Todas as tentativas continuam dentro do orçamento nativo total de cinco segundos.
+
+Intervalos individuais fixos, fechamento obrigatório e rotinas ancoradas por
+turnos preservados continuam restrições explícitas. O gerador não reescreve o
+histórico para remover esses vínculos. Os cartões mensal/diário e semanal mostram
+“Intervalo maior”, duração e acréscimo quando a pausa salva excede o mínimo efetivo.
+Pausas legadas sem comprovação não recebem justificativa automática de cobertura.
+As políticas de mínimo C#/TS, a prévia e o formato do documento permanecem iguais.
+
+Regressões novas cobrem duas pausas mínimas desencontradas que atendem toda a
+demanda, ausência de solução mínima inicial, prazo inconclusivo, empate de
+cobertura e ampliação necessária de apenas 30 minutos em vez de uma hora.
+
+Verificação local desta revisão:
+
+- Suíte .NET completa: 879 aprovados (477 adaptador, 356 análise, 33 API, 13 arquitetura).
+- Frontend: 743 aprovados em America/Cuiaba e America/New_York; build e lint aprovados.
+- Rechecagem final dos intervalos: 13 testes .NET e 19 frontend aprovados,
+  incluindo o marcador de ampliação verificada e o aviso para pausas legadas.
+- HTTP/worker: 33/34 passaram na execução conjunta; o cenário de contratos
+  mistos não encontrou solução dentro do orçamento nesse primeiro teste e
+  passou isoladamente, sem alteração de prazo ou asserções. O teste HTTP de
+  intervalos passou com três dias, mínimo de uma hora e ampliação de 30 minutos.
+- Serviço local recompilado/reiniciado: cenário de três dias com duas pessoas,
+  seis turnos com uma hora de pausa, cobertura completa e resposta HTTP 200.
+- Diff revisado. Sem integração, publicação ou execução da CI remota.
+
+## Decisão original
+
 Pedido: preferir o menor intervalo da empresa; ampliar somente quando reduz
 lacunas. Reprodução anterior: MinimumIntervalGenerationTests encontrou 2h em vez
 de 1h com cobertura parcial idêntica; ao cobrir até 17h, escolheu 45 minutos

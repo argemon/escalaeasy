@@ -1,3 +1,4 @@
+import { displayTemporalText } from "../lib/displayTime";
 import { AbsenceEditor } from "./AbsenceEditor";
 import { EmploymentEditor } from "./EmploymentEditor";
 import { useState } from "react";
@@ -25,6 +26,6 @@ export function TeamTools(){
  <label className="block">Arquivo de equipe<input type="file" accept=".csv,.xlsx" disabled={busy} onChange={async e=>{const file=e.target.files?.[0];e.target.value="";if(!file)return;setBusy(true);setError("");setLines([]);const base=useScheduleStore.getState().document;try{const rows=await readTeamFile(file);setLines(previewTeamImport(base,rows,()=>crypto.randomUUID()));setBaseline(JSON.stringify(base));}catch(err){setError((err as Error).message);}finally{setBusy(false);}}}/></label>
  {busy&&<p role="status">Lendo arquivo…</p>}
  {lines.length>0&&<section aria-label="Prévia da importação">{lines.map((line,i)=><div key={line.line} className="border-b border-border py-2"><p>Linha {line.line}: {line.values.join(" · ")}</p>{line.employee&&<p className="text-xs">{line.employee.workload.workUnits} dias / {line.employee.workload.restUnits} folgas · máximo {line.employee.workload.weeklyLimitHours}h · contrato {(line.employee.workload.weeklyPlan?.contractedSeconds??0)/3600}h</p>}{line.error&&<p role="alert">{line.error}</p>}<label><input type="checkbox" checked={line.excluded} onChange={e=>setLines(lines.map((l,j)=>j===i?{...l,excluded:e.target.checked}:l))}/> Excluir esta linha</label>{line.duplicate&&<label className="block"><input type="checkbox" checked={line.acknowledged} onChange={e=>setLines(lines.map((l,j)=>j===i?{...l,acknowledged:e.target.checked}:l))}/> Nome repetido: confirme que é outra pessoa</label>}</div>)}<Button onClick={confirmImport}>Confirmar importação</Button><Button onClick={()=>setLines([])}>Cancelar importação</Button></section>}
- {error&&<p role="alert">{error}</p>}
+ {error&&<p role="alert">{displayTemporalText(error)}</p>}
  </details>;
 }

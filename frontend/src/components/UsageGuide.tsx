@@ -8,9 +8,9 @@ const steps = [
   { title: "Defina a cobertura", description: "Na etapa Cobertura, informe quantas pessoas de cada função são necessárias em cada dia e faixa de horário." },
   { title: "Adicione a equipe", description: "Na etapa Equipe, cadastre as pessoas, suas funções, jornadas e disponibilidades ou restrições individuais." },
   { title: "Escolha o período", description: "No cabeçalho, ajuste Início e Fim (inclusive) e clique em Aplicar período para definir as datas do planejamento." },
-  { title: "Gere a escala", description: "Abra o Assistente de escala ou a etapa Revisar e gerar. Confira as informações e clique em Gerar escala. A geração precisa da API disponível; as prévias mostradas antes dela são apenas estimativas." },
+  { title: "Gere a escala", description: "Abra Gerar ou a etapa Revisar e gerar. Confira as informações e clique em Gerar escala. Ao concluir, a escala já fica aplicada; use Desfazer se quiser voltar. A geração precisa da API disponível; as prévias mostradas antes dela são apenas estimativas." },
   { title: "Revise o resultado", description: "Confira os conflitos, os intervalos e os horários em que faltam pessoas. Use as visualizações diária, semanal e mensal para revisar os turnos. Uma escala gerada pode ainda deixar demanda descoberta." },
-  { title: "Guarde e compartilhe", description: "O planejamento fica neste dispositivo. Em Dados e opções → Exportar, baixe seu arquivo .escalalivre para guardar uma cópia ou abrir em outro computador com Importar. Use Imprimir para preparar a escala para o mural." },
+  { title: "Guarde e compartilhe", description: "O planejamento fica neste navegador. A geração processa horários e restrições no servidor, sem enviar nomes reais nem categorias de ausência. Em Dados e opções → Exportar, baixe seu arquivo .escalalivre para guardar uma cópia ou abrir em outro computador com Importar. Use Baixar PDF para preparar a escala para o mural. Em Versões arquivadas, guarde uma referência para consulta." },
 ];
 
 export function UsageGuide({ onClose }: { onClose: () => void }) {

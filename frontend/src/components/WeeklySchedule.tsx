@@ -1,9 +1,10 @@
+import { displayDuration as secondsDuration } from "../lib/displayTime";
 import { useState } from "react";
-import { secondsDuration } from "../lib/policies/weeklyWorkPlan";
 import { datePart, displayClock, timePart } from "../lib/dateTime";
 import { authorizedHolidayShift, holidayOn } from "../lib/holidays";
 import { weekStart } from "../lib/printSchedule";
 import { weeklyCoverage } from "../lib/weeklyCoverage";
+import { intervalNotice } from "../lib/intervalNotice";
 import { outsideOperatingHours } from "../lib/coverageRules";
 import { dayLabels } from "../lib/planning";
 import { useScheduleStore } from "../store/scheduleStore";
@@ -64,8 +65,9 @@ export function WeeklySchedule() {
                   const overnight = datePart(shift.end) > datePart(shift.start);
                   const label = displayClock(shift.start) + "–" + displayClock(shift.end) + (overnight ? " +1d" : "");
                   const outside = !authorizedHolidayShift(document.company, shift) && outsideOperatingHours(document.company, day.getDay(), timePart(shift.start), timePart(shift.end));
+                  const notice = intervalNotice(document.company, employee, shift);
                   return <button key={shift.id} className={"block w-full rounded border-l-2 pl-2 text-left " + (outside ? "border-amber-500" : shift.planned ? "border-dashed border-border" : "border-primary")} title={employee.name + " · " + dateLabel(day) + " · " + label} onClick={() => shift.planned ? window.alert("Prévia estimada. Use Criar turno para salvar um horário explícito.") : selectShift({id:shift.id,employeeId:employee.id,date:key})}>
-                    <span className="block font-semibold tabular-nums">{shift.pinned&&"🔒 "}{label}</span>
+                    <span className="flex items-center gap-1 whitespace-nowrap font-semibold tabular-nums">{shift.pinned&&"🔒 "}{label}{notice && <span className="text-[10px] text-amber-700 dark:text-amber-300" aria-label={notice.label} title={notice.label + ". " + notice.description}>{notice.shortLabel}</span>}</span>
                     {shift.break && <span className="block text-[10px] text-muted-foreground">Int. {displayClock(shift.break.start)}–{displayClock(shift.break.end)}</span>}
                     {shift.planned && <span className="block text-[10px] text-muted-foreground">Prévia</span>}
                     {outside && <span className="block text-[10px] text-amber-700 dark:text-amber-300">Fora do expediente</span>}

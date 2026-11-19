@@ -27,11 +27,13 @@ public sealed class PlanningEditorTests
     }
 
     [Fact]
-    public void StructurallyValidConflictingShiftsRemainEditableAndDiagnostic()
+    public void InheritedConflictingShiftsRemainEditableButCannotBeNewlyAssigned()
     {
         var request = AnalysisContractTests.Request(); var original = request.Document.Assignments.Single();
         var added = original with { Id = Guid.NewGuid(), Start = original.Start.AddHours(1), End = original.End.AddHours(4), Break = null };
-        var assigned = Editor().Assign(request, added, Updated);
+        Assert.Throws<InvalidOperationException>(() => Editor().Assign(request, added, Updated));
+        var inherited = request with { Document = request.Document with { Assignments = [original, added] } };
+        var assigned = Editor().ChangeCompany(inherited, inherited.Document.Company, Updated);
         Assert.Contains(assigned.Analysis.Conflicts, c => c.Code == "minimumRest");
         Assert.Contains(assigned.Analysis.Conflicts, c => c.Code == "workload");
         Assert.Contains(assigned.Analysis.Conflicts, c => c.Code == "interval");

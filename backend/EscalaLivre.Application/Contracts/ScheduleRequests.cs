@@ -2,7 +2,8 @@ using EscalaLivre.Domain.Scheduling;
 
 namespace EscalaLivre.Application.Contracts;
 
-public sealed record ScheduleRequest(EscalaLivreDocument Document, DateTime Start, DateTime End);
+public sealed record GenerationPreferences(bool PreserveExisting = true, bool BalanceUndesirableShifts = true);
+public sealed record ScheduleRequest(EscalaLivreDocument Document, DateTime Start, DateTime End, GenerationPreferences? Preferences = null);
 
 public sealed record ScheduleResult(
     IReadOnlyList<ShiftAssignment> Assignments,

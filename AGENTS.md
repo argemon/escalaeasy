@@ -39,6 +39,14 @@ Estas instruções se aplicam ao repositório inteiro. Antes de alterar regras o
 - Não normalize ou corrija silenciosamente início, fim ou pausa para ocultar conflitos. Falha, cancelamento ou limite do gerador preserva o documento anterior.
 - Qualquer correção intencional de comportamento exige cenário que reproduza o problema, decisão documentada em `docs/rule-parity.md` e atualização equivalente nas implementações afetadas.
 
+## PDF concluído e aprovado — versão final (19/11/2026)
+
+- O usuário marcou a parte de PDF como concluída após aprovar a tabela compacta, a função sem repetição desnecessária e o nome do arquivo no mesmo padrão do `.escalalivre`. Preservar esses ajustes; novas mudanças no PDF exigem novo pedido explícito.
+
+- O usuário aprovou a geração atual de PDF como versão final. Não alterar sua implementação, aparência, conteúdo, agrupamento, paginação ou fluxo de download sem um novo pedido explícito do usuário para modificar o PDF. Uma tarefa geral de melhoria, limpeza ou refatoração não autoriza essas alterações.
+- Preservar o botão direto **Baixar PDF**, a escala salva do período atual, o nome de cada funcionário uma única vez com dias/horários/intervalos agrupados, a ausência do cabeçalho “ESCALA LIVRE / ESCALA DA EQUIPE” e a logo Escala Livre no rodapé ao lado da paginação.
+- Referência do resultado aprovado: [decisão 028](docs/decisions/028-publication-snapshots.md). Os componentes diretamente envolvidos são `frontend/src/lib/schedulePdf.ts`, o botão no `GlobalHeader.tsx` e `backend/EscalaLivre.Infrastructure/ImportExport/SchedulePdfExporter.cs` / `SchedulePdfRows.cs`. Preservar também dependências que afetem a saída aprovada.
+
 ## Testes e entrega
 
 - Faça mudanças incrementais por responsabilidade, com comportamento caracterizado antes da extração. Não misture refatoração e alteração de regra no mesmo passo.

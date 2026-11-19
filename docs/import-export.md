@@ -4,6 +4,12 @@ EscalaLivre e local-first. A persistencia principal e um arquivo `.escalalivre` 
 
 ## Arquivo nativo
 
+O download usa o padrão `Nome da empresa - DD-MM-AAAA a DD-MM-AAAA.escalalivre`, com as datas inicial e final do período selecionado, inclusive quando não há turnos. Exemplo: `Minha Empresa - 01-11-2026 a 30-11-2026.escalalivre`. O separador é hífen porque `>` não é permitido em nomes de arquivo no Windows. Acentos são preservados; caracteres proibidos são substituídos por hífen. A mesma convenção vale para exportar o planejamento disponível e baixar cópias nativas de recuperação, usando os dados da própria cópia.
+
+O botão **Baixar PDF** usa a mesma convenção, trocando apenas a extensão: `Minha Empresa - 01-11-2026 a 30-11-2026.pdf`. O nome é calculado pela mesma função da exportação nativa. Essa alteração não modifica o conteúdo, a aparência nem a geração do PDF. Verificação: testes de nomes nativos e exportação do PDF.
+
+Essa alteração afeta apenas o nome do download no navegador. O conteúdo JSON e as regras da escala permanecem iguais. A verificação inclui exportação sem turnos, período entre anos, reimportação, caracteres proibidos, compilação, lint e testes de recuperação.
+
 O arquivo nativo deve reconstruir completamente o estado:
 
 - `schemaVersion`

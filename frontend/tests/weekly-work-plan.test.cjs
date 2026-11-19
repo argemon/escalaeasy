@@ -62,10 +62,10 @@ test('editor applies both presets to canonical days, previews exits and distingu
  value={...value,contractedSeconds:158400};tree=render(props());
  nodes(tree).find(n=>n.type==='select').props.onChange({target:{value:'uniform'}});tree=render(props());
  nodes(tree).find(n=>n.type==='button').props.onClick();assert.deepEqual(plain(value.dailySeconds),[0,31680,31680,31680,31680,31680,0]);
- tree=render(props());assert.ok(JSON.stringify(tree).includes('17:18:00'));assert.ok(JSON.stringify(tree).includes('falta de carga'));
+ tree=render(props());assert.ok(JSON.stringify(tree).includes('17:18'));assert.ok(JSON.stringify(tree).includes('falta de carga'));
  nodes(tree).find(n=>n.type==='select').props.onChange({target:{value:'friday'}});tree=render(props());nodes(tree).find(n=>n.type==='button').props.onClick();
  assert.deepEqual(plain(value.dailySeconds),[0,32400,32400,32400,32400,28800,0]);
- tree=render(props());assert.ok(JSON.stringify(tree).includes('17:30:00'));assert.ok(JSON.stringify(tree).includes('16:30:00'));
+ tree=render(props());assert.ok(JSON.stringify(tree).includes('17:30'));assert.ok(JSON.stringify(tree).includes('16:30'));
  nodes(tree).filter(n=>n.type==='input'&&n.props.type==='checkbox').at(-1).props.onChange({target:{checked:true}});
  assert.ok(value.compensation);assert.equal(value.allowsOvertime,undefined);
 });

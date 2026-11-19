@@ -1,3 +1,4 @@
+import { displayTemporalText } from "../lib/displayTime";
 import { OperationalSummary } from "./OperationalSummary";
 import { WorkloadSummaryCard } from "./WorkloadSummaryCard";
 import { solverLabels, solverDescriptions } from "../lib/solverStatus";
@@ -10,11 +11,15 @@ import { BrainCircuit, BriefcaseBusiness, CheckCircle2, Loader2, Wand2 } from "l
 import { useState, type ReactNode } from "react";
 import { useScheduleStore } from "../store/scheduleStore";
 import { Badge, Button, Panel } from "./ui";
+import { defaultGenerationPreferences } from "../lib/calculationDocument";
+import { ScheduleBalance } from "./ScheduleBalance";
+import { GenerationDiagnostics } from "./GenerationDiagnostics";
 
 export function SolverPanel() {
   const { document, analysis, solverStatus } = useScheduleStore();
-  const { active, start, proposal, message, confirmProposal, rejectProposal } = useGenerationStore();
+  const { active, start, message } = useGenerationStore();
   const [rangeStart,setRangeStart]=useState(document.planningPeriod.start),[rangeEnd,setRangeEnd]=useState(document.planningPeriod.end);
+  const [preferences,setPreferences] = useState(defaultGenerationPreferences);
 
   const hardViolations = analysis.conflicts.filter((item) => item.severity === "error").length;
   const softViolations = analysis.conflicts.filter((item) => item.severity !== "error").length + analysis.gaps.length;
@@ -22,7 +27,7 @@ export function SolverPanel() {
   const assignments = new Map(analysis.assignments.map(assignment => [assignment.id, assignment]));
   const formatShiftTime = (value: string) => {
     const [date, time] = civilDateTime(value, document.company.timeZone).split("T");
-    return `${date.split("-").reverse().join("/")} às ${time.endsWith(":00") ? time.slice(0, 5) : time}`;
+    return `${date.split("-").reverse().join("/")} às ${time.slice(0, 5)}`;
   };
 
   return (
@@ -39,12 +44,12 @@ export function SolverPanel() {
 
       <div className="min-h-0 flex-1 space-y-4 overflow-auto p-4">
         {solverDescriptions[solverStatus] && <p role="status" className="text-xs text-muted-foreground">{solverDescriptions[solverStatus]}</p>}
-        <section className="rounded-md border border-border bg-background p-4">
-          <div className="flex items-center justify-between">
-            <BrainCircuit className="size-5 text-primary" />
-            {active && <Loader2 className="size-4 animate-spin text-primary" />}
+        <section aria-label="Cobertura da escala" className="rounded-md border border-border bg-background p-4">
+          <div className="flex items-center gap-3">
+            <BrainCircuit className="size-5 shrink-0 text-primary" />
+            <p className="text-3xl font-semibold">{Math.round(analysis.coverageScore * 100)}%</p>
+            {active && <Loader2 className="ml-auto size-4 animate-spin text-primary" />}
           </div>
-          <p className="mt-3 text-3xl font-semibold">{Math.round(analysis.coverageScore * 100)}%</p>
           <p className="text-sm text-muted-foreground">da cobertura necessária atendida</p>
           <div className="mt-4 grid grid-cols-2 gap-2">
             <Metric label="Conflitos" value={String(hardViolations)} tone={hardViolations > 0 ? "bad" : "good"} />
@@ -52,21 +57,33 @@ export function SolverPanel() {
           </div>
         </section>
 
-        <div className="flex gap-2"><label>Gerar desde<input type="date" min={document.planningPeriod.start} max={document.planningPeriod.end} value={rangeStart} onChange={e=>setRangeStart(e.target.value)}/></label><label>Gerar até<input type="date" min={document.planningPeriod.start} max={document.planningPeriod.end} value={rangeEnd} onChange={e=>setRangeEnd(e.target.value)}/></label></div>
-        <Button className="w-full" onClick={() => void start({start:rangeStart,end:rangeEnd})} disabled={active || !document.employees.length || !document.company.coverage.some(r => r.minimumEmployees > 0)}>
+        <Button className="w-full" onClick={() => void start({start:rangeStart,end:rangeEnd},preferences)} disabled={active || !document.employees.length || !document.company.coverage.some(r => r.minimumEmployees > 0)}>
           <Wand2 className="size-4" />
           {active ? "Preparando sua escala…" : "Gerar escala"}
         </Button>
 
-        {message&&<p role="status">{message}</p>}
-        {proposal&&<section aria-label="Proposta de geração" className="space-y-2 rounded border border-primary p-3"><h3>Conferir proposta sem alterar o planejamento</h3><p>Recorte: {proposal.range.start} a {proposal.range.end}. Cobertura do planejamento: {Math.round(analysis.coverageScore*100)}% → {Math.round(proposal.preview.analysis.coverageScore*100)}%. Conflitos: {proposal.preview.analysis.conflicts.filter(c=>c.severity==="error").length}.</p>{(["added","changed","removed"]as const).map(k=><details key={k}><summary>{k==="added"?"Inclusões":k==="changed"?"Alterações":"Remoções"}: {proposal.preview.changes[k].length}</summary>{proposal.preview.changes[k].slice(0,30).map(a=><p className="text-xs" key={a.id}>{document.employees.find(e=>e.id===a.employeeId)?.name} · {a.role} · {a.start}–{a.end}</p>)}{proposal.preview.changes[k].length>30&&<p>Mais {proposal.preview.changes[k].length-30} turnos nesta categoria.</p>}</details>)}{proposal.preview.analysis.conflicts.slice(0,30).map((c,i)=><p className="text-xs" key={i}>{c.message}</p>)}<Button type="button" onClick={confirmProposal}>Aplicar proposta de geração</Button><Button type="button" onClick={rejectProposal}>Rejeitar proposta</Button></section>}
+        <div className="solver-range">
+          <label>Gerar desde<input type="date" min={document.planningPeriod.start} max={document.planningPeriod.end} value={rangeStart} onChange={e=>setRangeStart(e.target.value)}/></label>
+          <label>Gerar até<input type="date" min={document.planningPeriod.start} max={document.planningPeriod.end} value={rangeEnd} onChange={e=>setRangeEnd(e.target.value)}/></label>
+        </div>
+        <fieldset disabled={active} className="space-y-2 rounded border border-border p-3 text-sm"><legend>Preferências de geração</legend>
+          <label className="block"><input type="checkbox" checked={preferences.preserveExisting} onChange={e=>setPreferences({...preferences,preserveExisting:e.target.checked})}/> Preservar o máximo possível dos horários atuais</label>
+          <label className="block"><input type="checkbox" checked={preferences.balanceUndesirableShifts} onChange={e=>setPreferences({...preferences,balanceUndesirableShifts:e.target.checked})}/> Equilibrar domingos, feriados, fechamentos e noturnos</label>
+          <p className="text-xs text-muted-foreground">Cobertura, intervalos e carga contratada têm prioridade. Depois, o gerador tenta preservar horários e equilibrar a distribuição, considerando até 28 dias anteriores presentes no arquivo. Desmarque a preservação para dar mais liberdade ao rodízio. O tempo de busca pode limitar essas melhorias.</p>
+        </fieldset>
+        <p className="text-xs text-muted-foreground">Ao gerar, horários, funções, restrições e créditos de ausência são processados no servidor. Nomes são substituídos por identificadores; categorias de ausência e versões arquivadas não são enviadas. O planejamento continua salvo neste navegador. O resultado fica disponível no servidor por até dois minutos após a conclusão.</p>
+
+        {message&&<p role="status">{displayTemporalText(message)}</p>}
         {analysis.workloads?.map(w=><WorkloadSummaryCard key={w.employeeId+w.weekStart} summary={w} name={document.employees.find(e=>e.id===w.employeeId)?.name} />)}
         <GenerationProgress />
-        <p className="text-xs text-muted-foreground">A proposta de geração substitui os turnos não fixados que começam no recorte escolhido, dentro de {document.planningPeriod.start.split("-").reverse().join("/")} a {document.planningPeriod.end.split("-").reverse().join("/")}, inclusive os que terminam no dia seguinte. Os demais turnos e todos os fixados serão preservados. A aplicação só ocorre após conferir e confirmar a proposta.</p>
+        <GenerationDiagnostics />
+        <p className="text-xs text-muted-foreground">A geração substitui os turnos não fixados que começam no recorte escolhido, dentro de {document.planningPeriod.start.split("-").reverse().join("/")} a {document.planningPeriod.end.split("-").reverse().join("/")}, inclusive os que terminam no dia seguinte. Os demais turnos e todos os fixados serão preservados. Ao terminar, a escala é aplicada automaticamente. Você pode usar Desfazer para voltar à escala anterior.</p>
         {(!document.employees.length || !document.company.coverage.some(r => r.minimumEmployees > 0)) && <p className="text-sm text-muted-foreground">Para gerar a escala, cadastre funcionários e ao menos uma regra de cobertura com quantidade maior que zero.</p>}
         <OperationalSummary />
+        <ScheduleBalance />
 
-        <section className="space-y-2">
+        <details className="space-y-2">
+          <summary className="cursor-pointer text-sm font-semibold">Entender as escolhas do gerador</summary>
           <Title icon={<CheckCircle2 className="size-4" />} text="Por que esta escala?" />
           {decisionGroups.map(group => (
             <article key={group.employeeId} className="rounded-md border border-border bg-background p-3 text-sm">
@@ -94,11 +111,11 @@ export function SolverPanel() {
           ))}
           {analysis.optimizationSuggestions.map((suggestion) => (
             <article key={`${suggestion.code}-${suggestion.start}`} className="rounded-md border border-sky-500/30 bg-sky-500/10 p-3 text-sm">
-              <p className="font-medium">{suggestion.message}</p>
+              <p className="font-medium">{displayTemporalText(suggestion.message)}</p>
               <p className="mt-2 text-muted-foreground">{suggestion.impact}</p>
             </article>
           ))}
-        </section>
+        </details>
 
         <section className="space-y-2">
           <Title icon={<BriefcaseBusiness className="size-4" />} text="Sugestões para a equipe" />
