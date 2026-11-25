@@ -15,6 +15,7 @@ internal static class ScheduleObjectiveSearch
         var objectives = new List<(LinearExpr Expression, bool Minimize)> { (LinearExpr.Sum(context.CoverageDeficitTerms), true) };
         if (context.IntervalExtension is {} extension) objectives.Add((extension, true));
         if (context.ContractCredit is {} creditObjective) objectives.Add((creditObjective, false));
+        if (context.SundayRotationObjective is {} rotation) objectives.Add((rotation, true));
         if (context.StabilityObjective is {} stability) objectives.Add((stability, false));
         if (context.BalanceObjective is {} balance) objectives.Add((balance, true));
         objectives.Add((context.PreferenceObjective!, false));

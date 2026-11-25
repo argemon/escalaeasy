@@ -5,6 +5,8 @@ import { closedHoliday } from "./holidays";
 import { intervalFor, minutesOf, previewPause } from "./intervals";
 import type { EscalaLivreDocument, ShiftAssignment } from "../types/schedule";
 import { outsideOperatingHours } from "./coverageRules";
+import { weeklyRestSummary } from "./policies/weeklyRest";
+import { civilMillis, civilWeek } from "./civilTime";
 export type WeeklyCoverage = ShiftAssignment & { planned?: boolean };
 export function weeklyCoverage(document: EscalaLivreDocument, date: string): WeeklyCoverage[] {
   if (document.planningPeriod && (date < document.planningPeriod.start || date > document.planningPeriod.end)) return [];
@@ -16,6 +18,9 @@ export function weeklyCoverage(document: EscalaLivreDocument, date: string): Wee
     if(!activeOn(registered,date))continue;
     const employee=employeeOn(registered,date);
     if (actual.some(a => a.employeeId === employee.id)) continue;
+    // A saved complete week is shown as saved, including its days off.
+    // Estimated shifts must not cover up those empty dates.
+    if (weeklyRestSummary(document,employee,civilWeek(civilMillis(date+"T00:00:00"))).complete) continue;
     if ((employee.inheritsCompanyDefaults ? document.company.defaultWorkload : employee.workload).weeklyPlan?.flexibleWorkDays) continue;
     const workingDays = employee.inheritsCompanyDefaults ? document.company.operatingDays : employee.workingDays ?? document.company.operatingDays;
     if (!workingDays.includes(day) && ((!employee.inheritsCompanyDefaults && employee.workingDays) || !document.company.coverage.some(r=>r.day===day && r.allowsOutsideHours && r.minimumEmployees>0 && canCover(employee,r,document.roles)))) continue;

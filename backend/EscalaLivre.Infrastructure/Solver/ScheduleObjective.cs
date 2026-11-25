@@ -27,5 +27,6 @@ public sealed class ScheduleObjective
         if (context.ContractCredit is not null || context.IntervalExtension is not null) context.Model.Minimize(LinearExpr.Sum(context.CoverageDeficitTerms));
         else context.Model.Maximize(LinearExpr.Sum(terms.Concat(context.ShortageTerms).Concat(context.OccupancyTerms)));
         ScheduleQualityObjective.Apply(context);
+        SundayRotationObjective.Apply(context);
     }
 }

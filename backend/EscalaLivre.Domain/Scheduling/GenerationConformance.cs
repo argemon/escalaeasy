@@ -41,6 +41,7 @@ public static class GenerationConformance
         var cycle = RegimeConfiguration.From(rule).RollingCycle;
         return issue.Code switch
         {
+            "weeklyRest" or "consecutiveWork" => added.Start < end && added.End > start,
             "weeklyLimit" => EffectiveWorkPolicy.WorkTicksInWeek(added, start) > 0,
             "dailyLimit" or "multipleShifts" => added.Start.Date == start.Date,
             "regime" when cycle is not null => added.Start.Date >= start.Date.AddDays(1 - DayCyclePolicy.Length(cycle))

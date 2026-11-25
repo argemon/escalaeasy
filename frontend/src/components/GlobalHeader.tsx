@@ -6,7 +6,8 @@ import { PlanningPeriodEditor } from "./PlanningPeriodEditor";
 import { Brand } from "./Brand";
 import { UsageGuide } from "./UsageGuide";
 import { VersionArchive } from "./VersionArchive";
-import { exportSchedulePdf } from "../lib/schedulePdf";
+import { useExportStore } from "../store/exportStore";
+import { ExportProgress } from "./ExportProgress";
 import { useEffect, useRef, useState } from "react";
 import { exportNative, importNative } from "../lib/api";
 import { useScheduleStore, type ViewMode } from "../store/scheduleStore";
@@ -26,22 +27,23 @@ export function GlobalHeader() {
   const generation = useGenerationStore();
   const generationLabel = generation.active ? (generation.progress?.state === "queued" ? `Na fila · ${generation.progress.position}ª posição` : "Gerando escala…") : solverLabels[solverStatus];
   const [clearing,setClearing] = useState(false);
-  const [printing,setPrinting] = useState(false);
-  const [printError,setPrintError] = useState("");
+  const {active:printing,startPdf}=useExportStore();
   const [showUsageGuide, setShowUsageGuide] = useState(false);
   const [showVersions,setShowVersions] = useState(false);
   const group = viewMode === "solver" ? "solver" : viewMode === "coverage" || viewMode === "heatmap" ? "coverage" : "schedule";
   const [confirmation,setConfirmation] = useState("");
   const helpRef = useRef<HTMLDetailsElement>(null);
+  const toolsRef = useRef<HTMLDetailsElement>(null);
   useEffect(() => {
-    const closeHelpOnOutsideClick = (event: MouseEvent) => {
-      const help = helpRef.current;
-      if (help?.open && event.target instanceof Node && !help.contains(event.target)) {
-        help.open = false;
+    const closeMenusOnOutsideClick = (event: MouseEvent) => {
+      for (const menu of [helpRef.current, toolsRef.current]) {
+        if (menu?.open && event.target instanceof Node && !menu.contains(event.target)) {
+          menu.open = false;
+        }
       }
     };
-    window.document.addEventListener("click", closeHelpOnOutsideClick, true);
-    return () => window.document.removeEventListener("click", closeHelpOnOutsideClick, true);
+    window.document.addEventListener("click", closeMenusOnOutsideClick, true);
+    return () => window.document.removeEventListener("click", closeMenusOnOutsideClick, true);
   }, []);
   return (
     <header className="app-header shrink-0 border-b border-border bg-card"><div className="header-toolbar">
@@ -60,15 +62,9 @@ export function GlobalHeader() {
 
 
       <div className="header-actions">
-        <Button disabled={printing} onClick={async () => {
-          setPrintError(""); setPrinting(true);
-          try { await exportSchedulePdf(document); }
-          catch (error) { setPrintError(error instanceof Error ? error.message : "Não foi possível baixar o PDF."); }
-          finally { setPrinting(false); }
-        }}><Printer className="size-4" />{printing ? "Preparando PDF…" : "Baixar PDF"}</Button>
-        {printError && <p role="alert" className="text-sm text-red-600">{printError}</p>}
+        <Button disabled={printing} onClick={()=>void startPdf(document)}><Printer className="size-4" />{printing ? "Preparando PDF…" : "Baixar PDF"}</Button>
         <StorageBadge />
-        <details className="header-tools" onKeyDown={e => {if(e.key === "Escape") {e.currentTarget.open=false;e.currentTarget.querySelector("summary")?.focus();}}}>
+        <details ref={toolsRef} className="header-tools" onKeyDown={e => {if(e.key === "Escape") {e.currentTarget.open=false;e.currentTarget.querySelector("summary")?.focus();}}}>
           <summary><ChevronDown className="size-4" /> Dados e opções</summary>
           <div className="header-tools-content">
         <p className="flex items-center gap-1 text-xs text-muted-foreground"><Wifi className="size-3" /> Edição e análise disponíveis sem internet</p>
@@ -125,6 +121,7 @@ export function GlobalHeader() {
         </IconButton>
       </div>
       </div>
+      <ExportProgress />
       <PlanningPeriodEditor key={document.id+document.planningPeriod.start+document.planningPeriod.end} />
       {showUsageGuide && <UsageGuide onClose={() => setShowUsageGuide(false)} />}
       {showVersions && <VersionArchive onClose={()=>setShowVersions(false)} />}

@@ -1,4 +1,5 @@
 import { employeeOn, employeeForShift, activeOn } from "./policies/employment";
+import { weeklyRestIssues } from "./policies/weeklyRest";
 import { contractDailyLimitMillis } from "./policies/weeklyWorkPlan";
 import { normalWeekSeconds } from "./policies/flexibleContract";
 import { civilDay, civilMillis, civilString, civilWeek, clockMillis } from "./civilTime";
@@ -67,5 +68,5 @@ export function diagnoseSchedule(document:EscalaLivreDocument):ScheduleIssue[] {
     for(const [week,work] of weeks)if(work>weeklyLimitHours(document.company,e)*3600000
       ||(!e.allowsOvertime&&rule.weeklyPlan?.flexibleWorkDays&&shifts.filter(a=>civilWeek(civilMillis(a.start))===week).reduce((n,a)=>n+workMillis(a),0)>normalWeekSeconds(document.company,e,week)*1000))issue("weeklyLimit","Limite semanal excedido.",week,week+7*86400000);
   }
-  return issues;
+  return [...issues,...weeklyRestIssues(document)];
 }

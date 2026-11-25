@@ -13,6 +13,8 @@ import { useScheduleStore } from "../store/scheduleStore";
 import type { CoverageBlock } from "../types/schedule";
 import { Badge } from "./ui";
 import { intervalNotice } from "../lib/intervalNotice";
+import { RestOverview } from "./RestOverview";
+import { restDayLabel } from "../lib/policies/weeklyRest";
 
 const dayLabels = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"];
 
@@ -40,6 +42,7 @@ export function OperationalTimeline() {
           </div>
         </section>
 
+        <RestOverview />
         <section className="min-h-0 flex-1 overflow-auto p-5">
           {viewMode === "coverage" ? <CoverageTable /> : viewMode === "heatmap" ? <Heatmap /> : <TimelineRows onEmployeeClick={setSelectedEmployeeId} selectedDate={activeDate} setSelectedDate={date=>{setSelectedDate(date);focusPlanning(date);}} />}
         </section>
@@ -93,6 +96,7 @@ function TimelineRows({ onEmployeeClick,selectedDate,setSelectedDate }: { onEmpl
               <p className="text-xs text-muted-foreground capitalize">{employee.role}</p>
             </button>
             <div className="relative min-h-20 bg-[linear-gradient(90deg,hsl(var(--border))_1px,transparent_1px)] bg-[length:4.166%_100%]">
+              {!assignments.length&&<p className="p-4 text-xs text-muted-foreground">{restDayLabel(document,employee,activeDate)}</p>}
               {assignments.map((assignment) => {
                 const start = dateToTimelineHour(assignment.start);
                 const end = dateToTimelineHour(assignment.end, datePart(assignment.start));

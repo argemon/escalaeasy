@@ -41,6 +41,7 @@ public static class ScheduleRules
     }
     public static IEnumerable<ScheduleIssue> Diagnose(EscalaLivreDocument document,IReadOnlyList<ShiftAssignment> assignments)
     {
+        foreach(var issue in WeeklyRestPolicy.Diagnose(document,assignments))yield return issue;
         foreach(var a in assignments)
         {
             var e=document.Employees.FirstOrDefault(e=>e.Id==a.EmployeeId);

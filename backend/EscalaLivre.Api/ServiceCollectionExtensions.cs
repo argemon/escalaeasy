@@ -60,6 +60,9 @@ public static class ServiceCollectionExtensions
         services.AddSingleton(TimeProvider.System);
         services.AddSingleton<ScheduleJobQueue>();
         services.AddHostedService(sp => sp.GetRequiredService<ScheduleJobQueue>());
+        services.AddSingleton<IExportRunner,ExportWorker>();
+        services.AddSingleton<ExportJobQueue>();
+        services.AddHostedService(sp=>sp.GetRequiredService<ExportJobQueue>());
         services.AddValidatorsFromAssemblyContaining<ScheduleRequestValidator>();
         services.AddSingleton<NativeScheduleSerializer>();
         services.AddCors(options => options.AddDefaultPolicy(policy =>
@@ -93,7 +96,11 @@ public static class ServiceCollectionExtensions
                 PartitionedRateLimiter.Create<HttpContext, string>(context => QuotaFor(context) == RequestQuotaKind.Generation
                     ? RateLimitPartition.GetFixedWindowLimiter(context.Connection.RemoteIpAddress?.ToString() ?? "unknown", _ => new()
                     { PermitLimit = protection.SolvesPerMinute, Window = TimeSpan.FromMinutes(1), QueueLimit = 0 })
-                    : RateLimitPartition.GetNoLimiter("other")));
+                    : RateLimitPartition.GetNoLimiter("other")),
+                PartitionedRateLimiter.Create<HttpContext,string>(context=>QuotaFor(context)==RequestQuotaKind.Export
+                    ?RateLimitPartition.GetFixedWindowLimiter(context.Connection.RemoteIpAddress?.ToString()??"unknown",_=>new()
+                    {PermitLimit=protection.ExportsPerMinute,Window=TimeSpan.FromMinutes(1),QueueLimit=0})
+                    :RateLimitPartition.GetNoLimiter("other")));
             options.OnRejected = async (context, cancellation) =>
             {
                 context.HttpContext.Response.StatusCode = 429;

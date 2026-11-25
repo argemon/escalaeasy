@@ -170,3 +170,15 @@ Os testes de integração também usam as ações reais de edição e persistên
 do frontend, recarregam o documento e geram via HTTP com o solver real.
 Cobrem autorização/revogação, troca de função e durações de 36 e 168 horas.
 Essa camada não simula cliques nem substitui testes de interface no navegador.
+
+
+## Exportações em fila — 25/11/2026
+
+PDF/XLSX passam por fila FIFO própria e processo filho, inclusive pela rota
+/export antiga. O padrão é uma execução e até 20 aguardando, 6 exportações por
+IP/minuto, 15s de execução, 512 MiB residentes observados e arquivo de até 10 MiB.
+A espera não usa corte de cinco segundos. Cada ativo reserva 16 MiB de payload;
+o orçamento padrão é 384 MiB, com 128 tickets e retenção final de dois minutos.
+As opções Export* ficam em Protection. A memória é observada, não uma cota rígida
+do sistema operacional. Considere um worker de geração e outro de exportação
+no limite total do host. [Contrato e validação](decisions/033-export-queue.md).

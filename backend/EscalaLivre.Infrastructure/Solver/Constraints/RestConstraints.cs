@@ -10,6 +10,7 @@ public sealed class RestConstraints : IScheduleConstraintTranslator
 {
     public void Apply(ScheduleModelContext context, OptimizationBudget budget)
     {
+        WeeklyRestConstraints.Apply(context,budget);
         var request = context.Input.Request;
         var model = context.Model;
         var candidates = context.Input.Candidates;

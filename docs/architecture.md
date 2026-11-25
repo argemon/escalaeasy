@@ -1,5 +1,20 @@
 # Arquitetura atual
 
+Seguimento de 25/11/2026: PDF/XLSX usam `ExportJobQueue` na API e `ExportWorker`
+em processo filho, com fila FIFO, tickets privados, retenção e orçamento próprios.
+O frontend acompanha a fila e preserva o snapshot solicitado até o download.
+A rota síncrona existente compartilha a fila. Renderizadores e conteúdo do PDF
+aprovado permanecem preservados. [Decisão 033](decisions/033-export-queue.md).
+
+Seguimento de 25/11/2026: `WeeklyRestPolicy` fornece janelas contínuas e diagnóstico
+de repousos no domínio. `policies/weeklyRest` mantém a semântica equivalente no
+frontend, verificada pelos mesmos cenários compartilhados. A família Rest traduz
+as restrições adicionais para turnos que atravessam datas; o ciclo continua
+responsável pelas datas de entrada. `SundayRotationObjective` traduz a preferência
+individual de frequência, sem inferência jurídica. Componentes apresentam
+folgas, dados incompletos e turnos envolvidos consumindo as políticas puras.
+Contrato e validação: [decisão 034](decisions/034-continuous-weekly-rest.md).
+
 Seguimento de 03/11/2026: RoleCoveragePolicy centraliza as autorizações diretas
 por pessoa e por função. O catálogo é passado explicitamente à avaliação e à
 geração; as listas opcionais de destinos são copiadas nos DTOs e congeladas no

@@ -6,6 +6,7 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="../../shared/weekly-rest-scenarios.json" Link="weekly-rest-scenarios.json" CopyToOutputDirectory="PreserveNewest" />
     <None Include="../../shared/shift-overlap-scenarios.json" Link="shift-overlap-scenarios.json" CopyToOutputDirectory="PreserveNewest" />
     <None Include="../../shared/schedule-quality-scenarios.json" Link="schedule-quality-scenarios.json" CopyToOutputDirectory="PreserveNewest" />
     <None Include="../../shared/absence-scenarios.json" Link="absence-scenarios.json" CopyToOutputDirectory="PreserveNewest" />

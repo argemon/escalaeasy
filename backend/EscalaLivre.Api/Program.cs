@@ -10,6 +10,12 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Http.Timeouts;
 
+if(args.Length==1&&args[0]=="--export-worker")
+{
+    Environment.ExitCode=await ExportWorker.ExecuteAsync();
+    return;
+}
+
 if (args.Length == 2 && args[0] == "--calculation-worker")
 {
     Environment.ExitCode = await CalculationWorker.ExecuteAsync(args[1]);
@@ -123,7 +129,17 @@ foreach (string operation in new[] { "solve", "validate", "analyze" })
     if (operation == "solve") endpoint.WithMetadata(new RequestQuota(RequestQuotaKind.Generation));
 }
 app.MapPost("/import", (ImportRequest request, NativeScheduleSerializer serializer) => ApiEnvelope<object>.Ok(serializer.Import(request)));
-app.MapPost("/export", (ExportRequest request, NativeScheduleSerializer serializer) => ApiEnvelope<ExportResult>.Ok(serializer.Export(request)));
+app.MapPost("/export", async (ExportRequest request, NativeScheduleSerializer serializer, ExportJobQueue exports, CancellationToken cancellation) =>
+    ApiEnvelope<ExportResult>.Ok(request.Format?.ToLowerInvariant() is "pdf" or "xlsx"
+        ? await exports.RunLegacyAsync(request,cancellation) : serializer.Export(request)))
+    .WithMetadata(new RequestQuota(RequestQuotaKind.Export));
+app.MapPost("/export/jobs", (ExportRequest request, ExportJobQueue exports) =>
+    Results.Json(ApiEnvelope<ExportJobProgress>.Ok(exports.Enqueue(request)),statusCode:202))
+    .WithMetadata(new RequestQuota(RequestQuotaKind.Export));
+app.MapGet("/export/jobs/{id}", (string id,ExportJobQueue exports) =>
+    ApiEnvelope<ExportJobProgress>.Ok(exports.Get(id))).WithMetadata(new RequestQuota(RequestQuotaKind.JobPoll));
+app.MapDelete("/export/jobs/{id}", (string id,ExportJobQueue exports) =>
+    ApiEnvelope<ExportJobProgress>.Ok(exports.Cancel(id))).WithMetadata(new RequestQuota(RequestQuotaKind.JobCancellation));
 app.MapPost("/solve/jobs", async (ScheduleRequest request, ScheduleJobQueue jobs, IValidator<ScheduleRequest> validator, HttpContext context) =>
 {
     var validation = await validator.ValidateAsync(request, context.RequestAborted);
