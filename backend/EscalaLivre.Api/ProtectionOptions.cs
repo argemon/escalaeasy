@@ -2,6 +2,12 @@ namespace EscalaLivre.Api;
 
 public sealed class ProtectionOptions
 {
+    public int ExportsPerMinute { get; set; } = 6;
+    public int ExportJobQueueLimit { get; set; } = 20;
+    public int ExportWorkerTimeoutSeconds { get; set; } = 15;
+    public int ExportWorkerMemoryMb { get; set; } = 512;
+    public int ExportJobPayloadBudgetMb { get; set; } = 384;
+    public int ExportJobRetentionLimit { get; set; } = 128;
     public int RequestsPerMinute { get; set; } = 60;
     public int SolvesPerMinute { get; set; } = 6;
     public int JobPollsPerMinute { get; set; } = 1200;
@@ -19,6 +25,10 @@ public sealed class ProtectionOptions
 
     public void Validate()
     {
+        if(ExportsPerMinute is <1 or >1000 || ExportJobQueueLimit is <1 or >20
+            || ExportWorkerTimeoutSeconds is <1 or >60 || ExportWorkerMemoryMb is <64 or >4096
+            || ExportJobPayloadBudgetMb is <16 or >512 || ExportJobRetentionLimit is <32 or >10000)
+            throw new InvalidOperationException("Configuração de proteção de exportação inválida.");
         if (RequestsPerMinute is < 1 or > 10000 || SolvesPerMinute is < 1 or > 1000
             || JobPollsPerMinute is < 1 or > 10000 || JobCancellationsPerMinute is < 1 or > 10000
             || ConcurrentRequests is < 1 or > 128 || ConcurrentWorkers is < 1 or > 8

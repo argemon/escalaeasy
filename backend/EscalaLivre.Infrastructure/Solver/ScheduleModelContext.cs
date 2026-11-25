@@ -14,6 +14,7 @@ public sealed class ScheduleModelContext(ScheduleModelInput input)
     internal LinearExpr? ContractCredit { get; set; }
     internal LinearExpr? PreferenceObjective { get; set; }
     internal LinearExpr? StabilityObjective { get; set; }
+    internal LinearExpr? SundayRotationObjective { get; set; }
     internal LinearExpr? BalanceObjective { get; set; }
     internal List<LinearExpr> ShortageTerms { get; } = [];
     internal List<LinearExpr> OccupancyTerms { get; } = [];

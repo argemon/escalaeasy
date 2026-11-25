@@ -1,3 +1,4 @@
+import { RestOverview } from "./RestOverview";
 import { moveShift } from "../lib/dateTime";
 import { timePart, formatCivilDateTime } from "../lib/dateTime";
 import { exclusivePeriodEnd } from "../lib/planningPeriod";
@@ -75,6 +76,7 @@ export function ScheduleCalendar() {
         <details className="calendar-help"><summary>Ajuda</summary><div><p>Clique no número do dia para editar feriados e turnos especiais.</p><p>Prévia: horário estimado. Verde: hoje.</p></div></details>
       </div>
 
+      <RestOverview />
       {addingHoliday && <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/50 p-4"><form role="dialog" aria-modal="true" aria-label="Adicionar feriado" className="w-full max-w-sm space-y-4 rounded-xl border border-border bg-card p-5" onSubmit={e=>{e.preventDefault();const chosenDate=String(new FormData(e.currentTarget).get("holidayDate"));setAddingHoliday(false);setHolidayDate(chosenDate);}}><h2 className="text-xl font-semibold">Adicionar feriado</h2><label className="block">Data<input type="date" name="holidayDate" required value={holidayPickerDate} onChange={e=>setHolidayPickerDate(e.target.value)} className="mt-2 w-full rounded border border-border bg-background p-2" /></label><div className="flex gap-2"><Button type="submit">Continuar</Button><Button type="button" onClick={()=>setAddingHoliday(false)}>Cancelar</Button></div></form></div>}
       <section className="min-h-0 flex-1 overflow-hidden px-4 pb-4 pt-2 monthly-calendar">
         <FullCalendar

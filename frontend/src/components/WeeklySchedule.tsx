@@ -1,3 +1,6 @@
+import { RestOverview } from "./RestOverview";
+import { restDayLabel, weeklyRestSummary } from "../lib/policies/weeklyRest";
+import { civilMillis, civilWeek } from "../lib/civilTime";
 import { displayDuration as secondsDuration } from "../lib/displayTime";
 import { useState } from "react";
 import { datePart, displayClock, timePart } from "../lib/dateTime";
@@ -40,6 +43,7 @@ export function WeeklySchedule() {
         <Button className="h-8 px-3 text-xs" disabled={days[6].key >= document.planningPeriod.end} onClick={() => changeWeek(7)}>Próxima</Button>
       </div>
     </header>
+    <RestOverview />
     <section className="min-h-0 flex-1 overflow-auto p-3" aria-label="Horários da semana por pessoa">
       <table className="w-full min-w-[820px] table-fixed border-separate border-spacing-0 text-left text-xs">
         <caption className="pb-3 text-left text-xs text-muted-foreground">Uma linha por pessoa. Prévia: horário estimado; gere a escala para confirmar. +1d: termina no dia seguinte.</caption>
@@ -56,6 +60,7 @@ export function WeeklySchedule() {
           {document.employees.map(employee => <tr key={employee.id}>
             <th scope="row" className="sticky left-0 z-[1] border-x border-b border-border bg-card px-3 py-3 align-top font-normal">
               <button className="text-left hover:text-primary" onClick={() => setSelectedEmployeeId(employee.id)}><span className="block break-words text-sm font-semibold">{employee.name}</span><span className="block text-xs text-muted-foreground">{employee.role}</span></button>
+              <p className="mt-2 text-[10px] text-muted-foreground">{(()=>{const rest=weeklyRestSummary(document,employee,civilWeek(civilMillis(days[0].key+"T00:00:00")));return rest.complete?`${rest.count} repousos de 24h${rest.required?` / ${rest.required} previstos`:""}`:"Repousos não confirmados";})()}</p>
             </th>
             {days.map(({ day, key, inPeriod, closed, shifts }) => {
               const personShifts = shifts.filter(shift => shift.employeeId === employee.id).sort((a, b) => a.start.localeCompare(b.start));
@@ -72,7 +77,7 @@ export function WeeklySchedule() {
                     {shift.planned && <span className="block text-[10px] text-muted-foreground">Prévia</span>}
                     {outside && <span className="block text-[10px] text-amber-700 dark:text-amber-300">Fora do expediente</span>}
                   </button>;
-                })}</div> : <span className="text-muted-foreground">{!inPeriod ? "—" : closed ? "Fechada" : "Sem turno"}</span>}
+                })}</div> : <span className="text-muted-foreground">{!inPeriod ? "—" : restDayLabel(document,employee,key)}</span>}
                 {inPeriod&&<button className="block text-xs underline" onClick={()=>selectShift({employeeId:employee.id,date:key})}>Criar turno neste dia</button>}
                 {inPeriod && workload && workload.unmetSeconds > 0 && <p className="mt-2 text-amber-700 dark:text-amber-300">Faltam {secondsDuration(workload.unmetSeconds)} de jornada</p>}
               </td>;

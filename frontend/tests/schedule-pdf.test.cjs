@@ -13,7 +13,7 @@ test('one action downloads only the PDF, with no draft or version label',async()
  const d=fixture();d.company.name='Comércio São João';let payload,clicks=0,filename;
  const runtime={Blob,Uint8Array,atob,URL:{createObjectURL:()=> 'blob:test',revokeObjectURL(){}},setTimeout:fn=>fn(),
  document:{createElement:()=>({set download(v){filename=v;},set href(v){},click(){clicks++;}})},
- fetch:async(url,options)=>{payload=JSON.parse(options.body);return {ok:true,json:async()=>({success:true,data:{contentBase64:btoa('%PDF-test')}})};}};
+ fetch:async(url,options)=>{payload=JSON.parse(options.body);return {ok:true,json:async()=>({success:true,data:{id:'ticket',state:'completed',result:{contentBase64:btoa('%PDF-test'),mimeType:'application/pdf'}}})};}};
  await loader(undefined,runtime)('lib/schedulePdf.ts').exportSchedulePdf(d);
  assert.equal(payload.format,'pdf');assert.equal(payload.publicationLabel,undefined);assert.equal(clicks,1);
  assert.equal(filename,'Comércio São João - 04-11-2026 a 06-11-2026.pdf');

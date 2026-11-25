@@ -11,6 +11,67 @@ const apiDirectory = path.join(__dirname, 'EscalaLivre.Api');
 const assembly = path.join(apiDirectory, `bin/${process.env.SECURITY_BUILD_CONFIGURATION || 'Debug'}/net10.0/EscalaLivre.Api.dll`);
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
+test('export queue returns private tickets, produces PDF and XLSX and supports cancellation',async()=>{
+ await withServer({},async({url,post,logs})=>{
+  const r=request();
+  const jobs=[];
+  for(const format of ['pdf','xlsx']){
+   const response=await post('/export/jobs',{document:r.document,format});assert.equal(response.status,202);
+   const job=(await response.json()).data;assert.match(job.id,/^[0-9a-f]{64}$/);jobs.push({job,format});
+  }
+  for(const {job,format} of jobs){
+   let progress=job;const deadline=Date.now()+30000;
+   while(!['completed','failed','cancelled'].includes(progress.state)){
+    assert(Date.now()<deadline,'export completion deadline');await sleep(50);
+    const response=await fetch(url+'/export/jobs/'+job.id);assert.equal(response.status,200);progress=(await response.json()).data;
+   }
+   assert.equal(progress.state,'completed',progress.error);
+   const bytes=Buffer.from(progress.result.contentBase64,'base64');assert(bytes.length>0);
+   assert(bytes.subarray(0,format==='pdf'?5:2).equals(Buffer.from(format==='pdf'?'%PDF-':'PK')));
+   assert.equal(logs().includes(job.id),false,'ticket must not appear in logs');
+  }
+  assert.equal((await post('/export/jobs',{document:r.document,format:'exe'})).status,400);
+  const cancelled=(await (await post('/export/jobs',{document:r.document,format:'pdf'})).json()).data;
+  const cancellation=await fetch(url+'/export/jobs/'+cancelled.id,{method:'DELETE'});assert.equal(cancellation.status,200);
+  const state=(await cancellation.json()).data.state;assert(['queued','processing','cancelled','completed'].includes(state));
+  let final=state;const deadline=Date.now()+20000;
+  while(['queued','processing'].includes(final)){assert(Date.now()<deadline);await sleep(50);final=(await (await fetch(url+'/export/jobs/'+cancelled.id)).json()).data.state;}
+  assert(['cancelled','completed'].includes(final));
+  assert.equal((await fetch(url+'/export/jobs/'+ '0'.repeat(64))).status,404);
+  assert.equal((await fetch(url+'/health')).status,200);
+ });
+});
+
+test('legacy and queued exports share the export quota regardless of casing and forged IP',async()=>{
+ await withServer({ExportsPerMinute:1},async({url,post})=>{
+  const input={document:request().document,format:'pdf'};
+  const response=await post('/ExPoRt/JoBs/',input);assert.equal(response.status,202);const job=(await response.json()).data;
+  const denied=await post('/EXPORT/',input,{'X-Forwarded-For':'198.51.100.5'});assert.equal(denied.status,429);
+  assert.equal((await fetch(url+'/export/jobs/'+job.id)).status,200);
+  assert.equal((await fetch(url+'/export/jobs/'+job.id,{method:'DELETE'})).status,200);
+  assert.equal((await fetch(url+'/health')).status,200);
+ });
+});
+
+test('real weekly rests and Sunday history match frontend through analyze and validate workers', async()=>{
+ await withServer({},async({post})=>{
+  const load=require('../frontend/tests/source-loader.cjs')();
+  const document=structuredClone(load('data/sample.ts').sampleDocument);
+  document.planningPeriod={start:'2026-11-08',end:'2026-11-14'};
+  const e=document.employees[0];document.employees=[e];e.inheritsCompanyDefaults=false;
+  e.workload={regimeType:'dayBased',workUnits:5,restUnits:2,weeklyLimitHours:44,defaultShiftDuration:'08:00:00'};
+  e.preferences=[{code:'sundayRest2',weight:1,description:'Rodízio'}];
+  document.assignments=Array.from({length:7},(_,i)=>({id:randomUUID(),employeeId:e.id,role:e.role,start:'2026-11-'+String(8+i).padStart(2,'0')+'T08:00:00',end:'2026-11-'+String(8+i).padStart(2,'0')+'T16:00:00',source:'manual',tags:[]}));
+  document.assignments.push({...document.assignments[0],id:randomUUID(),start:'2026-10-31T22:00:00',end:'2026-11-01T06:00:00'});
+  const local=load('lib/analysis.ts').analyzeDocument(document),{digest}=require('../shared/parity-contract.cjs');
+  for(const endpoint of ['/analyze','/validate']){
+   const response=await post(endpoint,{document,start:'2026-11-08T00:00:00',end:'2026-11-14T23:59:59'});assert.equal(response.status,200);
+   const remote=(await response.json()).data;assert.deepEqual(digest(remote),digest(local));
+   for(const code of ['weeklyRest','consecutiveWork','sundayRotation'])assert(remote.conflicts.some(i=>i.code===code));
+  }
+ });
+});
+
 test('monthly fixed-start generation covers closing with verified minimal interval extensions', async () => {
  await withServer({}, async ({post}) => {
   const document=structuredClone(require('../shared/monthly-interval-generation.json'));
@@ -149,7 +210,7 @@ async function withServer(options, run) {
   await new Promise(resolve => portServer.close(resolve));
   const url = `http://127.0.0.1:${port}`;
   const env = { ...process.env, ASPNETCORE_ENVIRONMENT: 'Production', ASPNETCORE_URLS: url,
-    Protection__AllowedOrigins__0: 'https://allowed.example', Protection__RequestsPerMinute: '1000', Protection__SolvesPerMinute: '1000',
+    Protection__ExportsPerMinute:'1000', Protection__AllowedOrigins__0: 'https://allowed.example', Protection__RequestsPerMinute: '1000', Protection__SolvesPerMinute: '1000',
     Logging__LogLevel__Default: 'Information', 'Logging__LogLevel__EscalaLivre.Api.CalculationWorker': 'Debug' };
   for (const [key, value] of Object.entries(options)) env[`Protection__${key}`] = String(value);
   const child = spawn('dotnet', [assembly], { cwd: apiDirectory, env, windowsHide: true });

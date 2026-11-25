@@ -116,6 +116,9 @@ A execução possui limite de tempo e pode encontrar uma solução viável sem c
 | **Cópia e troca de turnos** | Copiar uma semana, resolver colisões e conferir a troca completa de responsáveis antes de aplicar. |
 | **Fila e tempo de espera** | Acompanhar a posição real, os pedidos à frente, a estimativa de espera e o tempo decorrido até receber a escala. |
 | **Cancelamento de geração** | Cancelar um pedido na fila ou em processamento, mantendo os turnos atuais. |
+| **Repousos contínuos** | Conferir blocos de 24h sem turnos, inclusive noturnos, com folgas previstas e indicação de dados incompletos. |
+| **Rodízio de domingos** | Preferir um domingo livre a cada 2, 3 ou 4 semanas por pessoa, com aviso quando os turnos contrariam a preferência. |
+| **Exportação em fila** | Acompanhar posição, estimativa e tempo decorrido, cancelar ou receber o PDF automaticamente quando estiver pronto. |
 | **Análise durante a edição** | Recalcular localmente a cobertura e os conflitos quando o planejamento muda. |
 | **Escala diária, semanal e mensal** | Consultar horários; na semana, comparar os dias em uma tabela com uma linha por pessoa, sem repetir nomes. |
 | **Período de planejamento** | Definir de 1 a 31 dias, com datas inclusivas, para consulta, análise e geração. |
@@ -218,6 +221,12 @@ No automático, horas ainda sem turno aparecem como **Carga ainda sem dia defini
 
 Ao salvar e reabrir, carga, distribuição, dispensas e horários são preservados. Use uma versão atualizada para editar arquivos com esses recursos: leitores antigos podem ignorar os novos campos ou rejeitar tetos acima de 44h. Consulte o [contrato de mínimo, máximo e saída antecipada](docs/decisions/019-contract-minimum-and-overtime-ceiling.md) e a [exigência do mínimo na geração](docs/decisions/029-contract-minimum-generation.md).
 
+### Folgas, repousos e domingos
+
+Nas visões diária, semanal e mensal, abra **Folgas e repousos da equipe**. O resumo confere períodos contínuos de 24h sem turnos salvos, incluindo os noturnos, conforme o ciclo semanal cadastrado. A semana mostra **Folga prevista**, **Ausência registrada** ou **descanso não confirmado**, conforme os dados disponíveis. Semanas parciais ou sem escala não comprovam repouso. Os alertas oferecem **Ver turnos envolvidos**, com acesso à edição.
+
+No funcionário, em **Opções avançadas**, configure **Rodízio de domingos de descanso**: preferir um domingo livre a cada 2, 3 ou 4 semanas. A geração tenta atender à preferência depois da cobertura e da carga obrigatória e avisa quando domingos trabalhados a contrariam. A escolha não determina enquadramento legal; histórico ausente não comprova folga. [Contrato e limites](docs/decisions/034-continuous-weekly-rest.md).
+
 ### 42h semanais em 5x2
 
 No plano de 42h em cinco dias, escolha a jornada diária explicitamente:
@@ -274,7 +283,11 @@ Os cabeçalhos dos dias permanecem visíveis durante a rolagem. As visualizaçõ
 
 ### Imprima a escala em PDF
 
-Clique em **Baixar PDF**. O arquivo contém a empresa e a escala salva no período atual. O conteúdo corresponde aos turnos salvos no momento do clique.
+Clique em **Baixar PDF**. O pedido entra na fila de exportação: acompanhe a posição, a estimativa e o tempo decorrido; você pode cancelar ou continuar usando outras abas do app. Mantenha a página aberta para receber o download. O arquivo usa a escala salva no momento do clique, mesmo que você edite durante a espera. Há uma exportação por vez e até 20 aguardando. [Limites e funcionamento](docs/decisions/033-export-queue.md).
+
+O arquivo contém a empresa e a escala salva no período atual. O conteúdo corresponde aos turnos salvos no momento do clique.
+
+Cancelar a exportação preserva o planejamento. Se houver falha, fila cheia ou perda de conexão, a interface informa o estado; ao reconectar, acompanha o mesmo pedido sem repetir o envio. O resultado fica disponível no servidor por dois minutos após concluir. Reiniciar a API perde os pedidos e resultados temporários.
 
 Cada funcionário aparece uma vez, seguido dos períodos em que fará o mesmo horário e intervalo. Por exemplo: **04/11/2026 a 06/11/2026 · 07:30 - 16:30 · intervalo 11:30 - 12:30**. Folgas e mudanças de horário, função ou pausa separam os grupos. Segundos diferentes de zero e viradas para o dia seguinte são preservados.
 
@@ -563,6 +576,15 @@ até 4 MiB por pedido ativo dentro de um orçamento padrão de 128 MiB de payloa
 retém resultados por dois minutos e limita os tickets em memória a 1.024. Esse
 orçamento não representa o consumo total de RAM da API e dos processos filhos.
 
+PDF/XLSX têm fila independente, com uma exportação por vez e até 20 aguardando.
+O padrão limita a 6 exportações por IP/minuto, 15 segundos de processamento,
+512 MiB de memória residente observada por processo e arquivo de até 10 MiB.
+O tempo de processamento começa quando o pedido sai da fila; a espera não é
+interrompida após cinco segundos. A reserva e a retenção de resultados também
+limitam a admissão. Esses controles ajudam a conter abuso, mas não substituem
+HTTPS, firewall e limites rígidos de recursos na hospedagem. Consulte a
+[fila de exportação](docs/decisions/033-export-queue.md).
+
 O frontend usa Zod 4.6.7 e verifica os limites das coleções antes de migrar os
 documentos, inclusive os recuperados do navegador. Documentos locais válidos
 maiores que o limite de 1 MiB dos arquivos nativos continuam recuperáveis. A
@@ -611,6 +633,7 @@ A validação cobre regras implementadas, como descanso e limite semanal. Ela n�
 - [Fechamento e divulgação](docs/decisions/028-publication-snapshots.md)
 - [Plano operacional e evidências das nove tarefas](docs/tasks/operacao/00-EXECUTAR-PROXIMA-TASK.md)
 - [Fila, estimativas e cancelamento de geração](docs/processing-queue.md)
+- [Fila e proteção das exportações PDF/XLSX](docs/decisions/033-export-queue.md)
 - [Identidade visual](docs/brand.md)
 
 Contribuições podem melhorar a interface, os testes, a documentação, os regimes e o motor de planejamento. Para propor uma mudança, descreva o problema e um exemplo de uso em uma issue. Em pull requests, explique o comportamento esperado e execute as verificações relevantes.

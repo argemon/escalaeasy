@@ -456,3 +456,18 @@ Ajuste visual de 19/11/2026: o aviso de intervalos usa faixas de datas consecuti
 ## Preferências de preservação e equilíbrio — 19/11/2026
 
 `ScheduleQualityPolicy` é a referência de classificação para a preferência do gerador; `scheduleQuality.ts` mantém o equivalente local, com cenários compartilhados em `shared/schedule-quality-scenarios.json` (domingo, feriado, fechamento noturno e fronteira de segundos às 22h). As preferências opcionais não criam conflitos nem alteram invariantes. Entrada reduzida de cálculo preserva regras temporais e créditos, neutralizando os dados descritivos que não participam das políticas. Contrato, precedência, comparação por pessoa e limitações na [decisão 030](decisions/030-planning-privacy-and-quality.md).
+
+
+## Repousos contínuos e domingos — 25/11/2026
+
+Mudança intencional: datas sem início de turno deixam de bastar para comprovar
+repouso semanal. `WeeklyRestPolicy` e `policies/weeklyRest` medem blocos contínuos
+de 24h, com maior fim no histórico sobreposto, e emitem `weeklyRest`/
+`consecutiveWork` nas janelas completas do planejamento. Metas derivam do ciclo
+semanal cadastrado, sem conversão legal automática. A preferência explícita
+`sundayRest2/3/4` produz `sundayRotation` quando todos os domingos da janela têm
+trabalho salvo; inclui turnos iniciados no sábado. O gerador traduz repousos
+obrigatórios e prefere rodízio sem invalidar arquivo por preferência.
+
+Cenários compartilhados: `shared/weekly-rest-scenarios.json`. Contrato, bordas,
+prioridades e limites: [decisão 034](decisions/034-continuous-weekly-rest.md).

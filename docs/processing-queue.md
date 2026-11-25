@@ -90,3 +90,13 @@ O teste de deadline da análise mantém 1s e verifica recuperação pelo mesmo a
 ## Consolidação da verificação — etapa 6
 
 A sonda de recuperação da fila também usa analyze simples com 1s/um slot/fila zero, após a admissão/rejeição de solves concorrentes reais. A execução solve com orçamento normal e seu cancelamento continuam verificados. Isso remove uma exigência incidental de startup nativo subsegundo; não amplia o timeout de produção. Testes/CI agora têm fronteiras separadas. [Evidências e limitações](decisions/stage-6-final-review.md).
+
+
+## Fila de exportação — 25/11/2026
+
+PDF/XLSX possuem fila independente, com uma exportação por vez e até 20
+pedidos aguardando. O botão Baixar PDF mostra posição, estimativa e cancelamento,
+e inicia o download ao concluir. A espera não tem corte de cinco segundos.
+Editar a escala durante a espera não muda o snapshot solicitado. Fechar a página
+interrompe o acompanhamento; reiniciar a API perde os tickets. Resultados ficam
+disponíveis por dois minutos após concluir. [Contrato, limites e testes](decisions/033-export-queue.md).
