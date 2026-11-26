@@ -30,7 +30,7 @@ export function UsageGuide({ onClose }: { onClose: () => void }) {
     >
       <div className="flex items-start justify-between gap-4">
         <div>
-          <h2 id="usage-guide-title" className="text-xl font-semibold">Como usar o EscalaLivre</h2>
+          <h2 id="usage-guide-title" className="text-xl font-semibold">Como usar o EscalaEasy</h2>
           <p className="mt-1 text-sm text-muted-foreground">Da configuração à sua primeira escala, siga estes passos.</p>
         </div>
         <IconButton autoFocus title="Fechar guia" onClick={onClose}><X className="size-4" aria-hidden="true" /></IconButton>

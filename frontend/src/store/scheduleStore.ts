@@ -148,7 +148,7 @@ export const useScheduleStore = create<ScheduleState>()(persist((rawSet, get) =>
     const saved=persisted as SavedSchedule | undefined;
     if(!saved) return first && recovery.getSnapshot().protected ? {...current,...presentDocument(emptyDocument())} : current;
     const document=structuredClone(validateNativeDocument(saved.document));
-    if(document.company.name === "EscalaLivre Demo")document.company.name="Escala Livre";
+    if(document.company.name === "EscalaLivre Demo")document.company.name="EscalaEasy";
     return {...current,theme:saved.theme,viewMode:saved.viewMode as ViewMode,...recovered(document)};
   }
 }));

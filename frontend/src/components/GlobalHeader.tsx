@@ -99,8 +99,9 @@ export function GlobalHeader() {
 
         <Button className="bg-card text-red-600 dark:bg-card dark:text-red-400" onClick={() => {setConfirmation("");setClearing(true);}}><Trash2 className="size-4" />Limpar tudo</Button>
         <RecoveryPanel />
-        <section aria-label="Sobre o EscalaLivre" className="space-y-2 border-t border-border pt-3 text-xs leading-relaxed text-muted-foreground">
-          <h2 className="font-medium text-foreground">Sobre o EscalaLivre</h2>
+        <section aria-label="Sobre o EscalaEasy" className="space-y-2 border-t border-border pt-3 text-xs leading-relaxed text-muted-foreground">
+          <h2 className="font-medium text-foreground">Sobre o EscalaEasy</h2>
+          <p className="font-semibold text-foreground">Sua escala. Sem complicação.</p>
           <p>Gratuito, com geração matemática de escalas. O planejamento é salvo neste navegador. A geração processa horários e restrições no servidor, com nomes substituídos por identificadores. O PDF envia os nomes necessários à impressão. Resultados da geração ficam temporariamente no servidor para download.</p>
           <p>
             Com carinho,{" "}

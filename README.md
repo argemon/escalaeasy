@@ -1,10 +1,14 @@
-# Escala Livre
+# EscalaEasy
 
-![Escala Livre — Calendário leve](frontend/public/brand/logo.svg)
+**Sua escala. Sem complicação.**
+
+A marca passou de EscalaLivre para **EscalaEasy**. Arquivos `.escalalivre`, dados locais, contratos e caminhos técnicos existentes permanecem compatíveis. O endereço deste repositório continua o mesmo. Consulte a [identidade visual e a política de compatibilidade](docs/brand.md).
+
+![EscalaEasy — Calendário leve](frontend/public/brand/logo.svg)
 
 ### Planeje a equipe. Enxergue as lacunas. Tome decisões melhores.
 
-**Escala Livre é uma plataforma aberta para montar escalas de trabalho, conferir a cobertura da operação e ajustar jornadas, intervalos e disponibilidades. Feita para RH, gestores e pequenos empresários.**
+**EscalaEasy é uma plataforma aberta para montar escalas de trabalho, conferir a cobertura da operação e ajustar jornadas, intervalos e disponibilidades. Feita para RH, gestores e pequenos empresários.**
 
 > **Matemática para organizar pessoas.** A geração de escalas usa algoritmos e otimização por restrições, sem IA generativa, modelos de linguagem ou serviços de IA.
 
@@ -12,11 +16,11 @@ A interface funciona no navegador, **sem cadastro**. O planejamento fica no disp
 
 Uma escala precisa responder a mais do que “quem trabalha hoje?”. É preciso saber se haverá pessoas suficientes na abertura, durante o almoço e no fechamento — sem ignorar disponibilidade, descanso e limites de jornada.
 
-O EscalaLivre conecta essas perguntas. Você informa como a empresa funciona, quem faz parte da equipe e quantas pessoas precisa em cada período. O sistema busca uma distribuição de turnos, mostra o que ficou descoberto e oferece informações para revisar o planejamento.
+O EscalaEasy conecta essas perguntas. Você informa como a empresa funciona, quem faz parte da equipe e quantas pessoas precisa em cada período. O sistema busca uma distribuição de turnos, mostra o que ficou descoberto e oferece informações para revisar o planejamento.
 
 [Primeiros passos](#primeiros-passos) · [Recursos](#o-que-você-pode-fazer-hoje) · [Período e geração](#período-de-planejamento-e-geração) · [Salvar e recuperar](#salvar-exportar-e-recuperar) · [Executar localmente](#experimente-localmente) · [Algoritmo por dentro](#para-os-nerds-o-algoritmo-por-dentro)
 
-![Interface do Escala Livre: etapas de configuração compactas, tabela semanal com uma linha por pessoa e botão Assistente de escala destacado](docs/images/visao-geral.png)
+![Interface do EscalaEasy: calendário leve, configuração da empresa e turnos da equipe](docs/images/escalaeasy-interface.png)
 
 *Exemplo com dados de demonstração. A tabela distingue horários estimados de turnos salvos.*
 
@@ -158,7 +162,7 @@ Os tempos são **aproximados**, calculados a partir das gerações recentes, e p
 - **Falha temporária de conexão:** o app tenta consultar novamente o mesmo pedido, sem reenviar o planejamento; a posição exibida fica identificada como a última confirmada.
 - **Alterações durante a espera:** um resultado antigo não sobrescreve o planejamento alterado; a interface orienta a gerar novamente com os dados atuais.
 
-O Escala Livre é gratuito e usa uma fila para economizar recursos de hospedagem. Na configuração padrão, atende **um cálculo por vez, com até 20 pedidos aguardando**. Se a fila estiver cheia, o app informa que é preciso aguardar e tentar novamente. A espera na fila é separada do limite de tempo de cada cálculo; planos mais complexos continuam sujeitos aos limites do gerador.
+O EscalaEasy é gratuito e usa uma fila para economizar recursos de hospedagem. Na configuração padrão, atende **um cálculo por vez, com até 20 pedidos aguardando**. Se a fila estiver cheia, o app informa que é preciso aguardar e tentar novamente. A espera na fila é separada do limite de tempo de cada cálculo; planos mais complexos continuam sujeitos aos limites do gerador.
 
 **Mantenha esta página aberta durante a espera.** Recarregar ou fechar a página não recupera o acompanhamento do pedido, embora ele possa terminar no servidor. A fila fica em memória: se o servidor reiniciar, pedidos pendentes e resultados são perdidos e será necessário gerar novamente. Consulte os [detalhes da fila de processamento](docs/processing-queue.md).
 
@@ -565,7 +569,7 @@ As direções abaixo são possibilidades de evolução, ainda não recursos comp
 
 ## Estado atual
 
-O EscalaLivre está em desenvolvimento, com cadastro/importação de equipe, histórico de vigências, cobertura exclusiva, geração com aplicação automática, edição/desfazer, ausências/substituições, cópia/troca de turnos, resumo com ações e fechamento/exportação de versões implementados. O domínio contém tipos validados e operações protegidas de planejamento; análise e validação usam um avaliador comum, separado da otimização. Os regimes declaram capacidades de trabalho, descanso e ciclo, mantendo os tipos públicos `dayBased` e `hourBased`.
+O EscalaEasy está em desenvolvimento, com cadastro/importação de equipe, histórico de vigências, cobertura exclusiva, geração com aplicação automática, edição/desfazer, ausências/substituições, cópia/troca de turnos, resumo com ações e fechamento/exportação de versões implementados. O domínio contém tipos validados e operações protegidas de planejamento; análise e validação usam um avaliador comum, separado da otimização. Os regimes declaram capacidades de trabalho, descanso e ciclo, mantendo os tipos públicos `dayBased` e `hourBased`.
 
 O motor trabalha com candidatos discretos de turnos e intervalos e com as regras atualmente modeladas. A geração é reavaliada antes de aplicar o resultado, preservando os dados anteriores em falhas. A preparação para produção ainda exige validação da versão publicada na hospedagem escolhida, configuração de HTTPS/proxy/recursos e acompanhamento operacional. A fila atual pertence a uma única instância e perde pedidos/resultados ao reiniciar; os arquivos e as cópias locais continuam sob responsabilidade do dispositivo do usuário.
 

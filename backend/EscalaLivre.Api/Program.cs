@@ -115,7 +115,7 @@ app.Use(async (context, next) =>
     await next(context);
 });
 if (app.Environment.IsDevelopment()) app.MapOpenApi();
-app.MapGet("/", () => ApiEnvelope<object>.Ok(new { product = "EscalaLivre", mode = "local-first", endpoints = new[] { "/solve", "/validate", "/analyze", "/import", "/export" } }));
+app.MapGet("/", () => ApiEnvelope<object>.Ok(new { product = "EscalaEasy", mode = "local-first", endpoints = new[] { "/solve", "/validate", "/analyze", "/import", "/export" } }));
 app.MapGet("/health", () => Results.Ok(new { status = "healthy" }));
 foreach (string operation in new[] { "solve", "validate", "analyze" })
 {

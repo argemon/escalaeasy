@@ -1,14 +1,22 @@
-# Marca Escala Livre
+# Marca EscalaEasy
 
-Conceito adotado: **Calendário leve** (opção 2). Calendário com abertura lateral e um bloco de turno verde, representando planejamento e flexibilidade.
+**Sua escala. Sem complicação.**
 
-- Azul-petróleo: `#164E63`.
-- Verde: `#53B58A`.
-- Azul claro para contraste no tema escuro: `#A4DCE8`.
-- Tipografia: Inter, com alternativas Segoe UI e fontes sem serifa do sistema.
-- Marca completa: [logo.svg](../frontend/public/brand/logo.svg).
-- Símbolo: [icon.svg](../frontend/public/brand/icon.svg).
-- Ícone da aba: [favicon.svg](../frontend/public/favicon.svg), com contraste adaptado ao tema do navegador.
-- Componente da interface e impressão: `frontend/src/components/Brand.tsx`.
+O conceito **Calendário leve** mantém a geometria original: calendário com abertura lateral e bloco de turno verde. A migração altera o nome e suas cores, sem redesenhar o símbolo.
 
-Os arquivos SVG são vetores redesenhados a partir da proposta selecionada, com fundo transparente. Preserve as proporções e o espaço ao redor. Ao alterar o símbolo, mantenha a geometria do componente e dos arquivos SVG sincronizada. A versão do README usa texto SVG e a fonte disponível no dispositivo.
+- **Escala** e calendário: azul-petróleo `#164E63`.
+- **Easy** e bloco de turno: verde `#53B58A`.
+- Tipografia da marca: **Inter Bold (700), versão 4.1**, incorporada localmente sob SIL Open Font License 1.1.
+- No tema escuro, uma base clara preserva as cores oficiais e a legibilidade.
+- [Logo horizontal](../frontend/public/brand/logo.svg): texto convertido em curvas Inter Bold, sem depender de fontes instaladas ou rede.
+- [Símbolo](../frontend/public/brand/icon.svg) e [favicon](../frontend/public/favicon.svg): geometria original sincronizada com `frontend/src/components/Brand.tsx`.
+- Interface e impressão HTML usam `Brand.tsx`, com fonte WOFF2 local em `frontend/public/brand/fonts/`.
+- O rodapé do PDF usa a mesma geometria, as duas cores e Inter Bold TTF incorporada. As tabelas continuam com Noto Sans, preservando conteúdo e paginação.
+
+Preserve proporções, fundo transparente e espaço ao redor dos SVGs. Para regenerar as curvas do nome, execute `python tools/generate-brand.py` com `fonttools==4.69.1`; o script usa o Inter Bold versionado no backend. A fonte e sua licença vêm do [release oficial Inter 4.1](https://github.com/rsms/inter/releases/tag/v4.1).
+
+## Compatibilidade e publicação
+
+EscalaEasy é o nome público. `.escalalivre`, as chaves de armazenamento/recuperação, o schema JSON, os namespaces e assemblies `EscalaLivre.*` e os caminhos de projetos continuam válidos. Esses identificadores técnicos preservam arquivos, dados, builds e integrações existentes.
+
+O repositório continua em `https://github.com/argemon/escalalivre`. Esta mudança não registra nem presume domínio, altera hospedagem, renomeia o repositório ou publica uma versão. Evidências históricas e capturas anteriores mantêm a marca da época.
