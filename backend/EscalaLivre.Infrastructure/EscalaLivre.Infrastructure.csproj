@@ -17,6 +17,7 @@
   <ItemGroup>
     <EmbeddedResource Include="ImportExport/Fonts/*.ttf" LogicalName="EscalaLivre.Fonts.%(Filename)%(Extension)" />
     <None Update="ImportExport/Fonts/OFL.txt" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="ImportExport/Fonts/Inter-OFL.txt" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
   <PropertyGroup>

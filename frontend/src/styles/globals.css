@@ -1,3 +1,5 @@
+@font-face { font-family: "EscalaEasy Inter"; src: url("../../public/brand/fonts/Inter-Bold.woff2") format("woff2"); font-style: normal; font-weight: 700; font-display: swap; }
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -229,12 +231,13 @@ button:disabled { cursor: not-allowed; }
 }
 
 
-/* Escala Livre — Calendário leve. */
+/* EscalaEasy — Calendário leve. */
 .brand { display:inline-flex; align-items:center; gap:.6em; color:#164e63; vertical-align:middle; }
 .brand-icon { display:block; flex:none; width:2em; height:2em; }
-.brand-name { font-weight:700; letter-spacing:-.035em; line-height:1.15; white-space:nowrap; }
+.brand-easy { color:#53b58a; }
+.brand-name { font-family:"EscalaEasy Inter", Inter, sans-serif; font-weight:700; letter-spacing:-.035em; line-height:1.15; white-space:nowrap; }
 .brand-header { font-size:1.125rem; margin-bottom:.3rem; }
-.dark .brand { color:#a4dce8; }
+.dark .brand { background:#f5faf8; border-radius:.3em; padding:.2em .35em; }
 .brand.schedule-print-brand { color:#164e63; font-size:9pt; gap:.45em; }
 .schedule-print-brand .brand-icon { width:1.8em; height:1.8em; }
 @media print { .brand.schedule-print-brand { color:#164e63; print-color-adjust:exact; -webkit-print-color-adjust:exact; } }

@@ -8,7 +8,7 @@ export const sampleDocument: EscalaLivreDocument = {
   id: "4e8a2937-f61a-46bf-a33f-9ce0f7b13279",
   company: {
     timeZone: deviceTimeZone(),
-    name: "Escala Livre",
+    name: "EscalaEasy",
     opensAt: "08:00:00",
     closesAt: "22:00:00",
     operatingDays: [1, 2, 3, 4, 5, 6],
@@ -118,5 +118,5 @@ export const sampleDocument: EscalaLivreDocument = {
 };
 
 export function emptyDocument(): EscalaLivreDocument {
-  return { ...structuredClone(sampleDocument), planningPeriod: defaultPlanningPeriod(), roles: [], setup: { companyConfigured: false }, id: crypto.randomUUID(), company: { ...structuredClone(sampleDocument.company), name: "Escala Livre", timeZone: deviceTimeZone(), coverageMode:"exclusive", coverage: [] }, employees: [], assignments: [], updatedAt: nowInstant() };
+  return { ...structuredClone(sampleDocument), planningPeriod: defaultPlanningPeriod(), roles: [], setup: { companyConfigured: false }, id: crypto.randomUUID(), company: { ...structuredClone(sampleDocument.company), name: "EscalaEasy", timeZone: deviceTimeZone(), coverageMode:"exclusive", coverage: [] }, employees: [], assignments: [], updatedAt: nowInstant() };
 }

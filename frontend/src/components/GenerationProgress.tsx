@@ -28,7 +28,7 @@ export function GenerationProgress() {
         {progress.reconnecting && <p className="text-sm">A posição exibida é a última confirmada. Vamos atualizar automaticamente, sem enviar outro pedido.</p>}
         {progress.state === "processing" && progress.processingSeconds + extra > progress.estimatedRunSeconds && <p className="text-sm">Está demorando mais que a estimativa. Continuamos acompanhando o processamento.</p>}
       </>}
-      <p className="text-xs text-muted-foreground">O EscalaLivre é gratuito e atende os pedidos em fila para economizar recursos. Os tempos são aproximados e podem mudar. Mantenha esta página aberta; você pode consultar outras abas do app durante a espera.</p>
+      <p className="text-xs text-muted-foreground">O EscalaEasy é gratuito e atende os pedidos em fila para economizar recursos. Os tempos são aproximados e podem mudar. Mantenha esta página aberta; você pode consultar outras abas do app durante a espera.</p>
       <Button type="button" onClick={() => void cancel()} disabled={!progress || cancelling} className="bg-card text-foreground dark:bg-card dark:text-foreground">{cancelling ? "Aguardando cancelamento…" : "Cancelar geração"}</Button>
     </section>}
     {message && <p role="status" className="text-sm text-foreground">{displayTemporalText(message)}</p>}

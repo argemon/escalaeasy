@@ -33,10 +33,13 @@ public sealed class PdfExportTests
         using var stream=new MemoryStream(Convert.FromBase64String(result.ContentBase64));
         using var pdf=PdfReader.Open(stream,PdfDocumentOpenMode.Import);
         Assert.Equal("Escala da equipe - Organização São José",pdf.Info.Title);
+        Assert.Equal("EscalaEasy",pdf.Info.Author);
+        Assert.Contains(pdf.Internals.GetAllObjects().OfType<PdfDictionary>().Where(d=>d.Elements.ContainsKey("/BaseFont")),
+            d=>d.Elements.GetName("/BaseFont").Contains("Inter",StringComparison.Ordinal));
         Assert.Equal(count>1,pdf.PageCount>1);
         // Full embedded font bytes prevent loss of nested composite accents during subsetting.
         var assembly=typeof(NativeScheduleSerializer).Assembly;
-        var expectedFonts=new[]{"NotoSans-Regular.ttf","NotoSans-Bold.ttf"}.Select(name=>{
+        var expectedFonts=new[]{"NotoSans-Regular.ttf","NotoSans-Bold.ttf","Inter-Bold.ttf"}.Select(name=>{
             using var resource=assembly.GetManifestResourceStream("EscalaLivre.Fonts."+name)!;
             using var bytes=new MemoryStream();resource.CopyTo(bytes);return bytes.ToArray();
         }).ToArray();

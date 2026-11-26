@@ -18,6 +18,25 @@ function memory(values={}) {const data=new Map(Object.entries(values));return {d
 const plain=v=>JSON.parse(JSON.stringify(v));
 function fixture(load) {const d=structuredClone(load('data/sample.ts').sampleDocument);d.company.name='Meu planejamento';return d;}
 function saved(document,extra={}) {return JSON.stringify({version:2,state:{document,theme:'dark',viewMode:'month',...extra}});}
+
+test('EscalaEasy keeps legacy storage, company names, native documents and recovery copies',()=>{
+  for(const name of ['Escala Livre','EscalaLivre','Empresa do cliente']){
+    const storage=memory(),{load}=session(storage),d=load('lib/documentLifecycle.ts').normalizeDocument(load('lib/nativeDocument.ts').validateNativeDocument(fixture(load)));d.company.name=name;
+    const raw=saved(d);storage.setItem('escalalivre-state',raw);
+    const {useScheduleStore:store}=load('store/scheduleStore.ts');
+    assert.deepEqual(plain(store.getState().document),plain(d));
+    assert.equal(store.getState().theme,'dark');assert.equal(store.getState().viewMode,'month');
+    const native=load('lib/nativeDocument.ts');
+    assert.deepEqual(plain(native.parseNativeText(native.serializeNative(d))),plain(d));
+    assert.ok(native.nativeFilename(d).endsWith('.escalalivre'));
+    const next=structuredClone(d);next.company.name='Nova empresa';store.getState().importDocument(next);
+    const fresh=session(storage),{useScheduleStore:restored}=fresh.load('store/scheduleStore.ts');
+    const copy=fresh.load('lib/recoveryStorage.ts').recovery.getSnapshot().copies.find(c=>c.reason==='Antes da importação');
+    assert.ok(copy?.native);assert.equal(restored.getState().restoreRecovery(copy.contents),true);
+    assert.deepEqual(plain(restored.getState().document),plain(d));
+    assert.equal(storage.getItem('escalaeasy-state'),null);
+  }
+});
 test('native exports enforce their exact UTF-8 byte limit and every accepted export reimports',()=>{
   const {load}=session(memory()),native=load('lib/nativeDocument.ts'),d=fixture(load);
   d.company.name='Ação · 日本語 · 😀';

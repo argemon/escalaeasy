@@ -15,7 +15,7 @@ export default function App() {
   const viewMode = useScheduleStore((state) => state.viewMode);
   const periodKey = useScheduleStore(state => state.document.id+state.document.planningPeriod.start+state.document.planningPeriod.end);
   const companyName = useScheduleStore(state => state.document.company.name);
-  useEffect(() => { document.title = companyName === "Escala Livre" ? companyName : `${companyName} · Escala Livre`; }, [companyName]);
+  useEffect(() => { document.title = companyName === "EscalaEasy" ? companyName : `${companyName} · EscalaEasy`; }, [companyName]);
   const theme = useScheduleStore((state) => state.theme);
 
   useEffect(() => {

@@ -1,6 +1,6 @@
 # Importacao E Exportacao
 
-EscalaLivre e local-first. A persistencia principal e um arquivo `.escalalivre` com JSON estruturado.
+EscalaEasy é local-first. A persistência principal é um arquivo `.escalalivre` com JSON estruturado. A extensão, o schema e os identificadores de formato existentes são mantidos para compatibilidade; não é necessário converter ou renomear arquivos antigos. PDF e PNG passam a identificar a marca como EscalaEasy; os dados da empresa, os nomes de download e os formatos de exportação permanecem iguais.
 
 ## Arquivo nativo
 

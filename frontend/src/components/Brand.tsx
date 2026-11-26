@@ -1,4 +1,4 @@
-/** Calendar mark selected for Escala Livre. Geometry matches public/brand/icon.svg. */
+/** Calendar mark selected for EscalaEasy. Geometry matches public/brand/icon.svg. */
 export function Brand({ className = "" }: { className?: string }) {
   return (
     <span className={`brand ${className}`}>
@@ -7,7 +7,7 @@ export function Brand({ className = "" }: { className?: string }) {
   <path d="M20 11V22M44 11V22" fill="none" stroke="currentColor" strokeWidth="6" strokeLinecap="round"/>
   <rect x="18" y="32" width="20" height="20" rx="4" fill="#53b58a"/>
       </svg>
-      <span className="brand-name">Escala Livre</span>
+      <span className="brand-name">Escala<span className="brand-easy">Easy</span></span>
     </span>
   );
 }

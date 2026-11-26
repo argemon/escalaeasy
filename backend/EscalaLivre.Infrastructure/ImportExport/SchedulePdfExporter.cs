@@ -16,7 +16,7 @@ internal static class SchedulePdfExporter
     {
         var document=new Document();
         document.Info.Title="Escala da equipe - "+schedule.Company.Name;
-        document.Info.Author="Escala Livre";
+        document.Info.Author="EscalaEasy";
         var normal=document.Styles[StyleNames.Normal]!;
         normal.Font.Name="Escala Sans";normal.Font.Size=8.5;
         normal.Font.Color=Colors.DarkSlateGray;
@@ -78,7 +78,7 @@ internal static class SchedulePdfExporter
     private static void DrawFooters(PdfDocument document)
     {
         var brandColor=XColor.FromArgb(0x16,0x4e,0x63);
-        var brandFont=new XFont("Escala Sans",9,XFontStyleEx.Bold);
+        var brandFont=new XFont("Escala Brand",9,XFontStyleEx.Bold,new XPdfFontOptions(PdfFontEmbedding.EmbedCompleteFontFile));
         var pageFont=new XFont("Escala Sans",8.5);
         for(int i=0;i<document.PageCount;i++)
         {
@@ -86,7 +86,8 @@ internal static class SchedulePdfExporter
             using var graphics=XGraphics.FromPdfPage(page,XGraphicsPdfPageOptions.Append);
             string pagination=$"Página {i+1} de {document.PageCount}";
             double pageWidth=graphics.MeasureString(pagination,pageFont).Width;
-            double nameWidth=graphics.MeasureString("Escala Livre",brandFont).Width;
+            double escalaWidth=graphics.MeasureString("Escala",brandFont).Width;
+            double nameWidth=escalaWidth+graphics.MeasureString("Easy",brandFont).Width;
             double pageLeft=page.Width.Point-XUnit.FromCentimeter(1.7).Point-pageWidth;
             double top=page.Height.Point-31;
             const double iconSize=18,gap=5;
@@ -115,8 +116,10 @@ internal static class SchedulePdfExporter
             graphics.DrawLine(rings,20,11,20,22);graphics.DrawLine(rings,44,11,44,22);
             graphics.DrawRoundedRectangle(new XSolidBrush(XColor.FromArgb(0x53,0xb5,0x8a)),18,32,20,20,8,8);
             graphics.Restore(state);
-            graphics.DrawString("Escala Livre",brandFont,new XSolidBrush(brandColor),
-                new XRect(logoLeft+iconSize+gap,top,nameWidth,20),XStringFormats.CenterLeft);
+            graphics.DrawString("Escala",brandFont,new XSolidBrush(brandColor),
+                new XRect(logoLeft+iconSize+gap,top,escalaWidth,20),XStringFormats.CenterLeft);
+            graphics.DrawString("Easy",brandFont,new XSolidBrush(XColor.FromArgb(0x53,0xb5,0x8a)),
+                new XRect(logoLeft+iconSize+gap+escalaWidth,top,nameWidth-escalaWidth,20),XStringFormats.CenterLeft);
             graphics.DrawString(pagination,pageFont,XBrushes.DarkSlateGray,
                 new XRect(pageLeft,top,pageWidth,20),XStringFormats.CenterLeft);
         }
@@ -135,9 +138,9 @@ internal static class SchedulePdfExporter
     }
     private sealed class ScheduleFontResolver:IFontResolver
     {
-        private static readonly byte[] Regular=Read("NotoSans-Regular.ttf"),Bold=Read("NotoSans-Bold.ttf");
-        public FontResolverInfo ResolveTypeface(string familyName,bool bold,bool italic)=>new(bold?"Escala.Bold":"Escala.Regular",false,italic);
-        public byte[] GetFont(string faceName)=>faceName=="Escala.Bold"?Bold:Regular;
+        private static readonly byte[] Regular=Read("NotoSans-Regular.ttf"),Bold=Read("NotoSans-Bold.ttf"),Brand=Read("Inter-Bold.ttf");
+        public FontResolverInfo ResolveTypeface(string familyName,bool bold,bool italic)=>new(familyName=="Escala Brand"?"Escala.Brand":bold?"Escala.Bold":"Escala.Regular",false,italic);
+        public byte[] GetFont(string faceName)=>faceName=="Escala.Brand"?Brand:faceName=="Escala.Bold"?Bold:Regular;
         private static byte[] Read(string filename)
         {
             using var stream=typeof(SchedulePdfExporter).Assembly.GetManifestResourceStream("EscalaLivre.Fonts."+filename)
