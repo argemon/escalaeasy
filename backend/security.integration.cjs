@@ -11,6 +11,22 @@ const apiDirectory = path.join(__dirname, 'EscalaLivre.Api');
 const assembly = path.join(apiDirectory, `bin/${process.env.SECURITY_BUILD_CONFIGURATION || 'Debug'}/net10.0/EscalaLivre.Api.dll`);
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
+test('native file extensions export EscalaEasy and keep legacy imports over HTTP',async()=>{
+  await withServer({},async({post})=>{
+    const document=request().document;let original;
+    for(const format of ['native','escalaeasy','escalalivre']){
+      const response=await post('/export',{document,format});assert.equal(response.status,200);
+      const {data}=await response.json();assert.equal(data.fileName,'escala.escalaeasy');
+      original??=data.contentBase64;assert.equal(data.contentBase64,original);
+    }
+    for(const fileName of ['planejamento.escalaeasy','planejamento.escalalivre','PLANEJAMENTO.ESCALAEASY','PLANEJAMENTO.ESCALALIVRE']){
+      const response=await post('/import',{fileName,format:'auto',contentBase64:original});
+      assert.equal(response.status,200);const {data}=await response.json();
+      assert.equal(data.id,document.id);assert.deepEqual(data.assignments,document.assignments);
+    }
+  });
+});
+
 test('export queue returns private tickets, produces PDF and XLSX and supports cancellation',async()=>{
  await withServer({},async({url,post,logs})=>{
   const r=request();

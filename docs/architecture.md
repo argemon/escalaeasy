@@ -75,7 +75,7 @@ minutos é preservada sem remoção antecipada; `TimeProvider` permite controlar
 expiração/limpeza nos testes. Esses limites não medem RSS/heap. Decisão e evidências:
 [orçamento de retenção](decisions/014-job-retention-budget.md).
 
-No frontend, componentes apresentam, Zustand coordena estado/recuperação e lib contém análise/construção local. As políticas em lib/policies não dependem de React/Zustand/HTTP/browser nem de chamadas de relógio local do dispositivo. São implementações distintas das políticas C#, verificadas por 58 documentos de paridade, 20 contratos de regime e dois casos de D1. A construção de pausa usa os mesmos limites variáveis da política; aliases temporários foram removidos. O arquivo .escalalivre continua fonte portátil local-first, sem cadastro/persistência de servidor.
+No frontend, componentes apresentam, Zustand coordena estado/recuperação e lib contém análise/construção local. As políticas em lib/policies não dependem de React/Zustand/HTTP/browser nem de chamadas de relógio local do dispositivo. São implementações distintas das políticas C#, verificadas por 58 documentos de paridade, 20 contratos de regime e dois casos de D1. A construção de pausa usa os mesmos limites variáveis da política; aliases temporários foram removidos. O arquivo .escalaeasy, com importação compatível de .escalalivre, continua fonte portátil local-first, sem cadastro/persistência de servidor.
 
 ## Validação e evolução
 

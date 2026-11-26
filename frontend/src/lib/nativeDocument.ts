@@ -37,7 +37,7 @@ export function nativeFilename(document: EscalaLivreDocument): string {
   const company = Array.from(document.company.name, char => char < " " ? "-" : char).join("")
     .replace(/[<>:"/\\|?*]/g, "-").replace(/\s+/g, " ").trim().slice(0, 120).replace(/[. ]+$/g, "") || "Empresa";
   const date = (value: string) => value.slice(0, 10).split("-").reverse().join("-");
-  return `${company} - ${date(document.planningPeriod.start)} a ${date(document.planningPeriod.end)}.escalalivre`;
+  return `${company} - ${date(document.planningPeriod.start)} a ${date(document.planningPeriod.end)}.escalaeasy`;
 }
 export function downloadText(text: string, filename: string, type="application/json"): void {
   const url=URL.createObjectURL(new Blob([text],{type}));

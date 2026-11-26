@@ -26,7 +26,7 @@ Referências: [instruções](../AGENTS.md), [arquitetura atual e alvo](architect
 ## Contratos que devem ser preservados
 
 - Endpoints, envelopes, diagnósticos (código, gravidade, pessoa, início, fim e função), blocos, lacunas e pontuação.
-- Formato `.escalalivre`, versões suportadas, migrações identificadas/idempotentes e recuperação local.
+- Formato `.escalaeasy`, importação compatível de `.escalalivre`, versões suportadas, migrações identificadas/idempotentes e recuperação local.
 - Tempo civil, segundos, períodos inclusivos conforme contrato, semana civil, viradas noturnas e histórico anterior/posterior.
 - Restrições obrigatórias separadas de preferências, autorizações específicas e limites de busca do solver.
 - Turnos fora do período e exceções autorizadas; falha ou cancelamento não substitui a escala existente.

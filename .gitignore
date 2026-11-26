@@ -11,6 +11,7 @@ frontend/vite.config.d.ts
 *.user
 *.suo
 *.escalalivre.local
+*.escalaeasy.local
 coverage/
 *.log
 

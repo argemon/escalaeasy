@@ -20,7 +20,7 @@ public sealed class NativeScheduleSerializer
         if (request is null || DocumentSafety.Error(request.Document) is not null) throw new FormatException("Documento inválido.");
         if (request.Format is null || request.PublicationLabel is { Length: > 200 }) throw new FormatException("Formato ou identificação inválida.");
         string json = JsonSerializer.Serialize(WithPlanningPeriod(request.Document), JsonOptions);
-        if (request.Format.ToLowerInvariant() is "native" or "escalalivre")
+        if (request.Format.ToLowerInvariant() is "native" or "escalaeasy" or "escalalivre")
         {
             byte[] native=Encoding.UTF8.GetBytes(json);
             if(native.Length>NativeDocumentLimits.MaxBytes)
@@ -32,7 +32,7 @@ public sealed class NativeScheduleSerializer
             // Check the exact exported bytes with the import validator, including migrations.
             var roundTrip=JsonSerializer.Deserialize<EscalaLivreDocument>(native,JsonOptions);
             if(DocumentSafety.Error(roundTrip) is not null) throw new FormatException("Documento exportado inválido.");
-            return new ExportResult("escala.escalalivre",Convert.ToBase64String(native),"application/json");
+            return new ExportResult("escala.escalaeasy",Convert.ToBase64String(native),"application/json");
         }
         return request.Format.ToLowerInvariant() switch
         {
@@ -50,7 +50,7 @@ public sealed class NativeScheduleSerializer
         byte[] bytes = Convert.FromBase64String(request.ContentBase64);
         if (bytes.Length > NativeDocumentLimits.MaxBytes) throw new FormatException("Arquivo maior que 1 MiB.");
         string content = new UTF8Encoding(false, true).GetString(bytes);
-        if (request.Format.Equals("native", StringComparison.OrdinalIgnoreCase) || request.FileName.EndsWith(".escalalivre", StringComparison.OrdinalIgnoreCase))
+        if (request.Format.ToLowerInvariant() is "native" or "escalaeasy" or "escalalivre" || request.FileName.EndsWith(".escalaeasy", StringComparison.OrdinalIgnoreCase) || request.FileName.EndsWith(".escalalivre", StringComparison.OrdinalIgnoreCase))
         {
             var document = JsonSerializer.Deserialize<EscalaLivreDocument>(content, JsonOptions);
             if (DocumentSafety.Error(document) is not null) throw new FormatException("Documento inválido.");
