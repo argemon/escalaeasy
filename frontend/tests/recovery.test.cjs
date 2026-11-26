@@ -28,7 +28,7 @@ test('EscalaEasy keeps legacy storage, company names, native documents and recov
     assert.equal(store.getState().theme,'dark');assert.equal(store.getState().viewMode,'month');
     const native=load('lib/nativeDocument.ts');
     assert.deepEqual(plain(native.parseNativeText(native.serializeNative(d))),plain(d));
-    assert.ok(native.nativeFilename(d).endsWith('.escalalivre'));
+    assert.ok(native.nativeFilename(d).endsWith('.escalaeasy'));
     const next=structuredClone(d);next.company.name='Nova empresa';store.getState().importDocument(next);
     const fresh=session(storage),{useScheduleStore:restored}=fresh.load('store/scheduleStore.ts');
     const copy=fresh.load('lib/recoveryStorage.ts').recovery.getSnapshot().copies.find(c=>c.reason==='Antes da importação');

@@ -11,7 +11,7 @@ Estas instruções se aplicam ao repositório inteiro. Antes de alterar regras o
 - Infrastructure implementa portas e traduz decisões de domínio para OR-Tools, arquivos e exportadores. Não cria versões próprias das regras de negócio.
 - API trata transporte, proteção HTTP, fila/worker e composição das dependências. Endpoints não decidem regras de escala. O isolamento de processos existente deve ser preservado.
 - Frontend mantém apresentação, estado e diagnóstico local separados. Componentes e ações de Zustand não devem acumular cálculos de negócio já existentes em `src/lib`.
-- Preserve a experiência local-first e a portabilidade do arquivo `.escalalivre`.
+- Preserve a experiência local-first e a portabilidade do arquivo `.escalaeasy`, mantendo a importação dos arquivos legados `.escalalivre`.
 
 ## SOLID aplicado
 

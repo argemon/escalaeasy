@@ -4,6 +4,15 @@ const load = require('./source-loader.cjs')();
 const native = load('lib/nativeDocument.ts');
 const { sampleDocument } = load('data/sample.ts');
 
+test('new and legacy native file extensions import the same document without conversion',async()=>{
+  const text=native.serializeNative(sampleDocument),api=load('lib/api.ts');
+  for(const name of ['planejamento.escalaeasy','planejamento.escalalivre','PLANEJAMENTO.ESCALAEASY','PLANEJAMENTO.ESCALALIVRE']){
+    const restored=await api.importNative({name,size:Buffer.byteLength(text),text:async()=>text});
+    assert.equal(native.serializeNative(restored),text);
+    assert.ok(native.nativeFilename(restored).endsWith('.escalaeasy'));
+  }
+});
+
 test('native export names the company and selected period even without shifts', () => {
   const document = structuredClone(sampleDocument);
   document.company.name = 'Comércio São João';
@@ -17,7 +26,7 @@ test('native export names the company and selected period even without shifts', 
   } finally {
     native.downloadText = original;
   }
-  assert.equal(downloaded.filename, 'Comércio São João - 28-12-2026 a 03-01-2027.escalalivre');
+  assert.equal(downloaded.filename, 'Comércio São João - 28-12-2026 a 03-01-2027.escalaeasy');
   const restored = native.parseNativeText(downloaded.contents);
   assert.equal(restored.company.name, document.company.name);
   assert.deepEqual(JSON.parse(JSON.stringify(restored.planningPeriod)), document.planningPeriod);
@@ -29,11 +38,11 @@ test('native filenames preserve accents and replace characters forbidden in Wind
   document.company.name = '  Ação <Matriz>: "Sul"/Norte\\Loja|Rede?*\u0000  ';
   const filename = native.nativeFilename(document);
   assert.ok(filename.startsWith('Ação -Matriz-'));
-  assert.ok(filename.endsWith(' - 19-11-2026 a 19-11-2026.escalalivre'));
+  assert.ok(filename.endsWith(' - 19-11-2026 a 19-11-2026.escalaeasy'));
   assert.equal(/[<>:"/\\|?*]/.test(filename), false);
   assert.ok(Array.from(filename).every(char => char >= ' '));
   document.company.name = ' ... ';
-  assert.equal(native.nativeFilename(document), 'Empresa - 19-11-2026 a 19-11-2026.escalalivre');
+  assert.equal(native.nativeFilename(document), 'Empresa - 19-11-2026 a 19-11-2026.escalaeasy');
   document.company.name = 'Á'.repeat(300);
   assert.ok(native.nativeFilename(document).length < 200);
 });

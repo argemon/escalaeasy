@@ -22,6 +22,6 @@ export async function exportSchedulePdf(d: EscalaLivreDocument,onProgress?:(p:Ex
   const result=await exportQueued({document,format:"pdf"},onProgress);
   if(!result)return false;
   const bytes = Uint8Array.from(atob(result.contentBase64), c => c.charCodeAt(0));
-  downloadBlob(new Blob([bytes], { type: "application/pdf" }), nativeFilename(d).replace(/\.escalalivre$/, ".pdf"));
+  downloadBlob(new Blob([bytes], { type: "application/pdf" }), nativeFilename(d).replace(/\.(?:escalaeasy|escalalivre)$/, ".pdf"));
   return true;
 }

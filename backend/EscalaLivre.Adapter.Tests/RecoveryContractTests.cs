@@ -7,6 +7,28 @@ using EscalaLivre.Infrastructure.ImportExport;
 namespace EscalaLivre.Adapter.Tests;
 public sealed class RecoveryContractTests
 {
+    [Fact]
+    public void NewExtensionAndLegacyFilesShareTheSameNativePayload()
+    {
+        var serializer=new NativeScheduleSerializer();var document=Document(1);
+        var native=serializer.Export(new(document,"native"));
+        Assert.Equal("escala.escalaeasy",native.FileName);
+        foreach(var format in new[]{"native","escalaeasy","escalalivre","ESCALAEASY"})
+        {
+            var exported=serializer.Export(new(document,format));
+            Assert.Equal(native.ContentBase64,exported.ContentBase64);
+            Assert.Equal("escala.escalaeasy",exported.FileName);
+            var imported=serializer.Import(new("document.json",exported.ContentBase64,format));
+            Assert.Equal(document.Id,imported.Id);Assert.Equal(document.Company.Name,imported.Company.Name);
+            Assert.Equal(native.ContentBase64,serializer.Export(new(imported,"native")).ContentBase64);
+        }
+        foreach(var name in new[]{"document.escalaeasy","document.escalalivre","DOCUMENT.ESCALAEASY","DOCUMENT.ESCALALIVRE"})
+        {
+            var imported=serializer.Import(new(name,native.ContentBase64,"auto"));
+            Assert.Equal(document.Id,imported.Id);Assert.Equal(document.Company.Name,imported.Company.Name);
+            Assert.Equal(native.ContentBase64,serializer.Export(new(imported,"native")).ContentBase64);
+        }
+    }
     private static EscalaLivreDocument Document(int shifts=0)
     {
         var rule=new WorkloadRule("dayBased",7,0,44,TimeSpan.FromHours(4));

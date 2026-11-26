@@ -79,7 +79,7 @@ export function GlobalHeader() {
           Importar
           <input
             type="file"
-            accept=".escalalivre,application/json"
+            accept=".escalaeasy,.escalalivre,application/json"
             className="hidden"
             onChange={async (event) => {
               const file = event.target.files?.[0];

@@ -1,10 +1,10 @@
 # EscalaEasy
 
+<img src="docs/images/escalaeasy-logo.png" alt="EscalaEasy — Sua escala. Sem complicação." width="400" />
+
 **Sua escala. Sem complicação.**
 
-A marca passou de EscalaLivre para **EscalaEasy**. Arquivos `.escalalivre`, dados locais, contratos e caminhos técnicos existentes permanecem compatíveis. O endereço deste repositório continua o mesmo. Consulte a [identidade visual e a política de compatibilidade](docs/brand.md).
-
-![EscalaEasy — Calendário leve](frontend/public/brand/logo.svg)
+A marca passou de EscalaLivre para **EscalaEasy**. Os novos arquivos são exportados como `.escalaeasy`; arquivos antigos `.escalalivre`, dados locais, contratos e caminhos técnicos existentes permanecem compatíveis. O endereço deste repositório continua o mesmo. Consulte a [identidade visual e a política de compatibilidade](docs/brand.md).
 
 ### Planeje a equipe. Enxergue as lacunas. Tome decisões melhores.
 
@@ -12,7 +12,7 @@ A marca passou de EscalaLivre para **EscalaEasy**. Arquivos `.escalalivre`, dado
 
 > **Matemática para organizar pessoas.** A geração de escalas usa algoritmos e otimização por restrições, sem IA generativa, modelos de linguagem ou serviços de IA.
 
-A interface funciona no navegador, **sem cadastro**. O planejamento fica no dispositivo e pode ser levado para outro computador em um arquivo `.escalalivre`. A hospedagem pública ainda não está definida; para experimentar, veja [como executar localmente](#experimente-localmente) e as [proteções da API](docs/SECURITY.md).
+A interface funciona no navegador, **sem cadastro**. O planejamento fica no dispositivo e pode ser levado para outro computador em um arquivo `.escalaeasy`. A hospedagem pública ainda não está definida; para experimentar, veja [como executar localmente](#experimente-localmente) e as [proteções da API](docs/SECURITY.md).
 
 Uma escala precisa responder a mais do que “quem trabalha hoje?”. É preciso saber se haverá pessoas suficientes na abertura, durante o almoço e no fechamento — sem ignorar disponibilidade, descanso e limites de jornada.
 
@@ -52,7 +52,7 @@ Depois dos cadastros:
 2. Abra **Gerar**, com o ícone de brilho, e clique em **Gerar escala**. A etapa **5. Revisar e gerar** também abre o assistente quando os quatro cadastros estão completos.
 3. Ao concluir a geração, a escala já fica aplicada. Confira cobertura, carga incompleta e conflitos no resumo operacional. Use **Desfazer** se quiser voltar à escala anterior.
 4. Consulte a escala diária, semanal ou mensal. Na semana, cada pessoa aparece uma única vez, com os horários nas colunas dos dias.
-5. Edite e fixe os combinados, registre ausências e confira substituições quando necessário. Use **Baixar PDF** para imprimir a escala salva no período; **Dados e opções → Exportar** guarda o arquivo completo `.escalalivre`.
+5. Edite e fixe os combinados, registre ausências e confira substituições quando necessário. Use **Baixar PDF** para imprimir a escala salva no período; **Dados e opções → Exportar** guarda o arquivo completo `.escalaeasy`.
 
 **Gerar abre o Assistente de escala, onde a geração acontece.** As prévias exibidas antes da geração são estimativas dos cadastros; não confirmam jornada, folgas ou descanso. Para gerar, é necessário ter pessoas cadastradas e ao menos uma regra de cobertura com quantidade maior que zero, além da API disponível.
 
@@ -130,12 +130,12 @@ A execução possui limite de tempo e pode encontrar uma solução viável sem c
 | **Pessoas por horário** | Comparar quantas pessoas estão escaladas com quantas são necessárias por função e período. |
 | **Onde faltam pessoas** | Identificar lacunas por função e dia em uma visualização com cores. |
 | **Resumo operacional com ações** | Separar conflitos obrigatórios, falta de pessoas, carga incompleta e avisos; navegar ao contexto e conferir ações possíveis. |
-| **Arquivo `.escalalivre`** | Exportar e reabrir empresa, equipe, regras, período e turnos em um documento portátil. |
+| **Arquivo `.escalaeasy`** | Exportar e reabrir empresa, equipe, regras, período e turnos em um documento portátil. |
 | **Cópias e recuperação** | Baixar ou restaurar cópias anteriores e recuperar dados quando o armazenamento apresenta falhas. |
 | **Fechamento e divulgação** | Guardar versões independentes por período e exportar PDF paginado, PNG em páginas ou XLSX, para equipe ou pessoa. |
 | **Temas claro e escuro** | Usar a interface em português, com explicações das abas e contraste adaptado ao tema. |
 
-O formato `.escalalivre` guarda o documento completo, incluindo versões fechadas. O botão **Baixar PDF** imprime diretamente a escala salva no período atual, agrupando dias consecutivos com horários e intervalos iguais.
+O formato `.escalaeasy` guarda o documento completo, incluindo versões fechadas. O botão **Baixar PDF** imprime diretamente a escala salva no período atual, agrupando dias consecutivos com horários e intervalos iguais.
 
 ## Período de planejamento e geração
 
@@ -174,8 +174,8 @@ No menu **Dados e opções**, no cabeçalho:
 
 | Ação | Quando usar |
 | --- | --- |
-| **Exportar** | Baixar empresa, equipe, regras, turnos e versões fechadas em `.escalalivre` para arquivar ou continuar em outro dispositivo. |
-| **Importar** | Abrir um arquivo `.escalalivre` e confirmar a substituição do planejamento atual e de suas versões. |
+| **Exportar** | Baixar empresa, equipe, regras, turnos e versões fechadas em `.escalaeasy` para arquivar ou continuar em outro dispositivo. |
+| **Importar** | Abrir um arquivo `.escalaeasy` ou `.escalalivre` e confirmar a substituição do planejamento atual e de suas versões. |
 | **Cópias e recuperação de dados** | Baixar ou restaurar cópias anteriores, exportar os dados disponíveis ou tentar salvar novamente após uma falha. |
 | **Limpar tudo** | Apagar o planejamento atual após digitar a confirmação solicitada. Exporte antes o que deseja guardar. |
 

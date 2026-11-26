@@ -1,14 +1,14 @@
 # Importacao E Exportacao
 
-EscalaEasy é local-first. A persistência principal é um arquivo `.escalalivre` com JSON estruturado. A extensão, o schema e os identificadores de formato existentes são mantidos para compatibilidade; não é necessário converter ou renomear arquivos antigos. PDF e PNG passam a identificar a marca como EscalaEasy; os dados da empresa, os nomes de download e os formatos de exportação permanecem iguais.
+EscalaEasy é local-first. A persistência principal é um arquivo `.escalaeasy` com JSON estruturado. Os novos downloads usam `.escalaeasy`, enquanto a importação continua aceitando `.escalalivre` e os aliases existentes. O schema JSON permanece igual; não é necessário converter ou renomear arquivos antigos. PDF e PNG passam a identificar a marca como EscalaEasy; os dados da empresa, as demais partes dos nomes de download e os formatos de exportação permanecem iguais.
 
 ## Arquivo nativo
 
-O download usa o padrão `Nome da empresa - DD-MM-AAAA a DD-MM-AAAA.escalalivre`, com as datas inicial e final do período selecionado, inclusive quando não há turnos. Exemplo: `Minha Empresa - 01-11-2026 a 30-11-2026.escalalivre`. O separador é hífen porque `>` não é permitido em nomes de arquivo no Windows. Acentos são preservados; caracteres proibidos são substituídos por hífen. A mesma convenção vale para exportar o planejamento disponível e baixar cópias nativas de recuperação, usando os dados da própria cópia.
+O download usa o padrão `Nome da empresa - DD-MM-AAAA a DD-MM-AAAA.escalaeasy`, com as datas inicial e final do período selecionado, inclusive quando não há turnos. Exemplo: `Minha Empresa - 01-11-2026 a 30-11-2026.escalaeasy`. O separador é hífen porque `>` não é permitido em nomes de arquivo no Windows. Acentos são preservados; caracteres proibidos são substituídos por hífen. A mesma convenção vale para exportar o planejamento disponível e baixar cópias nativas de recuperação, usando os dados da própria cópia.
 
 O botão **Baixar PDF** usa a mesma convenção, trocando apenas a extensão: `Minha Empresa - 01-11-2026 a 30-11-2026.pdf`. O nome é calculado pela mesma função da exportação nativa. Essa alteração não modifica o conteúdo, a aparência nem a geração do PDF. Verificação: testes de nomes nativos e exportação do PDF.
 
-Essa alteração afeta apenas o nome do download no navegador. O conteúdo JSON e as regras da escala permanecem iguais. A verificação inclui exportação sem turnos, período entre anos, reimportação, caracteres proibidos, compilação, lint e testes de recuperação.
+A nova extensão vale para os downloads no navegador, cópias nativas de recuperação e exportação nativa da API. O conteúdo JSON e as regras da escala permanecem iguais. A API aceita os formatos `native`, `escalaeasy` e o alias legado `escalalivre`, sempre exportando `escala.escalaeasy`. A importação reconhece `.escalaeasy` e `.escalalivre`, sem diferenciar maiúsculas e minúsculas. A verificação inclui exportação sem turnos, período entre anos, reimportação, caracteres proibidos, compilação, lint e testes de recuperação.
 
 O arquivo nativo deve reconstruir completamente o estado:
 
