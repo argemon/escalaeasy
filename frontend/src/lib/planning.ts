@@ -1,7 +1,7 @@
 import { civilDateTime } from "./dateTime";
 import { regimeDefinition } from "./regimes";
 import { datePart, displayClock } from "./dateTime";
-import type { Employee, EscalaLivreDocument, ShiftAssignment } from "../types/schedule";
+import type { Employee, EscalaEasyDocument, ShiftAssignment } from "../types/schedule";
 
 export const dayLabels = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"];
 export const timelineStartHour = 7;
@@ -41,7 +41,7 @@ export function regimeLabel(employee: Employee) {
   return `${type} ${employee.workload.workUnits}x${employee.workload.restUnits}`;
 }
 
-export function assignmentForEmployee(document: EscalaLivreDocument, employeeId: string) {
+export function assignmentForEmployee(document: EscalaEasyDocument, employeeId: string) {
   return document.assignments.filter((assignment) => assignment.employeeId === employeeId);
 }
 

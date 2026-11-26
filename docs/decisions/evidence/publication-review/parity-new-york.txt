@@ -1,8 +1,8 @@
   Determinando os projetos a serem restaurados...
   Todos os projetos estão atualizados para restauração.
-  EscalaLivre.Domain -> D:\Projetos\escalalivre\backend\EscalaLivre.Domain\bin\Release\net10.0\EscalaLivre.Domain.dll
-  EscalaLivre.Application -> D:\Projetos\escalalivre\backend\EscalaLivre.Application\bin\Release\net10.0\EscalaLivre.Application.dll
-  EscalaLivre.ParityProbe -> D:\Projetos\escalalivre\tools\EscalaLivre.ParityProbe\bin\Release\net10.0\EscalaLivre.ParityProbe.dll
+  EscalaEasy.Domain -> D:\Projetos\escalaeasy\backend\EscalaEasy.Domain\bin\Release\net10.0\EscalaEasy.Domain.dll
+  EscalaEasy.Application -> D:\Projetos\escalaeasy\backend\EscalaEasy.Application\bin\Release\net10.0\EscalaEasy.Application.dll
+  EscalaEasy.ParityProbe -> D:\Projetos\escalaeasy\tools\EscalaEasy.ParityProbe\bin\Release\net10.0\EscalaEasy.ParityProbe.dll
 
 Compilação com êxito.
     0 Aviso(s)

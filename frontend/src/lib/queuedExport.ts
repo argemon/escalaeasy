@@ -1,10 +1,10 @@
-import type { EscalaLivreDocument } from "../types/schedule";
+import type { EscalaEasyDocument } from "../types/schedule";
 import type { JobProgress } from "./queuedSolve";
 
 const API_URL=(import.meta.env.VITE_API_URL??(import.meta.env.DEV?"http://localhost:5003":"")).replace(/\/$/,"");
 export type ExportResult={fileName:string;contentBase64:string;mimeType:string};
 export type ExportProgress=Omit<JobProgress,"result">&{result?:ExportResult};
-export type ExportRequest={document:EscalaLivreDocument;format:"pdf"|"xlsx";publicationLabel?:string};
+export type ExportRequest={document:EscalaEasyDocument;format:"pdf"|"xlsx";publicationLabel?:string};
 class ExportResponseError extends Error {
   constructor(message:string,public status:number){super(message);}
 }

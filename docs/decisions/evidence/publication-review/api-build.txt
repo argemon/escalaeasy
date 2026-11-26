@@ -1,9 +1,9 @@
   Determinando os projetos a serem restaurados...
   Todos os projetos estão atualizados para restauração.
-  EscalaLivre.Domain -> D:\Projetos\escalalivre\backend\EscalaLivre.Domain\bin\Release\net10.0\EscalaLivre.Domain.dll
-  EscalaLivre.Application -> D:\Projetos\escalalivre\backend\EscalaLivre.Application\bin\Release\net10.0\EscalaLivre.Application.dll
-  EscalaLivre.Infrastructure -> D:\Projetos\escalalivre\backend\EscalaLivre.Infrastructure\bin\Release\net10.0\EscalaLivre.Infrastructure.dll
-  EscalaLivre.Api -> D:\Projetos\escalalivre\backend\EscalaLivre.Api\bin\Release\net10.0\EscalaLivre.Api.dll
+  EscalaEasy.Domain -> D:\Projetos\escalaeasy\backend\EscalaEasy.Domain\bin\Release\net10.0\EscalaEasy.Domain.dll
+  EscalaEasy.Application -> D:\Projetos\escalaeasy\backend\EscalaEasy.Application\bin\Release\net10.0\EscalaEasy.Application.dll
+  EscalaEasy.Infrastructure -> D:\Projetos\escalaeasy\backend\EscalaEasy.Infrastructure\bin\Release\net10.0\EscalaEasy.Infrastructure.dll
+  EscalaEasy.Api -> D:\Projetos\escalaeasy\backend\EscalaEasy.Api\bin\Release\net10.0\EscalaEasy.Api.dll
 
 Compilação com êxito.
     0 Aviso(s)

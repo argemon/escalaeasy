@@ -19,335 +19,335 @@
     "fixtureSha256": "06e85506cf5ee07fc536d11f9db0ecfc22597bac32b13e75900052e0253db050",
     "sourceManifest": [
       {
-        "file": "backend/EscalaLivre.Domain/EscalaLivre.Domain.csproj",
+        "file": "backend/EscalaEasy.Domain/EscalaEasy.Domain.csproj",
         "sha256": "61e3f2d043e37f0db4be1d8083dd31bebbfbb8fde2cf027327db2556c16bc385"
       },
       {
-        "file": "backend/EscalaLivre.Domain/Planning/PlanningSchedule.cs",
+        "file": "backend/EscalaEasy.Domain/Planning/PlanningSchedule.cs",
         "sha256": "c91166e6b77cceaf91d66347a860542b812ff5f5e3587b3f7d83315808b4acae"
       },
       {
-        "file": "backend/EscalaLivre.Domain/Planning/PlanningSettings.cs",
+        "file": "backend/EscalaEasy.Domain/Planning/PlanningSettings.cs",
         "sha256": "e3f7a4e9b0f3fad949510c34433346111e5dbc82fe014cba795bec97f9f9fdb9"
       },
       {
-        "file": "backend/EscalaLivre.Domain/Planning/RegimeConfiguration.cs",
+        "file": "backend/EscalaEasy.Domain/Planning/RegimeConfiguration.cs",
         "sha256": "7bf71980c8fd31e5eeb1edd38f678cb458ba90b12c6a662a08d328641b979e4d"
       },
       {
-        "file": "backend/EscalaLivre.Domain/Planning/ScheduledAssignment.cs",
+        "file": "backend/EscalaEasy.Domain/Planning/ScheduledAssignment.cs",
         "sha256": "4fc18190dc6698827d8c6e19260745a28b2add47db9db0f09a0af7146dad0997"
       },
       {
-        "file": "backend/EscalaLivre.Domain/Planning/TemporalValues.cs",
+        "file": "backend/EscalaEasy.Domain/Planning/TemporalValues.cs",
         "sha256": "d529b4cc81fc3df8e2cafe749d7fdf88d32eb055d4cbac67e7037a170cd80dd4"
       },
       {
-        "file": "backend/EscalaLivre.Domain/Regimes/DayBasedRegime.cs",
+        "file": "backend/EscalaEasy.Domain/Regimes/DayBasedRegime.cs",
         "sha256": "6b06eb26561bc4abd89cc9d0417b8278417ff1207eead15f94a53ca780ae9302"
       },
       {
-        "file": "backend/EscalaLivre.Domain/Regimes/HourBasedRegime.cs",
+        "file": "backend/EscalaEasy.Domain/Regimes/HourBasedRegime.cs",
         "sha256": "62d376b4a9b2719254e377453d8b5af2648239595fae5db06cb2916290e4ff0b"
       },
       {
-        "file": "backend/EscalaLivre.Domain/Regimes/IShiftRegime.cs",
+        "file": "backend/EscalaEasy.Domain/Regimes/IShiftRegime.cs",
         "sha256": "b7c95ccb2705b7d3e21c2235c9b5352902a0d068c8dcc6ae037220a5a0a5f7d1"
       },
       {
-        "file": "backend/EscalaLivre.Domain/Regimes/ShiftRegimeFactory.cs",
+        "file": "backend/EscalaEasy.Domain/Regimes/ShiftRegimeFactory.cs",
         "sha256": "4aa4ee15859926cf0a2e48283de6c55bc3dc87600680dcd17ebcb0e3760aff48"
       },
       {
-        "file": "backend/EscalaLivre.Domain/Scheduling/AvailabilityPolicy.cs",
+        "file": "backend/EscalaEasy.Domain/Scheduling/AvailabilityPolicy.cs",
         "sha256": "de7200234de7dc5c982e4fbf940cd52f34c2566655c921028ef1332dca3a6efd"
       },
       {
-        "file": "backend/EscalaLivre.Domain/Scheduling/CoverageDemand.cs",
+        "file": "backend/EscalaEasy.Domain/Scheduling/CoverageDemand.cs",
         "sha256": "e978f84d69a0471ede4f4b6ba6a58ccd23a9d5261bf97be550b773435ea0e348"
       },
       {
-        "file": "backend/EscalaLivre.Domain/Scheduling/DayCyclePolicy.cs",
+        "file": "backend/EscalaEasy.Domain/Scheduling/DayCyclePolicy.cs",
         "sha256": "5ca002cb4d47e1cdbf97586d8348751ff3d67034b23b909b9f5ccd97ea3cfc9d"
       },
       {
-        "file": "backend/EscalaLivre.Domain/Scheduling/EffectiveWorkPolicy.cs",
+        "file": "backend/EscalaEasy.Domain/Scheduling/EffectiveWorkPolicy.cs",
         "sha256": "15ead46899ee840dc125d5e3d3b88c9c0a641d7a87c348dd326f71371802c9c5"
       },
       {
-        "file": "backend/EscalaLivre.Domain/Scheduling/GenerationConformance.cs",
+        "file": "backend/EscalaEasy.Domain/Scheduling/GenerationConformance.cs",
         "sha256": "a98360d836dbb75ed82bc4b344cc8ddeb3aa5fa4dbd8d3bb5a81104d8ea31e92"
       },
       {
-        "file": "backend/EscalaLivre.Domain/Scheduling/HiringDemand.cs",
+        "file": "backend/EscalaEasy.Domain/Scheduling/HiringDemand.cs",
         "sha256": "1ab41f256cbadc51b0ee43ae86aa6907f183226b6741d546b47daf99eae533b8"
       },
       {
-        "file": "backend/EscalaLivre.Domain/Scheduling/IntervalPolicy.cs",
+        "file": "backend/EscalaEasy.Domain/Scheduling/IntervalPolicy.cs",
         "sha256": "66290c35e7d36166990c9f982340381a2e0a1e56fdd35e2d145be8ee3a932ac2"
       },
       {
-        "file": "backend/EscalaLivre.Domain/Scheduling/LaborRules.cs",
+        "file": "backend/EscalaEasy.Domain/Scheduling/LaborRules.cs",
         "sha256": "d1f6443329de27bf1b34fb2625f7cddedd4f6f689b846540651dab4568b18e52"
       },
       {
-        "file": "backend/EscalaLivre.Domain/Scheduling/RestPolicy.cs",
+        "file": "backend/EscalaEasy.Domain/Scheduling/RestPolicy.cs",
         "sha256": "1500884ed516bc311ca9bd852f577960e3437f60fe7be9ea07f621ef99d6d949"
       },
       {
-        "file": "backend/EscalaLivre.Domain/Scheduling/ScheduleCapacityPolicy.cs",
+        "file": "backend/EscalaEasy.Domain/Scheduling/ScheduleCapacityPolicy.cs",
         "sha256": "b7670d2136212bfc0e93f838f996671d698ee1b8c92e650e97196ee7d0f0c212"
       },
       {
-        "file": "backend/EscalaLivre.Domain/Scheduling/ScheduleCoverage.cs",
+        "file": "backend/EscalaEasy.Domain/Scheduling/ScheduleCoverage.cs",
         "sha256": "832fa1827d3edc5a192caab27c0e2488c1c6e779d1f5579a5bb913e9eb8b4faa"
       },
       {
-        "file": "backend/EscalaLivre.Domain/Scheduling/ScheduleEvaluator.cs",
+        "file": "backend/EscalaEasy.Domain/Scheduling/ScheduleEvaluator.cs",
         "sha256": "73d09aba2e5fbdf3066e698753564786ca71b78bdc28136588c015f913a4f4a6"
       },
       {
-        "file": "backend/EscalaLivre.Domain/Scheduling/ScheduleExplanation.cs",
+        "file": "backend/EscalaEasy.Domain/Scheduling/ScheduleExplanation.cs",
         "sha256": "b4a60fdcbca1875e25c978233258a243d7421403afbe0354fb59802921c0ea61"
       },
       {
-        "file": "backend/EscalaLivre.Domain/Scheduling/ScheduleModels.cs",
+        "file": "backend/EscalaEasy.Domain/Scheduling/ScheduleModels.cs",
         "sha256": "1ebc5ff0cb47f8858075251b835d3940f171ae3a58dc123f0dbeda801944d313"
       },
       {
-        "file": "backend/EscalaLivre.Domain/Scheduling/ScheduleRules.cs",
+        "file": "backend/EscalaEasy.Domain/Scheduling/ScheduleRules.cs",
         "sha256": "949013e4e8e112880402a7976d7e234b8b9e2cf2783045a358343023ca8ef03a"
       },
       {
-        "file": "backend/EscalaLivre.Domain/Scheduling/ScheduleSuggestions.cs",
+        "file": "backend/EscalaEasy.Domain/Scheduling/ScheduleSuggestions.cs",
         "sha256": "d5473961556f6615c513e51caaca0c14d0ac7b288ee63f67b59bd5c45a214cb4"
       },
       {
-        "file": "backend/EscalaLivre.Domain/Scheduling/ScheduleWindow.cs",
+        "file": "backend/EscalaEasy.Domain/Scheduling/ScheduleWindow.cs",
         "sha256": "558de8922d7d6ad193835e1ead6acd314d0a690dbdebdc15aba3bfc0629f8e7a"
       },
       {
-        "file": "backend/EscalaLivre.Domain/Scheduling/ShiftEligibilityPolicy.cs",
+        "file": "backend/EscalaEasy.Domain/Scheduling/ShiftEligibilityPolicy.cs",
         "sha256": "3853d6d3e810b53b3e021c64b59d57273fed1535e1b2dcaa5515753fa3bdf321"
       },
       {
-        "file": "backend/EscalaLivre.Application/EscalaLivre.Application.csproj",
+        "file": "backend/EscalaEasy.Application/EscalaEasy.Application.csproj",
         "sha256": "6b00c7cebe12515bab78424ec9c949294fd371fa968e27682a8491d0bbeed839"
       },
       {
-        "file": "backend/EscalaLivre.Application/Contracts/ApiEnvelope.cs",
+        "file": "backend/EscalaEasy.Application/Contracts/ApiEnvelope.cs",
         "sha256": "2fce7694593bc75ddc1a9474ac753ee4ac058328f9f594571a7798515a6c1e0f"
       },
       {
-        "file": "backend/EscalaLivre.Application/Contracts/DocumentValidationLimits.cs",
+        "file": "backend/EscalaEasy.Application/Contracts/DocumentValidationLimits.cs",
         "sha256": "96ba1b92c43c3446d6a7b3c4e2c489685fcb1dbce635c35cee84e5a6bf7ad4d2"
       },
       {
-        "file": "backend/EscalaLivre.Application/Contracts/NativeDocumentLimits.cs",
+        "file": "backend/EscalaEasy.Application/Contracts/NativeDocumentLimits.cs",
         "sha256": "fab02fe886476f505f9f6c6c41f390627b70d497ad8c5b73b1067546a7e31aff"
       },
       {
-        "file": "backend/EscalaLivre.Application/Contracts/ScheduleJson.cs",
+        "file": "backend/EscalaEasy.Application/Contracts/ScheduleJson.cs",
         "sha256": "9d35c2db81b728f4d9c712358a9ba615dc4aff1d77bcb51910ac24eec254c703"
       },
       {
-        "file": "backend/EscalaLivre.Application/Contracts/ScheduleRequests.cs",
+        "file": "backend/EscalaEasy.Application/Contracts/ScheduleRequests.cs",
         "sha256": "48175224398bc1235c44b36113494fb5a0c089a119856c8419b34755f499cf5a"
       },
       {
-        "file": "backend/EscalaLivre.Application/Planning/PlanningDocumentMapping.cs",
+        "file": "backend/EscalaEasy.Application/Planning/PlanningDocumentMapping.cs",
         "sha256": "37f80fc17dbac00c6c417cbda0a2e33e9e73e9f03c60f3b4d9610b7a9696c54b"
       },
       {
-        "file": "backend/EscalaLivre.Application/Planning/PlanningEditor.cs",
+        "file": "backend/EscalaEasy.Application/Planning/PlanningEditor.cs",
         "sha256": "26b2fb2d52f56b773625e556da172e7a94b076009d54d12bb5fb321e2653f394"
       },
       {
-        "file": "backend/EscalaLivre.Application/Scheduling/AnalyzeSchedule.cs",
+        "file": "backend/EscalaEasy.Application/Scheduling/AnalyzeSchedule.cs",
         "sha256": "e0c0879b9c64a049260fa6a7f114484f408a45606c77109658845a4056854907"
       },
       {
-        "file": "backend/EscalaLivre.Application/Scheduling/GenerateSchedule.cs",
+        "file": "backend/EscalaEasy.Application/Scheduling/GenerateSchedule.cs",
         "sha256": "cdd0f6b8879a1f9273728203a1a850cdf31cbd4ca0d8e779a44ad5e220256f0d"
       },
       {
-        "file": "backend/EscalaLivre.Application/Scheduling/IScheduleAnalyzer.cs",
+        "file": "backend/EscalaEasy.Application/Scheduling/IScheduleAnalyzer.cs",
         "sha256": "cc25c6fc2db7b1b878e1f3290591e6bda46aed749a736263a33d7ea47e2e1781"
       },
       {
-        "file": "backend/EscalaLivre.Application/Scheduling/IScheduleOptimizer.cs",
+        "file": "backend/EscalaEasy.Application/Scheduling/IScheduleOptimizer.cs",
         "sha256": "51911384679a0b3598678ce60a8e8afa7d32dd08834925a692fd9b89bbb0914a"
       },
       {
-        "file": "backend/EscalaLivre.Application/Scheduling/ScheduleAnalyzer.cs",
+        "file": "backend/EscalaEasy.Application/Scheduling/ScheduleAnalyzer.cs",
         "sha256": "673ef17928168d8bb788708fcc6d69290a3e5e175c64d8100bf7b55216e3adde"
       },
       {
-        "file": "backend/EscalaLivre.Application/Scheduling/ScheduleResultAssembler.cs",
+        "file": "backend/EscalaEasy.Application/Scheduling/ScheduleResultAssembler.cs",
         "sha256": "c1f3cd11b31998ffb0fb8af8aad54d61c45bdb59f2c7876ca6ae1e89b5831a69"
       },
       {
-        "file": "backend/EscalaLivre.Application/Scheduling/ValidateSchedule.cs",
+        "file": "backend/EscalaEasy.Application/Scheduling/ValidateSchedule.cs",
         "sha256": "17cddb14bbdcf0248c18419ed024c3c18a8a72db18d26e4237d2586654bd6cda"
       },
       {
-        "file": "backend/EscalaLivre.Application/Validation/DocumentSafety.cs",
+        "file": "backend/EscalaEasy.Application/Validation/DocumentSafety.cs",
         "sha256": "ea84e0e975243b9871623418995773fbd715776a76d486a3f789bcf30e2fe15b"
       },
       {
-        "file": "backend/EscalaLivre.Application/Validation/ScheduleRequestValidator.cs",
+        "file": "backend/EscalaEasy.Application/Validation/ScheduleRequestValidator.cs",
         "sha256": "40ee6ac4b029a9e0f5777d5786cf96a4f55b282206daeb6bd00a090766835c9d"
       },
       {
-        "file": "backend/EscalaLivre.Application/Contracts/Documents/ScheduleDocumentDtos.cs",
+        "file": "backend/EscalaEasy.Application/Contracts/Documents/ScheduleDocumentDtos.cs",
         "sha256": "ed3fba6b7293fcd457beaf4698da01f42eb480013b56f367ac36fc7eb3358cdf"
       },
       {
-        "file": "backend/EscalaLivre.Application/Contracts/Documents/ScheduleDocumentMapper.cs",
+        "file": "backend/EscalaEasy.Application/Contracts/Documents/ScheduleDocumentMapper.cs",
         "sha256": "aa09eeff5da6455def3bc42328ad71349b11a67e208bef8cdeb455ca1807aa71"
       },
       {
-        "file": "backend/EscalaLivre.Infrastructure/EscalaLivre.Infrastructure.csproj",
+        "file": "backend/EscalaEasy.Infrastructure/EscalaEasy.Infrastructure.csproj",
         "sha256": "c35306f3d7bbbcdb6a0d53b1c5c9b33ae4b017bbcbbe4df92c91bba7428ca8a3"
       },
       {
-        "file": "backend/EscalaLivre.Infrastructure/ImportExport/NativeScheduleSerializer.cs",
+        "file": "backend/EscalaEasy.Infrastructure/ImportExport/NativeScheduleSerializer.cs",
         "sha256": "9431762da28941b141e292b36845e576f439a57f8fb3c0bcaf63cd54cadf95cd"
       },
       {
-        "file": "backend/EscalaLivre.Infrastructure/ImportExport/SchedulePdfExporter.cs",
+        "file": "backend/EscalaEasy.Infrastructure/ImportExport/SchedulePdfExporter.cs",
         "sha256": "c5fd62e1b8dec484e6b60995c0dd0446cbf64b093d3d8d2b47b848dde419a54f"
       },
       {
-        "file": "backend/EscalaLivre.Infrastructure/Solver/CalendarDays.cs",
+        "file": "backend/EscalaEasy.Infrastructure/Solver/CalendarDays.cs",
         "sha256": "4b203bc0c6142ed80095dcb86a884b6f315ab5225a29aaade40ca335989205e8"
       },
       {
-        "file": "backend/EscalaLivre.Infrastructure/Solver/OptimizationBudget.cs",
+        "file": "backend/EscalaEasy.Infrastructure/Solver/OptimizationBudget.cs",
         "sha256": "eebf33e9434311827aa88d625c9d6c1d076d102098a1452ada263d2fc3f97091"
       },
       {
-        "file": "backend/EscalaLivre.Infrastructure/Solver/OrToolsExecution.cs",
+        "file": "backend/EscalaEasy.Infrastructure/Solver/OrToolsExecution.cs",
         "sha256": "21e6e72a4719ab88670444a6fe5fa3e2df074289b6fe20f2429381d7b0e8eb7c"
       },
       {
-        "file": "backend/EscalaLivre.Infrastructure/Solver/OrToolsScheduleOptimizer.cs",
+        "file": "backend/EscalaEasy.Infrastructure/Solver/OrToolsScheduleOptimizer.cs",
         "sha256": "ea1c4e8316262c77d91b87f45a0a44127258354c8b8ed5e48890c83d39f6e27a"
       },
       {
-        "file": "backend/EscalaLivre.Infrastructure/Solver/ScheduleCandidateGenerator.cs",
+        "file": "backend/EscalaEasy.Infrastructure/Solver/ScheduleCandidateGenerator.cs",
         "sha256": "88ab8154560d3fb80dd563e223c376631df2bcedc38ab6e043db85aafa8d99cf"
       },
       {
-        "file": "backend/EscalaLivre.Infrastructure/Solver/ScheduleComplexityException.cs",
+        "file": "backend/EscalaEasy.Infrastructure/Solver/ScheduleComplexityException.cs",
         "sha256": "b30a810c5b6e404a41ef5b226aaac799c8c2e8ee5d2853ba2ca657e1743cd8ae"
       },
       {
-        "file": "backend/EscalaLivre.Infrastructure/Solver/ScheduleModelBuilder.cs",
+        "file": "backend/EscalaEasy.Infrastructure/Solver/ScheduleModelBuilder.cs",
         "sha256": "7b2121306aac937846317f8d44b80de9bab3ac25c882ad3bf017265dbcfbee7a"
       },
       {
-        "file": "backend/EscalaLivre.Infrastructure/Solver/ScheduleModelContext.cs",
+        "file": "backend/EscalaEasy.Infrastructure/Solver/ScheduleModelContext.cs",
         "sha256": "9bf774f7c44e11c6acfcb866df2f5ecf3f975ff46898a69e8aceb96963a6a601"
       },
       {
-        "file": "backend/EscalaLivre.Infrastructure/Solver/ScheduleModelInput.cs",
+        "file": "backend/EscalaEasy.Infrastructure/Solver/ScheduleModelInput.cs",
         "sha256": "f18cf2279f357ff40b855e8a525dadb1216e01c9d52e36bb8e2ba6dd3394739c"
       },
       {
-        "file": "backend/EscalaLivre.Infrastructure/Solver/ScheduleObjective.cs",
+        "file": "backend/EscalaEasy.Infrastructure/Solver/ScheduleObjective.cs",
         "sha256": "ea4019024f337896fe9d1ab612f79c386bb8e8977d646eda53c789f680fecfec"
       },
       {
-        "file": "backend/EscalaLivre.Infrastructure/Solver/ScheduleResultReader.cs",
+        "file": "backend/EscalaEasy.Infrastructure/Solver/ScheduleResultReader.cs",
         "sha256": "13d0deae1b82b15633e0d9602aa3abdc1c8f2e0a394bd9ff98ac864f08fcf36f"
       },
       {
-        "file": "backend/EscalaLivre.Infrastructure/ImportExport/Fonts/NotoSans-Bold.ttf",
+        "file": "backend/EscalaEasy.Infrastructure/ImportExport/Fonts/NotoSans-Bold.ttf",
         "sha256": "c976e4b1b99edc88775377fcc21692ca4bfa46b6d6ca6522bfda505b28ff9d6a"
       },
       {
-        "file": "backend/EscalaLivre.Infrastructure/ImportExport/Fonts/NotoSans-Regular.ttf",
+        "file": "backend/EscalaEasy.Infrastructure/ImportExport/Fonts/NotoSans-Regular.ttf",
         "sha256": "b85c38ecea8a7cfb39c24e395a4007474fa5a4fc864f6ee33309eb4948d232d5"
       },
       {
-        "file": "backend/EscalaLivre.Infrastructure/ImportExport/Fonts/OFL.txt",
+        "file": "backend/EscalaEasy.Infrastructure/ImportExport/Fonts/OFL.txt",
         "sha256": "0dab92d0544f7b233403f14b84a663bdbfa746982eda629e7f4f9ffe1b036feb"
       },
       {
-        "file": "backend/EscalaLivre.Infrastructure/Solver/Constraints/CoverageConstraints.cs",
+        "file": "backend/EscalaEasy.Infrastructure/Solver/Constraints/CoverageConstraints.cs",
         "sha256": "dd6af7af2c4c38684e9f47bf952ea9455013c88434bc0d56a91e9bdb47fcdef7"
       },
       {
-        "file": "backend/EscalaLivre.Infrastructure/Solver/Constraints/DailyExclusivityConstraints.cs",
+        "file": "backend/EscalaEasy.Infrastructure/Solver/Constraints/DailyExclusivityConstraints.cs",
         "sha256": "dea457d09b3c88df0241755602615012fdad3c000544b064b88ea5f26fff6bdd"
       },
       {
-        "file": "backend/EscalaLivre.Infrastructure/Solver/Constraints/DayCycleConstraints.cs",
+        "file": "backend/EscalaEasy.Infrastructure/Solver/Constraints/DayCycleConstraints.cs",
         "sha256": "640b7a7852d48cb2b1086ecfc26e21f3b63adca3b704e6a6574be3f33adc4b29"
       },
       {
-        "file": "backend/EscalaLivre.Infrastructure/Solver/Constraints/FixedAssignmentConstraints.cs",
+        "file": "backend/EscalaEasy.Infrastructure/Solver/Constraints/FixedAssignmentConstraints.cs",
         "sha256": "ccd73278fc24052e1fd54acf6be11a6f99a00c745f48b551f3a330a9b4959600"
       },
       {
-        "file": "backend/EscalaLivre.Infrastructure/Solver/Constraints/RestConstraints.cs",
+        "file": "backend/EscalaEasy.Infrastructure/Solver/Constraints/RestConstraints.cs",
         "sha256": "db0a17a557620231692c884cbc15bb9dda79f4c78659cc83f0687ce4dcff7329"
       },
       {
-        "file": "backend/EscalaLivre.Infrastructure/Solver/Constraints/WeeklyWorkConstraints.cs",
+        "file": "backend/EscalaEasy.Infrastructure/Solver/Constraints/WeeklyWorkConstraints.cs",
         "sha256": "aeacce0114bf6cf263d810b8ead42351f3b8662c1060dc502566891077f0d5bd"
       },
       {
-        "file": "backend/EscalaLivre.Api/ApiFailure.cs",
+        "file": "backend/EscalaEasy.Api/ApiFailure.cs",
         "sha256": "ba6d884c90c1d723b5a90507c69805b27cc1efb5fae0d05d4a4decc97d20e21e"
       },
       {
-        "file": "backend/EscalaLivre.Api/appsettings.Development.json",
+        "file": "backend/EscalaEasy.Api/appsettings.Development.json",
         "sha256": "4660e090a376b47dea0ba5c6ff00d3eb4471ad5cd077976b4e460e46018d0525"
       },
       {
-        "file": "backend/EscalaLivre.Api/appsettings.json",
+        "file": "backend/EscalaEasy.Api/appsettings.json",
         "sha256": "9cee4dfb751c2634a541a837dd1603a46272b0d8d108329798bd2ce55d152454"
       },
       {
-        "file": "backend/EscalaLivre.Api/CalculationWorker.cs",
+        "file": "backend/EscalaEasy.Api/CalculationWorker.cs",
         "sha256": "c5cf0d45a4091f36adf88af8bcd5b131415e916ee095f6d9d214ba3777edf604"
       },
       {
-        "file": "backend/EscalaLivre.Api/EscalaLivre.Api.csproj",
+        "file": "backend/EscalaEasy.Api/EscalaEasy.Api.csproj",
         "sha256": "dc841293e5fce7f8ca80ebb5cdbfed6e8ba6f519c1b7c4931de342865852ef0e"
       },
       {
-        "file": "backend/EscalaLivre.Api/EscalaLivre.Api.csproj.user",
+        "file": "backend/EscalaEasy.Api/EscalaEasy.Api.csproj.user",
         "sha256": "a7aa504322d6c8938a15e2552de43f74af29633849b03c50a3135caccdf935d9"
       },
       {
-        "file": "backend/EscalaLivre.Api/EscalaLivre.Api.http",
+        "file": "backend/EscalaEasy.Api/EscalaEasy.Api.http",
         "sha256": "4e153c58165cde965cdc96639fa37d6fdd4a39c61ba842e4d7073d7bfd6440b8"
       },
       {
-        "file": "backend/EscalaLivre.Api/ProcessMemorySample.cs",
+        "file": "backend/EscalaEasy.Api/ProcessMemorySample.cs",
         "sha256": "abaad4b2a26779cba7a5bff3e7dbba0c44f900b52a56b0452cae3b1118a2b02f"
       },
       {
-        "file": "backend/EscalaLivre.Api/Program.cs",
+        "file": "backend/EscalaEasy.Api/Program.cs",
         "sha256": "d1f10630579a238d07cc3add7357cad4d48d988510936ea9d56aaad6eecc756e"
       },
       {
-        "file": "backend/EscalaLivre.Api/ProtectionOptions.cs",
+        "file": "backend/EscalaEasy.Api/ProtectionOptions.cs",
         "sha256": "630f57ca7e9fa42d6a75a3d1f809cea0f79a8a59bd47f992bc7f9afa8ec7fa30"
       },
       {
-        "file": "backend/EscalaLivre.Api/ScheduleJobQueue.cs",
+        "file": "backend/EscalaEasy.Api/ScheduleJobQueue.cs",
         "sha256": "a12a0d93b89ac8916446c5b939bdf0b0da4e5d36136e0e769262ff9761e26744"
       },
       {
-        "file": "backend/EscalaLivre.Api/ServiceCollectionExtensions.cs",
+        "file": "backend/EscalaEasy.Api/ServiceCollectionExtensions.cs",
         "sha256": "85660a6a00c39a5ae91ce158330cd2edaabf848dbb9752ce30f8bb9c63a47e06"
       },
       {
-        "file": "backend/EscalaLivre.Api/Properties/launchSettings.json",
+        "file": "backend/EscalaEasy.Api/Properties/launchSettings.json",
         "sha256": "8fe400d56a131915b3356670c2f988faca7802a953a6b064a0c8bab8a248dadf"
       }
     ],

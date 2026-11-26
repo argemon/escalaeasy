@@ -14,7 +14,7 @@ fs.mkdirSync(evidence,{recursive:true});
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 const fixture=()=>{
   const d=structuredClone(require('../shared/document-validation-scenarios.json').document);
-  d.company.name='Revisão local · Escala Livre';
+  d.company.name='Revisão local · EscalaEasy';
   // The shared validation fixture contains a closed holiday; use an open day
   // here so the generation smoke test exercises actual scheduling work.
   d.company.holidays=[];
@@ -34,7 +34,7 @@ async function step(name,run,storage){
   if(selectedCases&&!selectedCases.includes(name))return;
   const context=await browser.newContext({viewport:{width:1440,height:1000},locale:'pt-BR',timezoneId:'America/Cuiaba',acceptDownloads:true});
   const errors=[];
-  await context.addInitScript(entries=>{for(const [key,value] of Object.entries(entries))if(localStorage.getItem(key)===null)localStorage.setItem(key,value);},storage??{'escalalivre-state':saved(fixture())});
+  await context.addInitScript(entries=>{for(const [key,value] of Object.entries(entries))if(localStorage.getItem(key)===null)localStorage.setItem(key,value);},storage??{'escalaeasy-state':saved(fixture())});
   const page=await context.newPage();page.setDefaultTimeout(12000);
   page.on('pageerror',e=>errors.push(e.message));
   try{
@@ -53,7 +53,7 @@ async function step(name,run,storage){
     fs.writeFileSync(path.join(evidence,reportName),JSON.stringify({browser:browser.version(),playwright:require('../artifacts/review-runtime/node_modules/playwright/package.json').version,node:process.version,environment:'Windows; headless Edge; production frontend; local real API/worker',results},null,2));
   }
 }
-const current=page=>page.evaluate(()=>JSON.parse(localStorage.getItem('escalalivre-state')).state.document);
+const current=page=>page.evaluate(()=>JSON.parse(localStorage.getItem('escalaeasy-state')).state.document);
 async function tools(page){await page.locator('details.header-tools > summary').click();}
 async function editCompany(page,name){
   await page.getByRole('button',{name:'Configurar empresa',exact:true}).click();
@@ -81,7 +81,7 @@ async function main(){
   const reservation=http.createServer();await new Promise(r=>reservation.listen(0,'127.0.0.1',r));
   const apiPort=reservation.address().port;await new Promise(r=>reservation.close(r));
   apiUrl='http://127.0.0.1:'+apiPort;
-  api=spawn('dotnet',[path.join(root,'backend/EscalaLivre.Api/bin/Release/net10.0/EscalaLivre.Api.dll')],{cwd:path.join(root,'backend/EscalaLivre.Api'),windowsHide:true,env:{...process.env,ASPNETCORE_ENVIRONMENT:'Production',ASPNETCORE_URLS:apiUrl,Protection__RequestsPerMinute:'1000',Protection__SolvesPerMinute:'1000','Logging__LogLevel__EscalaLivre.Api.CalculationWorker':'Debug'}});
+  api=spawn('dotnet',[path.join(root,'backend/EscalaEasy.Api/bin/Release/net10.0/EscalaEasy.Api.dll')],{cwd:path.join(root,'backend/EscalaEasy.Api'),windowsHide:true,env:{...process.env,ASPNETCORE_ENVIRONMENT:'Production',ASPNETCORE_URLS:apiUrl,Protection__RequestsPerMinute:'1000',Protection__SolvesPerMinute:'1000','Logging__LogLevel__EscalaEasy.Api.CalculationWorker':'Debug'}});
   api.stdout.on('data',b=>{apiLogs+=b;});api.stderr.on('data',b=>{apiLogs+=b;});
   await until(async()=>{assert.equal(api.exitCode,null,'API must remain running');try{return(await fetch(apiUrl+'/health')).ok;}catch{return false;}});
   server=http.createServer((req,res)=>{
@@ -139,20 +139,20 @@ async function main(){
     const exported=JSON.parse(await downloadText(await downloading));assert.equal(exported.company.name,fixture().company.name);
     const changed=structuredClone(exported);changed.company.name='Arquivo importado na revisão';
     page.once('dialog',d=>d.accept());
-    await page.locator('input[type=file]').first().setInputFiles({name:'review.escalalivre',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(changed))});
+    await page.locator('input[type=file]').first().setInputFiles({name:'review.escalaeasy',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(changed))});
     await page.getByRole('heading',{name:changed.company.name,exact:true}).first().waitFor();
     const before=await current(page);
     const invalid=structuredClone(changed);invalid.employees=Array(201).fill(null);
     const alert=page.waitForEvent('dialog');
-    await page.locator('input[type=file]').first().setInputFiles({name:'invalid.escalalivre',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(invalid))});
+    await page.locator('input[type=file]').first().setInputFiles({name:'invalid.escalaeasy',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(invalid))});
     const error=await alert;assert.match(error.message(),/inválido/i);await error.accept();
     assert.deepEqual(await current(page),before);
-    assert.equal((await page.evaluate(()=>JSON.parse(localStorage.getItem('escalalivre-recovery')))).copies.length>0,true);
+    assert.equal((await page.evaluate(()=>JSON.parse(localStorage.getItem('escalaeasy-recovery')))).copies.length>0,true);
   });
 
   const backup=fixture(),broken='{"state": broken JSON';backup.company.name='Planejamento recuperado';
   await step('browser-recovery',async page=>{
-    assert.equal(await page.evaluate(()=>localStorage.getItem('escalalivre-state')),broken);
+    assert.equal(await page.evaluate(()=>localStorage.getItem('escalaeasy-state')),broken);
     await page.getByRole('heading',{name:backup.company.name,exact:true}).first().waitFor();
     await tools(page);
     const original=page.locator('li').filter({hasText:'Conteúdo original do navegador'}).first();
@@ -161,7 +161,7 @@ async function main(){
     await page.getByRole('button',{name:'Restaurar cópia',exact:true}).first().click();
     await until(async()=>{try{return(await current(page)).company.name===backup.company.name;}catch{return false;}});
     assert.equal((await current(page)).company.name,backup.company.name);
-  },{'escalalivre-state':broken,'escalalivre-recovery':JSON.stringify({version:1,copies:[{contents:JSON.stringify(backup),reason:'Cópia de revisão'}]})});
+  },{'escalaeasy-state':broken,'escalaeasy-recovery':JSON.stringify({version:1,copies:[{contents:JSON.stringify(backup),reason:'Cópia de revisão'}]})});
 
   await step('browser-print',async page=>{
     await page.getByRole('button',{name:'Imprimir',exact:true}).click();
@@ -189,7 +189,7 @@ async function main(){
     await page.reload({waitUntil:'networkidle'});
     assert.equal((await current(page)).assignments.length,110);
     await page.getByRole('heading',{name:large.company.name,exact:true}).first().waitFor();
-  },{'escalalivre-state':saved(large)});
+  },{'escalaeasy-state':saved(large)});
 
   // Bounded local load against real workers, independent of browser state.
   // IDs stay in memory only; do not persist bearer tickets in the evidence.

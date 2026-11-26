@@ -6,7 +6,7 @@ Data: 27/10/2026. Estado: implementado e validado localmente; CI do novo diff pe
 
 ShiftRegimeFactory já resolvia uma estratégia registrada sem conhecer seu tipo concreto e rejeitava duplicações. Porém a execução principal de análise/geração não passava por essa fábrica: RegimeConfiguration.From, DocumentSafety, EffectiveWorkPolicy, RestPolicy, ScheduleRules, GenerationConformance e DayCycleConstraints conheciam nomes ou variantes específicas. No TS, schema, políticas e dois formulários repetiam conhecimento semelhante. Logo o teste anterior de terceira estratégia demonstrava a extensão do resolvedor, sem demonstrar um terceiro regime de produto.
 
-Os [99 casos de contratos/hashes do baseline](evidence/regime-extension/baseline-contracts.trx) foram reexecutados antes da edição. A [CI #22](https://github.com/argemon/escalalivre/actions/runs/40377752675) de b8e88e3 foi conferida como completed/success ([consulta](evidence/regime-extension/baseline-ci.json)); não é evidência remota do diff novo.
+Os [99 casos de contratos/hashes do baseline](evidence/regime-extension/baseline-contracts.trx) foram reexecutados antes da edição. A [CI #22](https://github.com/argemon/escalaeasy/actions/runs/40377752675) de b8e88e3 foi conferida como completed/success ([consulta](evidence/regime-extension/baseline-ci.json)); não é evidência remota do diff novo.
 
 ## Mapa completo: contrato legítimo e repetição evitável
 
@@ -24,7 +24,7 @@ Os [99 casos de contratos/hashes do baseline](evidence/regime-extension/baseline
 | Frontend schema/políticas/formulários | Campos ou forma de edição novos exigem schema/editor próprios; regras novas exigem política TS correspondente | Rest, work, dayCycle, diagnóstico e formulários consultam definições/capacidades, sem condicionais por nome |
 | shared + testes C#/TS/HTTP | Acrescentar cenários de fronteira, configuração, histórico, admissão, tradução e compatibilidade | Cenários anteriores e hashes permanecem como regressões; não se reescrevem para acomodar a extensão |
 
-Os arquivos citados na tabela são caminhos relativos a backend/EscalaLivre.Domain, Application, Infrastructure, Api ou frontend/src conforme o prefixo. API compõe serviços; não decide regras nem substitui o isolamento do worker.
+Os arquivos citados na tabela são caminhos relativos a backend/EscalaEasy.Domain, Application, Infrastructure, Api ou frontend/src conforme o prefixo. API compõe serviços; não decide regras nem substitui o isolamento do worker.
 
 ## Solução proporcional
 
@@ -82,7 +82,7 @@ Primeiro baseline: dotnet test Analysis.Tests -c Release com filtro FullyQualifi
 | api-build | exit 0 | [api-build](evidence/regime-extension/final/api-build.txt) |
 | http-worker | 16/16 | [http-worker](evidence/regime-extension/final/http-worker.txt) |
 
-Comandos/argumentos/horários/exit codes completos: [results.json](evidence/regime-extension/final/results.json). O rebuild foi dotnet build EscalaLivre.slnx -c Release -t:Rebuild; quatro dotnet test por projeto (Analysis/Adapter/Api/Architecture) -c Release; node --test frontend/tests/*.test.cjs em ambos os fusos; npm --prefix frontend run lint e run build; dotnet build backend/EscalaLivre.Api/EscalaLivre.Api.csproj -c Release; node backend/security.integration.cjs com SECURITY_BUILD_CONFIGURATION=Release. [Manifesto SHA-256 dos fontes/configurações finais](evidence/regime-extension/final/source-manifest.json).
+Comandos/argumentos/horários/exit codes completos: [results.json](evidence/regime-extension/final/results.json). O rebuild foi dotnet build EscalaEasy.slnx -c Release -t:Rebuild; quatro dotnet test por projeto (Analysis/Adapter/Api/Architecture) -c Release; node --test frontend/tests/*.test.cjs em ambos os fusos; npm --prefix frontend run lint e run build; dotnet build backend/EscalaEasy.Api/EscalaEasy.Api.csproj -c Release; node backend/security.integration.cjs com SECURITY_BUILD_CONFIGURATION=Release. [Manifesto SHA-256 dos fontes/configurações finais](evidence/regime-extension/final/source-manifest.json).
 
 Total: 623 .NET (226 puros, 376 adaptador, 8 API, 13 arquitetura), 381 frontend em cada fuso, 16 HTTP; lint e builds aprovados. Sem falha/ignorado/cancelado na matriz final, sem intermitência reproduzida. A arquitetura frontend passa a inspecionar também lib/regimes, mantendo as verificações das seis políticas e os negativos do scanner. Nenhum teste ou limite foi enfraquecido.
 

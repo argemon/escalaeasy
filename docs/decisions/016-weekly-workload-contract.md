@@ -14,7 +14,7 @@ Empresa segunda–sexta 07:30–17:30, jornada padrão 8h, teto 44h, pausa 1–2
 - `WeeklyIntervalPolicy`/`WeeklyIntervalConstraints` exigem um início civil, deslocamento de data e duração por pessoa/semana domingo–sábado, com âncoras históricas bilaterais. Pausas curtas/ausentes e conflitos históricos seguem o contrato documentado de rotina. Isso é obrigação da geração, não novo erro de arquivo.
 - `IntervalTimingPolicy` conserva uma hora trabalhada nas duas pontas das novas pausas. A antecipação de PreferredAfter continua condicionada à redução estrita do déficit encontrada pela busca; não altera duração nem rotina.
 
-Evidência executável: [novos testes](../../backend/EscalaLivre.Adapter.Tests/WeeklyWorkCharacterizationTests.cs) verificam candidatos de 8h, total gerado 40h com teto 44h, teto 40h aceito/39,999h rejeitado ao forçar cinco turnos, interação autorização/padrão/limite diário e exceções de 1h/1h. Complementam [VariableIntervalTests](../../backend/EscalaLivre.Adapter.Tests/VariableIntervalTests.cs), [WeeklyIntervalTests](../../backend/EscalaLivre.Adapter.Tests/WeeklyIntervalTests.cs), e os testes puros [WeeklyIntervalPolicyTests](../../backend/EscalaLivre.Analysis.Tests/WeeklyIntervalPolicyTests.cs). Não há alteração de hashes ou expectativas antigas para acomodar mudança de produção.
+Evidência executável: [novos testes](../../backend/EscalaEasy.Adapter.Tests/WeeklyWorkCharacterizationTests.cs) verificam candidatos de 8h, total gerado 40h com teto 44h, teto 40h aceito/39,999h rejeitado ao forçar cinco turnos, interação autorização/padrão/limite diário e exceções de 1h/1h. Complementam [VariableIntervalTests](../../backend/EscalaEasy.Adapter.Tests/VariableIntervalTests.cs), [WeeklyIntervalTests](../../backend/EscalaEasy.Adapter.Tests/WeeklyIntervalTests.cs), e os testes puros [WeeklyIntervalPolicyTests](../../backend/EscalaEasy.Analysis.Tests/WeeklyIntervalPolicyTests.cs). Não há alteração de hashes ou expectativas antigas para acomodar mudança de produção.
 
 ## Pesquisa oficial e limite jurídico
 
@@ -76,7 +76,7 @@ Pendências: confirmar enquadramento jurídico e transição das fontes divergen
 
 ## Verificações desta entrega
 
-- `dotnet test backend/EscalaLivre.Adapter.Tests/EscalaLivre.Adapter.Tests.csproj -c Release --no-restore --filter FullyQualifiedName~WeeklyWorkCharacterizationTests`: 10/10 aprovados.
-- `dotnet test EscalaLivre.slnx -c Release --no-restore -m:1`: 708/708 aprovados (407 adaptador, 255 puros, 33 API, 13 arquitetura), sem falhas/ignorados. SDK local 10.0.401, Windows. As primeiras tentativas no ambiente restrito terminaram sem executar testes; `dotnet --info` identificou acesso negado ao gerenciador de serviços do Windows. Execução autorizada fora dessa restrição passou.
+- `dotnet test backend/EscalaEasy.Adapter.Tests/EscalaEasy.Adapter.Tests.csproj -c Release --no-restore --filter FullyQualifiedName~WeeklyWorkCharacterizationTests`: 10/10 aprovados.
+- `dotnet test EscalaEasy.slnx -c Release --no-restore -m:1`: 708/708 aprovados (407 adaptador, 255 puros, 33 API, 13 arquitetura), sem falhas/ignorados. SDK local 10.0.401, Windows. As primeiras tentativas no ambiente restrito terminaram sem executar testes; `dotnet --info` identificou acesso negado ao gerenciador de serviços do Windows. Execução autorizada fora dessa restrição passou.
 - Conteúdo, referências locais e diff revisados; `git diff --check` sem erros (somente aviso de conversão LF/CRLF do Git).
 - Frontend, diferencial e HTTP não foram repetidos nesta entrega restrita a documentação e testes C#; não houve mudança em produção, cenários compartilhados, JSON ou frontend. CI completa permanece necessária antes de qualquer integração. Não houve commit, integração ou publicação.

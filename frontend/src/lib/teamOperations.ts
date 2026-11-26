@@ -1,4 +1,4 @@
-import type { Employee, EscalaLivreDocument } from "../types/schedule";
+import type { Employee, EscalaEasyDocument } from "../types/schedule";
 import { employeeOn } from "./policies/employment";
 import { documentSchema } from "./documentSchema";
 import { selectEmployeePattern } from "./policies/employeeSchedule";
@@ -14,8 +14,8 @@ export function duplicateEmployee(e:Employee,id:string,name:string):Employee {
   allowsOvertime:e.allowsOvertime,allowsNightWork:e.allowsNightWork,shiftStartsAt:e.shiftStartsAt,fixedInterval:e.fixedInterval,
   worksDuringLunchClosure:e.worksDuringLunchClosure,availability:[],restrictions:[]});
 }
-export type TeamPreview = {baseline:string;document:EscalaLivreDocument;changes:{id:string;name:string;differences:string[]}[]};
-export function previewTeamBatch(document:EscalaLivreDocument,ids:string[],sourceId:string,fields:TeamField[]):TeamPreview {
+export type TeamPreview = {baseline:string;document:EscalaEasyDocument;changes:{id:string;name:string;differences:string[]}[]};
+export function previewTeamBatch(document:EscalaEasyDocument,ids:string[],sourceId:string,fields:TeamField[]):TeamPreview {
  if(!ids.length || !fields.length)throw Error("Selecione pessoas e campos.");
  if(fields.some(k=>!teamFields.some(f=>f.key===k)))throw Error("Campo não permitido em lote.");
  const source=document.employees.find(e=>e.id===sourceId);
@@ -35,7 +35,7 @@ export function previewTeamBatch(document:EscalaLivreDocument,ids:string[],sourc
  if(!result.success)throw Error(result.error.issues[0].message);
  return {baseline:JSON.stringify(document),document:next,changes};
 }
-export function confirmTeamPreview(current:EscalaLivreDocument,preview:TeamPreview):EscalaLivreDocument {
+export function confirmTeamPreview(current:EscalaEasyDocument,preview:TeamPreview):EscalaEasyDocument {
  if(JSON.stringify(current)!==preview.baseline)throw Error("O documento mudou. Gere uma nova prévia.");
  const result=documentSchema.safeParse(preview.document);if(!result.success)throw Error(result.error.issues[0].message);
  // Configuration operations never write assignments, even through a modified preview.
@@ -64,7 +64,7 @@ export function parseTeamCsv(text:string):string[][] {
 }
 export type ImportLine={line:number;values:string[];employee?:Employee;error?:string;duplicate:boolean;excluded:boolean;acknowledged:boolean};
 const key=(s:string)=>s.trim().toLocaleLowerCase("pt-BR");
-export function previewTeamImport(document:EscalaLivreDocument,rows:string[][],newId:()=>string):ImportLine[]{
+export function previewTeamImport(document:EscalaEasyDocument,rows:string[][],newId:()=>string):ImportLine[]{
  if(rows.length>201)throw Error("Limite de 200 linhas de pessoas.");
  if(JSON.stringify(rows[0]?.map(key))!==JSON.stringify(["nome","funcao","modelo"]))throw Error("Cabeçalho esperado: nome;funcao;modelo.");
  const seen=new Set(document.employees.map(e=>key(e.name)));
@@ -83,7 +83,7 @@ export function previewTeamImport(document:EscalaLivreDocument,rows:string[][],n
   return line;
  });
 }
-export function confirmTeamImport(current:EscalaLivreDocument,baseline:string,lines:ImportLine[]):EscalaLivreDocument{
+export function confirmTeamImport(current:EscalaEasyDocument,baseline:string,lines:ImportLine[]):EscalaEasyDocument{
  if(JSON.stringify(current)!==baseline)throw Error("O documento mudou. Leia o arquivo novamente.");
  const included=lines.filter(l=>!l.excluded);
  if(!included.length || included.some(l=>l.error || !l.employee || (l.duplicate&&!l.acknowledged)))throw Error("Corrija ou exclua erros e confirme possíveis duplicações.");

@@ -1,4 +1,4 @@
-import type { EscalaLivreDocument, ShiftAssignment } from "../types/schedule";
+import type { EscalaEasyDocument, ShiftAssignment } from "../types/schedule";
 import { civilMillis, civilString, civilWeek } from "./civilTime";
 import { employeeOn, activeOn } from "./policies/employment";
 import { canCover } from "./coverageAllocation";
@@ -7,7 +7,7 @@ import { previewPlanning } from "./planningEdits";
 import { periodError } from "./planningPeriod";
 export const civilWeekPeriod=(date:string)=>{const at=civilWeek(civilMillis(date+"T00:00:00"));return {start:civilString(at).slice(0,10),end:civilString(at+6*86400000).slice(0,10)};};
 export type CopyChoice={mode:"skip"|"replace";replaceIds:string[]};
-export function copyWeekRows(d:EscalaLivreDocument,sourceDate:string,targetDate:string,people:string[],copyPins:boolean,newId:()=>string=()=>crypto.randomUUID()){
+export function copyWeekRows(d:EscalaEasyDocument,sourceDate:string,targetDate:string,people:string[],copyPins:boolean,newId:()=>string=()=>crypto.randomUUID()){
  const source=civilWeekPeriod(sourceDate),target=civilWeekPeriod(targetDate),error=periodError(source)||periodError(target);if(error)throw Error(error);
  if(people.some(id=>!d.employees.some(e=>e.id===id)))throw Error("Pessoa não encontrada.");
  const delta=civilMillis(target.start+"T00:00:00")-civilMillis(source.start+"T00:00:00");
@@ -19,7 +19,7 @@ export function copyWeekRows(d:EscalaLivreDocument,sourceDate:string,targetDate:
   return {source:old,assignment,collisions,active:activeOn(employee,start)};
  });
 }
-export function previewWeekCopy(d:EscalaLivreDocument,sourceDate:string,targetDate:string,people:string[],copyPins:boolean,choices:Record<string,CopyChoice>={},newId?:()=>string){
+export function previewWeekCopy(d:EscalaEasyDocument,sourceDate:string,targetDate:string,people:string[],copyPins:boolean,choices:Record<string,CopyChoice>={},newId?:()=>string){
  if(!people.length)throw Error("Selecione as pessoas da cópia.");
  const rows=copyWeekRows(d,sourceDate,targetDate,people,copyPins,newId),remove=new Set<string>(),added:ShiftAssignment[]=[],selected:typeof rows=[];
  for(const row of rows){const choice=choices[row.source.id];if(choice?.mode==="skip")continue;
@@ -30,7 +30,7 @@ export function previewWeekCopy(d:EscalaLivreDocument,sourceDate:string,targetDa
  const next={...d,planningPeriod:civilWeekPeriod(targetDate),assignments:[...d.assignments.filter(a=>!remove.has(a.id)),...added]};
  return {...previewPlanning(d,next,"Copiar semana e selecionar destino"),requireDraftAcknowledgement:true,rows:selected,skipped:rows.length-selected.length,copyPins,removedIds:[...remove]};
 }
-export function previewSwap(d:EscalaLivreDocument,firstId:string,secondId:string){
+export function previewSwap(d:EscalaEasyDocument,firstId:string,secondId:string){
  const a=d.assignments.find(a=>a.id===firstId),b=d.assignments.find(a=>a.id===secondId);
  if(!a||!b||a.id===b.id||a.employeeId===b.employeeId)throw Error("Escolha dois turnos de pessoas diferentes.");
  if(a.pinned||b.pinned)throw Error("Desafixe explicitamente os dois turnos antes de trocar responsáveis.");

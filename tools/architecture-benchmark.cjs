@@ -13,7 +13,7 @@ function write(file,data){fs.mkdirSync(path.dirname(file),{recursive:true});fs.w
 const sha=bytes=>crypto.createHash('sha256').update(bytes).digest('hex');
 const layers=['Domain','Application','Infrastructure','Api'];
 const tracked=command('git',['ls-tree','-r','--name-only',revision,'--','backend','global.json']).trim().split(/\r?\n/)
- .filter(file=>file==='global.json'||layers.some(layer=>file.startsWith('backend/EscalaLivre.'+layer+'/')));
+ .filter(file=>file==='global.json'||layers.some(layer=>file.startsWith('backend/EscalaEasy.'+layer+'/')));
 for(const file of tracked){
  const result=spawnSync('git',['show',revision+':'+file],{cwd:root,windowsHide:true,maxBuffer:32*1024*1024});
  if(result.status!==0)throw Error('Cannot reconstruct '+file);
@@ -21,7 +21,7 @@ for(const file of tracked){
 }
 const manifest=[];
 for(const layer of layers){
- const folder='backend/EscalaLivre.'+layer;
+ const folder='backend/EscalaEasy.'+layer;
  for(const relative of fs.readdirSync(path.join(root,folder),{recursive:true}).filter(f=>fs.statSync(path.join(root,folder,f)).isFile()&&!f.split(/[\\/]/).some(p=>p==='bin'||p==='obj'))){
   const file=folder+'/'+relative.replaceAll('\\','/'),bytes=fs.readFileSync(path.join(root,file));write(path.join(output,'final',file),bytes);manifest.push({file,sha256:sha(bytes)});
  }
@@ -29,14 +29,14 @@ for(const layer of layers){
 for(const version of ['baseline','final']){
  write(path.join(output,version,'global.json'),fs.readFileSync(path.join(root,'global.json')));
  fs.cpSync(path.join(root,'shared'),path.join(output,version,'shared'),{recursive:true});
- const solver=path.join(output,version,'backend/EscalaLivre.Infrastructure/Solver',version==='baseline'?'OrToolsScheduleSolver.cs':'OrToolsScheduleOptimizer.cs');
+ const solver=path.join(output,version,'backend/EscalaEasy.Infrastructure/Solver',version==='baseline'?'OrToolsScheduleSolver.cs':'OrToolsScheduleOptimizer.cs');
  let source=fs.readFileSync(solver,'utf8');
  const marker=version==='baseline'?'CpSolverStatus status = solver.Solve(model);':'return reader.Read(context, execution.Solve(context.Model));';
  if(!source.includes(marker))throw Error('Instrumentation marker missing: '+version);
  source=source.replace(marker,(version==='baseline'?'BenchmarkModelProbe.Capture(model);\n        ':'BenchmarkModelProbe.Capture(context.Model);\n        ')+marker);
  fs.writeFileSync(solver,source);
- write(path.join(output,version,'backend/EscalaLivre.Infrastructure/Solver/BenchmarkModelProbe.cs'),String.raw`using Google.OrTools.Sat;
-namespace EscalaLivre.Infrastructure.Solver;
+ write(path.join(output,version,'backend/EscalaEasy.Infrastructure/Solver/BenchmarkModelProbe.cs'),String.raw`using Google.OrTools.Sat;
+namespace EscalaEasy.Infrastructure.Solver;
 public static class BenchmarkModelProbe
 {
     public static int Variables { get; private set; }
@@ -51,18 +51,18 @@ public static class BenchmarkModelProbe
 }
 `);
  const bench=path.join(output,version,'Bench');
- write(path.join(bench,'Bench.csproj'),`<Project Sdk="Microsoft.NET.Sdk"><PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net10.0</TargetFramework><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable>${version==='baseline'?'<DefineConstants>LEGACY</DefineConstants>':''}</PropertyGroup><ItemGroup><ProjectReference Include="../backend/EscalaLivre.Api/EscalaLivre.Api.csproj" /></ItemGroup></Project>`);
+ write(path.join(bench,'Bench.csproj'),`<Project Sdk="Microsoft.NET.Sdk"><PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net10.0</TargetFramework><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable>${version==='baseline'?'<DefineConstants>LEGACY</DefineConstants>':''}</PropertyGroup><ItemGroup><ProjectReference Include="../backend/EscalaEasy.Api/EscalaEasy.Api.csproj" /></ItemGroup></Project>`);
  write(path.join(bench,'Program.cs'),String.raw`using System.Diagnostics;
 using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
-using EscalaLivre.Application.Contracts;
-using EscalaLivre.Domain.Scheduling;
-using EscalaLivre.Infrastructure.Solver;
+using EscalaEasy.Application.Contracts;
+using EscalaEasy.Domain.Scheduling;
+using EscalaEasy.Infrastructure.Solver;
 #if !LEGACY
-using EscalaLivre.Api;
-using EscalaLivre.Application.Scheduling;
+using EscalaEasy.Api;
+using EscalaEasy.Application.Scheduling;
 using Microsoft.Extensions.DependencyInjection;
 #endif
 CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;

@@ -9,11 +9,11 @@ import { closureOn } from "./policies/interval";
 import { coverageAllocation } from "./coverageAllocation";
 import { closedHoliday } from "./holidays";
 import { planningPeriod } from "./planningPeriod";
-import type { EscalaLivreDocument, ScheduleResult } from "../types/schedule";
+import type { EscalaEasyDocument, ScheduleResult } from "../types/schedule";
 export { planningPeriod } from "./planningPeriod";
 export { formatCivilDateTime as localDate } from "./dateTime";
 
-export function analyzeDocument(input:EscalaLivreDocument):ScheduleResult {
+export function analyzeDocument(input:EscalaEasyDocument):ScheduleResult {
   const document=normalizeDocumentTimes(input);
   const result:ScheduleResult={assignments:input.assignments,coverage:[],gaps:[],conflicts:diagnoseSchedule(document),decisions:[],hiringSuggestions:[],optimizationSuggestions:[],coverageScore:1,optimization:{status:"not-run"}};
   const period=planningPeriod(document);

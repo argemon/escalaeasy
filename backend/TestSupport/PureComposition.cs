@@ -1,7 +1,7 @@
-using EscalaLivre.Application.Scheduling;
-using EscalaLivre.Domain.Scheduling;
+using EscalaEasy.Application.Scheduling;
+using EscalaEasy.Domain.Scheduling;
 
-namespace EscalaLivre.TestSupport;
+namespace EscalaEasy.TestSupport;
 
 internal static class PureComposition
 {

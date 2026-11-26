@@ -14,14 +14,14 @@ O checkout já continha as entregas anteriores, inclusive alterações não comm
 
 | Área | Entrega |
 | --- | --- |
-| Tempo e unidades | [TemporalValues](../../backend/EscalaLivre.Domain/Planning/TemporalValues.cs): janelas civis, pausa, período inclusivo, duração em segundos, quantidade de dias, horas inteiras e limite semanal fracionário |
-| Regime | [RegimeConfiguration](../../backend/EscalaLivre.Domain/Planning/RegimeConfiguration.cs): variantes em dias/horas, unidades explícitas e construção validada |
-| Atribuição | [ScheduledAssignment](../../backend/EscalaLivre.Domain/Planning/ScheduledAssignment.cs): identidade, proprietário, janela e pausa contida; valores e tags imutáveis |
-| Agregado | [PlanningSchedule](../../backend/EscalaLivre.Domain/Planning/PlanningSchedule.cs): operações explícitas/atômicas e substituição por data inicial, com histórico completo |
-| Configuração | [PlanningSettings](../../backend/EscalaLivre.Domain/Planning/PlanningSettings.cs): snapshot profundo de empresa/pessoas separado das atribuições, com configurações tipadas |
-| Transporte | [DTOs](../../backend/EscalaLivre.Application/Contracts/Documents/ScheduleDocumentDtos.cs) e [mapeador](../../backend/EscalaLivre.Application/Contracts/Documents/ScheduleDocumentMapper.cs): 15 contratos específicos em Application, usados por ScheduleJson |
-| Mapeamento interno | [PlanningDocumentMapping](../../backend/EscalaLivre.Application/Planning/PlanningDocumentMapping.cs): envelope/projeção ↔ tipos protegidos, sem migração nem reparo silencioso |
-| Comandos | [PlanningEditor](../../backend/EscalaLivre.Application/Planning/PlanningEditor.cs): edição explícita, novo documento e análise atualizada; instante atualizado fornecido pelo chamador |
+| Tempo e unidades | [TemporalValues](../../backend/EscalaEasy.Domain/Planning/TemporalValues.cs): janelas civis, pausa, período inclusivo, duração em segundos, quantidade de dias, horas inteiras e limite semanal fracionário |
+| Regime | [RegimeConfiguration](../../backend/EscalaEasy.Domain/Planning/RegimeConfiguration.cs): variantes em dias/horas, unidades explícitas e construção validada |
+| Atribuição | [ScheduledAssignment](../../backend/EscalaEasy.Domain/Planning/ScheduledAssignment.cs): identidade, proprietário, janela e pausa contida; valores e tags imutáveis |
+| Agregado | [PlanningSchedule](../../backend/EscalaEasy.Domain/Planning/PlanningSchedule.cs): operações explícitas/atômicas e substituição por data inicial, com histórico completo |
+| Configuração | [PlanningSettings](../../backend/EscalaEasy.Domain/Planning/PlanningSettings.cs): snapshot profundo de empresa/pessoas separado das atribuições, com configurações tipadas |
+| Transporte | [DTOs](../../backend/EscalaEasy.Application/Contracts/Documents/ScheduleDocumentDtos.cs) e [mapeador](../../backend/EscalaEasy.Application/Contracts/Documents/ScheduleDocumentMapper.cs): 15 contratos específicos em Application, usados por ScheduleJson |
+| Mapeamento interno | [PlanningDocumentMapping](../../backend/EscalaEasy.Application/Planning/PlanningDocumentMapping.cs): envelope/projeção ↔ tipos protegidos, sem migração nem reparo silencioso |
+| Comandos | [PlanningEditor](../../backend/EscalaEasy.Application/Planning/PlanningEditor.cs): edição explícita, novo documento e análise atualizada; instante atualizado fornecido pelo chamador |
 | Geração | GenerateSchedule aplica a proposta por ReplacePeriod antes de avaliá-la; o otimizador não pode reescrever história fora do período |
 
 A decisão detalhada é o [ADR 005](005-validated-planning-and-transport.md). Os records antigos de ScheduleModels permanecem projeções de leitura para a transição dos consumidores. Não se declara que seus construtores antigos agora garantem invariantes; as garantias são dos novos tipos, agregados e operações. A separação DTO/interno já está na fronteira real de JSON e na aplicação da geração, sem migrar todas as políticas de uma só vez.
@@ -39,15 +39,15 @@ A decisão detalhada é o [ADR 005](005-validated-planning-and-transport.md). Os
 
 O projeto isolado ganhou **93 casos** (64 → 157): valores/unidades/construção, operações de agregado, mapeamento dos 58 cenários, campos opcionais/IDs/setup, proteção de coleções e comandos de edição/configuração. O projeto de adaptador ganhou **8 casos** (356 → 364): sete documentos atuais com conflitos/noite/ciclo e um documento legado sem fuso/período e com instantes qualificados, repetindo importação/exportação.
 
-[PlanningValueTests](../../backend/EscalaLivre.Analysis.Tests/PlanningValueTests.cs) cobre igualdade, segundos, virada do ano, interseção semiaberta, precisão/kind inválidos, dias inclusivos, duração de 24/36/100h, semana fracionária, números não finitos, ciclo com overflow e ausência de setters/init públicos nos valores novos.
+[PlanningValueTests](../../backend/EscalaEasy.Analysis.Tests/PlanningValueTests.cs) cobre igualdade, segundos, virada do ano, interseção semiaberta, precisão/kind inválidos, dias inclusivos, duração de 24/36/100h, semana fracionária, números não finitos, ciclo com overflow e ausência de setters/init públicos nos valores novos.
 
-[PlanningAggregateTests](../../backend/EscalaLivre.Analysis.Tests/PlanningAggregateTests.cs) cobre IDs vazios/duplicados, proprietário desconhecido, referência/identidade na edição, exclusão, movimento com pausa, falha de redimensionamento sem confirmação parcial, substituição atômica, histórico noturno e mudança explícita de função.
+[PlanningAggregateTests](../../backend/EscalaEasy.Analysis.Tests/PlanningAggregateTests.cs) cobre IDs vazios/duplicados, proprietário desconhecido, referência/identidade na edição, exclusão, movimento com pausa, falha de redimensionamento sem confirmação parcial, substituição atômica, histórico noturno e mudança explícita de função.
 
-[PlanningMappingTests](../../backend/EscalaLivre.Analysis.Tests/PlanningMappingTests.cs) compara todos os campos com a projeção anterior lida sem o novo conversor, verifica o round-trip dos cenários aceitos sem mudar diagnósticos, preserva opcionais e distingue entrada estruturalmente rejeitada de conflitos carregáveis. Tenta mutar fontes originais, IList, dicionário e armazenamento acessível por sincronização pública. Há teste de proposta de geração que tenta descartar/alterar histórico e de cópias equivalentes sem dependência de identidade de lista.
+[PlanningMappingTests](../../backend/EscalaEasy.Analysis.Tests/PlanningMappingTests.cs) compara todos os campos com a projeção anterior lida sem o novo conversor, verifica o round-trip dos cenários aceitos sem mudar diagnósticos, preserva opcionais e distingue entrada estruturalmente rejeitada de conflitos carregáveis. Tenta mutar fontes originais, IList, dicionário e armazenamento acessível por sincronização pública. Há teste de proposta de geração que tenta descartar/alterar histórico e de cópias equivalentes sem dependência de identidade de lista.
 
-[PlanningEditorTests](../../backend/EscalaLivre.Analysis.Tests/PlanningEditorTests.cs) verifica análise após configuração/edição, preservação de horários, conflito diagnosticável, entrada intacta em erro e mudança explícita de período/função. O double de geração da etapa 2 foi ajustado para incluir no pedido seu histórico preexistente, respeitando a pós-condição que agora é protegida; continuam as verificações de avaliação única, contêiner, decisões selecionadas e preservação da entrada.
+[PlanningEditorTests](../../backend/EscalaEasy.Analysis.Tests/PlanningEditorTests.cs) verifica análise após configuração/edição, preservação de horários, conflito diagnosticável, entrada intacta em erro e mudança explícita de período/função. O double de geração da etapa 2 foi ajustado para incluir no pedido seu histórico preexistente, respeitando a pós-condição que agora é protegida; continuam as verificações de avaliação única, contêiner, decisões selecionadas e preservação da entrada.
 
-[PlanningDocumentRoundTripTests](../../backend/EscalaLivre.Adapter.Tests/PlanningDocumentRoundTripTests.cs) verifica arquivos atuais e legados, formato sem campos internos, conversão civil uma única vez e recuperação de conflitos após múltiplos ciclos. As suítes existentes de aceitação estrutural, bytes máximos, exportação, migração identificada e recuperação local também foram executadas.
+[PlanningDocumentRoundTripTests](../../backend/EscalaEasy.Adapter.Tests/PlanningDocumentRoundTripTests.cs) verifica arquivos atuais e legados, formato sem campos internos, conversão civil uma única vez e recuperação de conflitos após múltiplos ciclos. As suítes existentes de aceitação estrutural, bytes máximos, exportação, migração identificada e recuperação local também foram executadas.
 
 ## Verificações
 
@@ -55,13 +55,13 @@ Comandos na raiz; TZ foi salvo/restaurado com try/finally; SECURITY_BUILD_CONFIG
 
 | Comando/verificação | Resultado final | Evidência |
 | --- | --- | --- |
-| dotnet test backend/EscalaLivre.Analysis.Tests/EscalaLivre.Analysis.Tests.csproj -c Release | 157 aprovados, sem Infrastructure/API/OR-Tools | [isolados](evidence/stage-3/analysis-final.txt) |
-| dotnet test backend/EscalaLivre.Tests/EscalaLivre.Tests.csproj -c Release | 364 aprovados | [backend](evidence/stage-3/backend-final.txt) |
+| dotnet test backend/EscalaEasy.Analysis.Tests/EscalaEasy.Analysis.Tests.csproj -c Release | 157 aprovados, sem Infrastructure/API/OR-Tools | [isolados](evidence/stage-3/analysis-final.txt) |
+| dotnet test backend/EscalaEasy.Tests/EscalaEasy.Tests.csproj -c Release | 364 aprovados | [backend](evidence/stage-3/backend-final.txt) |
 | node --test frontend/tests/*.test.cjs | 349 aprovados | [frontend](evidence/stage-3/frontend-final.txt) |
 | Mesmo comando com TZ=America/New_York | 349 aprovados | [fuso](evidence/stage-3/frontend-new-york-final.txt) |
 | npm --prefix frontend run lint | exit 0 | [lint](evidence/stage-3/lint-final.txt) |
 | npm --prefix frontend run build | exit 0 | [build](evidence/stage-3/frontend-build-final.txt) |
-| dotnet build backend/EscalaLivre.Api/EscalaLivre.Api.csproj -c Release | exit 0; zero avisos/erros | [API](evidence/stage-3/api-build-final.txt) |
+| dotnet build backend/EscalaEasy.Api/EscalaEasy.Api.csproj -c Release | exit 0; zero avisos/erros | [API](evidence/stage-3/api-build-final.txt) |
 | node backend/security.integration.cjs, Release | últimas duas execuções: 14/15; paridade aprovada, falha no teste de deadline de 1s. Houve execuções anteriores 15/15 | [final](evidence/stage-3/security-final.txt), [execução anterior aprovada](evidence/stage-3/security-earlier-pass.txt) |
 
 O baseline .NET não apresentou falhas. Houve uma falha intermediária de compilação introduzida na preparação dos DTOs: dois nomes de propriedades opcionais foram renomeados junto com seus tipos; foi corrigida antes de executar os testes de compatibilidade ([log](evidence/stage-3/analysis-intermediate.txt)). Os erros de compilação foram resolvidos; a falha operacional restante está descrita abaixo. A revisão de coleções confirmou o acesso a arrays via SyncRoot em wrappers somente leitura; os novos snapshots foram reforçados com coleções imutáveis do framework, sem pacote novo, e as verificações .NET/HTTP foram repetidas. Não se afirma ganho de desempenho a partir desses logs.

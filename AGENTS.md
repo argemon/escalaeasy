@@ -11,7 +11,7 @@ Estas instruções se aplicam ao repositório inteiro. Antes de alterar regras o
 - Infrastructure implementa portas e traduz decisões de domínio para OR-Tools, arquivos e exportadores. Não cria versões próprias das regras de negócio.
 - API trata transporte, proteção HTTP, fila/worker e composição das dependências. Endpoints não decidem regras de escala. O isolamento de processos existente deve ser preservado.
 - Frontend mantém apresentação, estado e diagnóstico local separados. Componentes e ações de Zustand não devem acumular cálculos de negócio já existentes em `src/lib`.
-- Preserve a experiência local-first e a portabilidade do arquivo `.escalaeasy`, mantendo a importação dos arquivos legados `.escalalivre`.
+- Preserve a experiência local-first e a portabilidade do arquivo `.escalaeasy`.
 
 ## SOLID aplicado
 
@@ -43,11 +43,11 @@ Estas instruções se aplicam ao repositório inteiro. Antes de alterar regras o
 
 - A migração explícita de marca de 26/11/2026 autoriza atualizar somente o nome, as cores do nome, a fonte da marca e o autor nos metadados do PDF para EscalaEasy. Tabelas, conteúdo da escala, agrupamento, paginação e download aprovados continuam preservados. Consulte `docs/brand.md`.
 
-- O usuário marcou a parte de PDF como concluída após aprovar a tabela compacta, a função sem repetição desnecessária e o nome do arquivo no mesmo padrão do `.escalalivre`. Preservar esses ajustes; novas mudanças no PDF exigem novo pedido explícito.
+- O usuário marcou a parte de PDF como concluída após aprovar a tabela compacta, a função sem repetição desnecessária e o nome do arquivo no mesmo padrão do `.escalaeasy`. Preservar esses ajustes; novas mudanças no PDF exigem novo pedido explícito.
 
 - O usuário aprovou a geração atual de PDF como versão final. Não alterar sua implementação, aparência, conteúdo, agrupamento, paginação ou fluxo de download sem um novo pedido explícito do usuário para modificar o PDF. Uma tarefa geral de melhoria, limpeza ou refatoração não autoriza essas alterações.
-- Preservar o botão direto **Baixar PDF**, a escala salva do período atual, o nome de cada funcionário uma única vez com dias/horários/intervalos agrupados, a ausência do cabeçalho “ESCALA LIVRE / ESCALA DA EQUIPE” e a logo EscalaEasy no rodapé ao lado da paginação.
-- Referência do resultado aprovado: [decisão 028](docs/decisions/028-publication-snapshots.md). Os componentes diretamente envolvidos são `frontend/src/lib/schedulePdf.ts`, o botão no `GlobalHeader.tsx` e `backend/EscalaLivre.Infrastructure/ImportExport/SchedulePdfExporter.cs` / `SchedulePdfRows.cs`. Preservar também dependências que afetem a saída aprovada.
+- Preservar o botão direto **Baixar PDF**, a escala salva do período atual, o nome de cada funcionário uma única vez com dias/horários/intervalos agrupados, a ausência do cabeçalho “ESCALAEASY / ESCALA DA EQUIPE” e a logo EscalaEasy no rodapé ao lado da paginação.
+- Referência do resultado aprovado: [decisão 028](docs/decisions/028-publication-snapshots.md). Os componentes diretamente envolvidos são `frontend/src/lib/schedulePdf.ts`, o botão no `GlobalHeader.tsx` e `backend/EscalaEasy.Infrastructure/ImportExport/SchedulePdfExporter.cs` / `SchedulePdfRows.cs`. Preservar também dependências que afetem a saída aprovada.
 
 ## Testes e entrega
 

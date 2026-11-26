@@ -1,27 +1,27 @@
 import limits from "../../../shared/native-document-limits.json";
 import { documentSchema } from "./documentSchema";
-import type { EscalaLivreDocument } from "../types/schedule";
+import type { EscalaEasyDocument } from "../types/schedule";
 
 export const MAX_NATIVE_BYTES = limits.maxBytes;
 export const nativeBytes = (text: string) => new TextEncoder().encode(text).byteLength;
 export function assertNativeSize(text: string): void {
   if (nativeBytes(text) > MAX_NATIVE_BYTES) throw new Error("O arquivo nativo excede o limite de 1 MiB (1.048.576 bytes).");
 }
-export function validateNativeDocument(input: unknown): EscalaLivreDocument {
+export function validateNativeDocument(input: unknown): EscalaEasyDocument {
   const result = documentSchema.safeParse(input);
   if (!result.success) throw new Error("Documento inválido ou versão não suportada: "+result.error.issues[0].message);
   const canonical=documentSchema.safeParse(result.data);
   if(!canonical.success)throw new Error("Documento migrado inválido: "+canonical.error.issues[0].message);
   return canonical.data;
 }
-export function serializeNative(document: EscalaLivreDocument): string {
+export function serializeNative(document: EscalaEasyDocument): string {
   const canonical = validateNativeDocument(document);
   let text = JSON.stringify(canonical, null, 2);
   if(nativeBytes(text)>MAX_NATIVE_BYTES)text=JSON.stringify(canonical);
   assertNativeSize(text);
   return text;
 }
-export function parseNativeText(text: string): EscalaLivreDocument {
+export function parseNativeText(text: string): EscalaEasyDocument {
   assertNativeSize(text);
   let input: unknown;
   try { input = JSON.parse(text); }
@@ -29,11 +29,11 @@ export function parseNativeText(text: string): EscalaLivreDocument {
   const document = validateNativeDocument(input);
   return document;
 }
-export async function readNativeFile(file: Pick<File,"size"|"text">): Promise<EscalaLivreDocument> {
+export async function readNativeFile(file: Pick<File,"size"|"text">): Promise<EscalaEasyDocument> {
   if (file.size > MAX_NATIVE_BYTES) throw new Error("O arquivo nativo excede o limite de 1 MiB (1.048.576 bytes).");
   return parseNativeText(await file.text());
 }
-export function nativeFilename(document: EscalaLivreDocument): string {
+export function nativeFilename(document: EscalaEasyDocument): string {
   const company = Array.from(document.company.name, char => char < " " ? "-" : char).join("")
     .replace(/[<>:"/\\|?*]/g, "-").replace(/\s+/g, " ").trim().slice(0, 120).replace(/[. ]+$/g, "") || "Empresa";
   const date = (value: string) => value.slice(0, 10).split("-").reverse().join("-");

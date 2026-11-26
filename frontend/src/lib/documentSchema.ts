@@ -6,7 +6,7 @@ import { migrateDocument } from "./documentLifecycle";
 import { validCivilDateTime, validTimeZone } from "./dateTime";
 import { z } from "zod";
 import portuguese from "zod/v4/locales/pt.js";
-import type { EscalaLivreDocument } from "../types/schedule";
+import type { EscalaEasyDocument } from "../types/schedule";
 import { regimeTypes } from "../types/schedule";
 import { migratePlanningPeriod, periodError } from "./planningPeriod";
 import { documentStructureIssue } from "./documentStructure";
@@ -124,7 +124,7 @@ const structureSchema=z.unknown().transform((input,ctx)=>{
   return input;
 });
 const baseDocumentSchema=structureSchema.pipe(z.preprocess(input=>{
-  try{return migrateDocument(input as EscalaLivreDocument).document;}catch{return input;}
+  try{return migrateDocument(input as EscalaEasyDocument).document;}catch{return input;}
 },canonicalDocumentSchema.transform(normalizeCoverageRoles)));
 
 export const documentSchema=baseDocumentSchema.refine(v=>!archiveError(v),{message:"Versões fechadas ou seleção vigente inválidas/acima da cota."});

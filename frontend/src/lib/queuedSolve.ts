@@ -1,6 +1,6 @@
 import { normalizeResultTimes } from "./dateTime";
 import { planningPeriod } from "./analysis";
-import type { EscalaLivreDocument, ScheduleResult } from "../types/schedule";
+import type { EscalaEasyDocument, ScheduleResult } from "../types/schedule";
 import { calculationDocument, restoreCalculationLabels, type GenerationPreferences } from "./calculationDocument";
 
 const API_URL = (import.meta.env.VITE_API_URL ?? (import.meta.env.DEV ? "http://localhost:5003" : "")).replace(/\/$/, "");
@@ -31,7 +31,7 @@ export function cancelQueuedSolve(id: string) {
   return request("/solve/jobs/" + encodeURIComponent(id), { method: "DELETE" });
 }
 
-export async function solveQueued(document: EscalaLivreDocument, onProgress: (progress: JobProgress) => void, preferences?: GenerationPreferences): Promise<ScheduleResult | null> {
+export async function solveQueued(document: EscalaEasyDocument, onProgress: (progress: JobProgress) => void, preferences?: GenerationPreferences): Promise<ScheduleResult | null> {
   const normalized = calculationDocument(document);
   const body = JSON.stringify({ document: normalized, ...planningPeriod(normalized), preferences });
   if (new TextEncoder().encode(body).byteLength > 2 * 1024 * 1024)

@@ -63,7 +63,7 @@ A matriz começou com recompilação integral atual, antes das suítes, seguida 
 | api-build | exit 0 | [api-build](evidence/domain-boundaries/final/api-build.txt) |
 | http-worker | 16/16 | [http-worker](evidence/domain-boundaries/final/http-worker.txt) |
 
-Comandos na raiz: dotnet build EscalaLivre.slnx -c Release -t:Rebuild; dotnet test backend/EscalaLivre.{Analysis,Adapter,Api,Architecture}.Tests/EscalaLivre.{mesmo nome}.Tests.csproj -c Release (um comando por projeto); node --test frontend/tests/*.test.cjs, repetido com TZ=America/New_York; npm --prefix frontend run lint; npm --prefix frontend run build; dotnet build backend/EscalaLivre.Api/EscalaLivre.Api.csproj -c Release; SECURITY_BUILD_CONFIGURATION=Release no processo node backend/security.integration.cjs. Os argumentos exatos de cada processo estão no JSON acima.
+Comandos na raiz: dotnet build EscalaEasy.slnx -c Release -t:Rebuild; dotnet test backend/EscalaEasy.{Analysis,Adapter,Api,Architecture}.Tests/EscalaEasy.{mesmo nome}.Tests.csproj -c Release (um comando por projeto); node --test frontend/tests/*.test.cjs, repetido com TZ=America/New_York; npm --prefix frontend run lint; npm --prefix frontend run build; dotnet build backend/EscalaEasy.Api/EscalaEasy.Api.csproj -c Release; SECURITY_BUILD_CONFIGURATION=Release no processo node backend/security.integration.cjs. Os argumentos exatos de cada processo estão no JSON acima.
 
 Total .NET: 612 (215 puros + 376 adaptador + 8 API + 13 arquitetura), com 18 novos casos e todos os anteriores mantidos. Frontend 373 em cada fuso e HTTP 16. Build da solução/API sem avisos/erros; lint/build frontend aprovados. Nenhuma falha final, caso ignorado ou intermitência reproduzida. Falhas intermediárias de preparação/testes foram registradas acima, sem atribuí-las ao ambiente ou ocultá-las por repetição.
 
@@ -75,4 +75,4 @@ A entrega fecha os riscos comprovados acima, sem substituir todos os primitivos 
 
 ## Seguimento — extensibilidade em 27/10/2026
 
-A CI [Validate #22](https://github.com/argemon/escalalivre/actions/runs/40377752675) foi conferida com sucesso para b8e88e3, que contém esta entrega. O [ADR 010](010-regime-extension-boundaries.md) evolui a seleção por variantes concretas para capacidades e extrai DayCycleLimit, mantendo a proteção de unidades descrita acima. Seus resultados locais e pendência de CI são próprios; os relatos anteriores de ausência de commit/push/CI descrevem a sessão original.
+A CI [Validate #22](https://github.com/argemon/escalaeasy/actions/runs/40377752675) foi conferida com sucesso para b8e88e3, que contém esta entrega. O [ADR 010](010-regime-extension-boundaries.md) evolui a seleção por variantes concretas para capacidades e extrai DayCycleLimit, mantendo a proteção de unidades descrita acima. Seus resultados locais e pendência de CI são próprios; os relatos anteriores de ausência de commit/push/CI descrevem a sessão original.

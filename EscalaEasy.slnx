@@ -1,0 +1,11 @@
+<Solution>
+  <Project Path="backend/EscalaEasy.Api/EscalaEasy.Api.csproj" />
+  <Project Path="backend/EscalaEasy.Domain/EscalaEasy.Domain.csproj" />
+  <Project Path="backend/EscalaEasy.Application/EscalaEasy.Application.csproj" />
+  <Project Path="backend/EscalaEasy.Infrastructure/EscalaEasy.Infrastructure.csproj" />
+  <Project Path="backend/EscalaEasy.Adapter.Tests/EscalaEasy.Adapter.Tests.csproj" />
+  <Project Path="backend/EscalaEasy.Api.Tests/EscalaEasy.Api.Tests.csproj" />
+  <Project Path="backend/EscalaEasy.Analysis.Tests/EscalaEasy.Analysis.Tests.csproj" />
+  <Project Path="backend/EscalaEasy.Architecture.Tests/EscalaEasy.Architecture.Tests.csproj" />
+  <Project Path="tools/EscalaEasy.ParityProbe/EscalaEasy.ParityProbe.csproj" />
+</Solution>

@@ -7,19 +7,19 @@ const assert = require('node:assert/strict');
 const { test } = require('node:test');
 const net = require('node:net');
 
-const apiDirectory = path.join(__dirname, 'EscalaLivre.Api');
-const assembly = path.join(apiDirectory, `bin/${process.env.SECURITY_BUILD_CONFIGURATION || 'Debug'}/net10.0/EscalaLivre.Api.dll`);
+const apiDirectory = path.join(__dirname, 'EscalaEasy.Api');
+const assembly = path.join(apiDirectory, `bin/${process.env.SECURITY_BUILD_CONFIGURATION || 'Debug'}/net10.0/EscalaEasy.Api.dll`);
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
-test('native file extensions export EscalaEasy and keep legacy imports over HTTP',async()=>{
+test('EscalaEasy native formats and extension round-trip over HTTP',async()=>{
   await withServer({},async({post})=>{
     const document=request().document;let original;
-    for(const format of ['native','escalaeasy','escalalivre']){
+    for(const format of ['native','escalaeasy']){
       const response=await post('/export',{document,format});assert.equal(response.status,200);
       const {data}=await response.json();assert.equal(data.fileName,'escala.escalaeasy');
       original??=data.contentBase64;assert.equal(data.contentBase64,original);
     }
-    for(const fileName of ['planejamento.escalaeasy','planejamento.escalalivre','PLANEJAMENTO.ESCALAEASY','PLANEJAMENTO.ESCALALIVRE']){
+    for(const fileName of ['planejamento.escalaeasy','PLANEJAMENTO.ESCALAEASY']){
       const response=await post('/import',{fileName,format:'auto',contentBase64:original});
       assert.equal(response.status,200);const {data}=await response.json();
       assert.equal(data.id,document.id);assert.deepEqual(data.assignments,document.assignments);
@@ -227,7 +227,7 @@ async function withServer(options, run) {
   const url = `http://127.0.0.1:${port}`;
   const env = { ...process.env, ASPNETCORE_ENVIRONMENT: 'Production', ASPNETCORE_URLS: url,
     Protection__ExportsPerMinute:'1000', Protection__AllowedOrigins__0: 'https://allowed.example', Protection__RequestsPerMinute: '1000', Protection__SolvesPerMinute: '1000',
-    Logging__LogLevel__Default: 'Information', 'Logging__LogLevel__EscalaLivre.Api.CalculationWorker': 'Debug' };
+    Logging__LogLevel__Default: 'Information', 'Logging__LogLevel__EscalaEasy.Api.CalculationWorker': 'Debug' };
   for (const [key, value] of Object.entries(options)) env[`Protection__${key}`] = String(value);
   const child = spawn('dotnet', [assembly], { cwd: apiDirectory, env, windowsHide: true });
   let logs = '';
@@ -268,7 +268,7 @@ test('API rejects abusive inputs and keeps normal scheduling and exports working
     for (const endpoint of ['/validate', '/analyze']) assert.equal((await post(endpoint, r)).status, 200);
     for (const format of ['native', 'xlsx', 'pdf']) assert.equal((await post('/export', { document: r.document, format })).status, 200);
     const exported = await (await post('/export', { document: r.document, format: 'native' })).json();
-    const imported = await post('/import', { fileName: 'x.escalalivre', format: 'native', contentBase64: exported.data.contentBase64 });
+    const imported = await post('/import', { fileName: 'x.escalaeasy', format: 'native', contentBase64: exported.data.contentBase64 });
     assert.equal(imported.status, 200);
     for (const content of ['{', 'null', '{}', JSON.stringify({ document: null, start: r.start, end: r.end })]) {
       const invalid = await post('/solve', content);
@@ -286,7 +286,7 @@ test('API rejects abusive inputs and keeps normal scheduling and exports working
       }
     }
     for (const contentBase64 of ['bad base64', 'e30=', 'bnVsbA=='])
-      assert.equal((await post('/import', { fileName: 'x.escalalivre', format: 'native', contentBase64 })).status, 400);
+      assert.equal((await post('/import', { fileName: 'x.escalaeasy', format: 'native', contentBase64 })).status, 400);
     assert.equal((await post('/export', { document: null, format: 'native' })).status, 400);
     for(let attempt=0;attempt<5;attempt++){
       const tooLarge = await post('/import', JSON.stringify({ pad: 'x'.repeat((attempt===4?4:2) * 1024 * 1024) }), {Origin:'https://allowed.example'});
@@ -534,7 +534,7 @@ test('civil 09h and overnight dates survive the HTTP API, worker and native roun
       const body=await response.json();assert.equal(body.data.assignments[0].start,shift.start);assert.equal(body.data.assignments[0].break.start,shift.break.start);
     }
     const exported=await (await post('/export',{document:r.document,format:'native'})).json();
-    const imported=await (await post('/import',{fileName:'time.escalalivre',format:'native',contentBase64:exported.data.contentBase64})).json();
+    const imported=await (await post('/import',{fileName:'time.escalaeasy',format:'native',contentBase64:exported.data.contentBase64})).json();
     assert.equal(imported.data.assignments[0].start,shift.start);
     r.document.assignments[0]={...shift,start:'2026-10-19T13:00:00Z',end:'2026-10-19T22:00:00Z',break:{start:'2026-10-19T17:00:00Z',end:'2026-10-19T18:00:00Z'}};
     r.start='2026-10-19T04:00:00Z';r.end='2026-10-20T03:59:59Z';
@@ -603,7 +603,7 @@ test('role grants cover multiple functions across HTTP, native reload and actual
     }
     const request=scenarios[0].request;
     const exported=await (await post('/export',{document:request.document,format:'native'})).json();
-    const imported=await (await post('/import',{fileName:'manager.escalalivre',format:'native',contentBase64:exported.data.contentBase64})).json();
+    const imported=await (await post('/import',{fileName:'manager.escalaeasy',format:'native',contentBase64:exported.data.contentBase64})).json();
     assert.deepEqual(imported.data.roles,request.document.roles);
     assert.deepEqual(imported.data.employees.map(e=>e.coverageRoleIds),[[],[]]);
     const response=await post('/solve',{...request,document:{...imported.data,assignments:[]}});
@@ -761,7 +761,7 @@ test('weekly plan contracts survive HTTP round trip and generation applies the p
   const preserved=items=>items.map(({roleId,...item})=>{assert.equal(roleId??null,null);return item;});
   assert.ok(['optimal','feasible'].includes(result.optimization.status));assert.equal(result.workloads[0].expectedSeconds,31680);assert.equal(result.workloads[0].unmetSeconds,0);
   const exported=await (await post('/export',{document:r.document,format:'native'})).json();
-  const imported=await (await post('/import',{fileName:'plan.escalalivre',format:'native',contentBase64:exported.data.contentBase64})).json();
+  const imported=await (await post('/import',{fileName:'plan.escalaeasy',format:'native',contentBase64:exported.data.contentBase64})).json();
   assert.equal(imported.success,true);assert.deepEqual(imported.data.company.defaultWorkload.weeklyPlan,r.document.company.defaultWorkload.weeklyPlan);
   assert.deepEqual(preserved(imported.data.assignments),[shift]);
   r.document.company.defaultWorkload.weeklyPlan.dailySeconds=[1];
@@ -845,7 +845,7 @@ test('employment vigencies survive HTTP native roundtrip and worker analysis',as
  const scenarios=require('../shared/employment-scenarios.json').scenarios,{analyzeDocument}=require('../frontend/tests/source-loader.cjs')()('lib/analysis.ts'),{digest}=require('../shared/parity-contract.cjs');
  await withServer({},async({post})=>{
   for(const s of scenarios){for(const route of ['/analyze','/validate']){const response=await post(route,s.request);assert.equal(response.status,200,s.id);assert.deepEqual(digest((await response.json()).data),digest(analyzeDocument(s.request.document)));}}
-  const request=scenarios[1].request,exported=await (await post('/export',{document:request.document,format:'native'})).json(),imported=await (await post('/import',{fileName:'history.escalalivre',format:'native',contentBase64:exported.data.contentBase64})).json();assert.deepEqual(imported.data.employees[0].roleHistory,request.document.employees[0].roleHistory);assert.deepEqual(imported.data.assignments.map(a=>({...a,break:a.break??null})),request.document.assignments.map(a=>({...a,break:a.break??null})));
+  const request=scenarios[1].request,exported=await (await post('/export',{document:request.document,format:'native'})).json(),imported=await (await post('/import',{fileName:'history.escalaeasy',format:'native',contentBase64:exported.data.contentBase64})).json();assert.deepEqual(imported.data.employees[0].roleHistory,request.document.employees[0].roleHistory);assert.deepEqual(imported.data.assignments.map(a=>({...a,break:a.break??null})),request.document.assignments.map(a=>({...a,break:a.break??null})));
   for(const inactive of[false,true]){const document=structuredClone(request.document);document.assignments=[];document.planningPeriod={start:'2026-11-15',end:'2026-11-15'};if(inactive)document.employees[0].inactiveFrom='2026-11-15';const response=await post('/solve',{document,start:'2026-11-15T00:00:00',end:'2026-11-15T23:59:59'});assert.equal(response.status,200);const result=(await response.json()).data;if(inactive)assert.equal(result.assignments.length,0);else{assert.ok(result.assignments.length);assert.ok(result.assignments.every(a=>a.role==='Caixa'));}}
  });
 });
@@ -855,7 +855,7 @@ test('exclusive role allocation agrees across HTTP and actual generation',async(
  await withServer({},async({post})=>{
   for(const s of scenarios){const response=await post('/analyze',s.request);assert.equal(response.status,200,s.id);const result=(await response.json()).data;assert.equal(result.coverageScore,s.expectedScore,s.id);assert.deepEqual(digest(result),digest(analyzeDocument(s.request.document)),s.id);}
   for(const id of ['exclusive-single-substitute','exclusive-crossed-permissions','exclusive-explicit-accumulation']){const s=scenarios.find(s=>s.id===id);const request=structuredClone(s.request);request.document.assignments=[];const response=await post('/solve',request);assert.equal(response.status,200,id);const result=(await response.json()).data;assert.equal(result.coverageScore,s.expectedScore,id);assert.deepEqual(digest(result),digest(analyzeDocument({...request.document,assignments:result.assignments})),id);}
-  const s=scenarios.find(s=>s.id==='exclusive-explicit-accumulation'),exported=await (await post('/export',{document:s.request.document,format:'native'})).json(),imported=await (await post('/import',{fileName:'exclusive.escalalivre',format:'native',contentBase64:exported.data.contentBase64})).json();assert.equal(imported.data.company.coverageMode,'exclusive');assert.deepEqual(imported.data.employees[0].accumulationRoleIds,s.request.document.employees[0].accumulationRoleIds);
+  const s=scenarios.find(s=>s.id==='exclusive-explicit-accumulation'),exported=await (await post('/export',{document:s.request.document,format:'native'})).json(),imported=await (await post('/import',{fileName:'exclusive.escalaeasy',format:'native',contentBase64:exported.data.contentBase64})).json();assert.equal(imported.data.company.coverageMode,'exclusive');assert.deepEqual(imported.data.employees[0].accumulationRoleIds,s.request.document.employees[0].accumulationRoleIds);
  });
 });
 
@@ -864,7 +864,7 @@ test('pinned shifts and subperiod generation preserve exact commitments across w
  await withServer({},async({post})=>{for(const s of scenarios){const response=await post('/solve',s.request);assert.equal(response.status,200,s.id);const result=(await response.json()).data;if(s.expectedStatus==='infeasible')assert.equal(result.optimization.status,'infeasible');else assert.ok(['optimal','feasible'].includes(result.optimization.status));for(const old of s.request.document.assignments){const found=result.assignments.find(a=>a.id===old.id);assert.ok(found,s.id);const normalize=a=>({...a,break:a.break??null,pinned:a.pinned??null});assert.deepEqual(normalize(found),normalize(old),s.id);}}});
 });
 
-test('absence events block generation and preserve explicit credits through HTTP',async()=>{const scenarios=require('../shared/absence-scenarios.json').scenarios,{analyzeDocument}=require('../frontend/tests/source-loader.cjs')()('lib/analysis.ts'),{digest}=require('../shared/parity-contract.cjs');await withServer({},async({post})=>{for(const s of scenarios){const response=await post('/analyze',s.request);assert.equal(response.status,200,s.id);assert.deepEqual(digest((await response.json()).data),digest(analyzeDocument(s.request.document)),s.id);}const r=scenarios[0].request;const generated=await post('/solve',{...r,document:{...r.document,assignments:[]}});assert.equal(generated.status,200);assert.equal((await generated.json()).data.assignments.length,0);const exported=await (await post('/export',{document:r.document,format:'native'})).json(),imported=await (await post('/import',{fileName:'absence.escalalivre',format:'native',contentBase64:exported.data.contentBase64})).json();assert.deepEqual(imported.data.employees[0].absences,r.document.employees[0].absences);});});
+test('absence events block generation and preserve explicit credits through HTTP',async()=>{const scenarios=require('../shared/absence-scenarios.json').scenarios,{analyzeDocument}=require('../frontend/tests/source-loader.cjs')()('lib/analysis.ts'),{digest}=require('../shared/parity-contract.cjs');await withServer({},async({post})=>{for(const s of scenarios){const response=await post('/analyze',s.request);assert.equal(response.status,200,s.id);assert.deepEqual(digest((await response.json()).data),digest(analyzeDocument(s.request.document)),s.id);}const r=scenarios[0].request;const generated=await post('/solve',{...r,document:{...r.document,assignments:[]}});assert.equal(generated.status,200);assert.equal((await generated.json()).data.assignments.length,0);const exported=await (await post('/export',{document:r.document,format:'native'})).json(),imported=await (await post('/import',{fileName:'absence.escalaeasy',format:'native',contentBase64:exported.data.contentBase64})).json();assert.deepEqual(imported.data.employees[0].absences,r.document.employees[0].absences);});});
 
 
 test('minimized queued input preserves quality preferences through the worker', async()=>{

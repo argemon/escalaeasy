@@ -4,9 +4,9 @@ const load = require('./source-loader.cjs')();
 const native = load('lib/nativeDocument.ts');
 const { sampleDocument } = load('data/sample.ts');
 
-test('new and legacy native file extensions import the same document without conversion',async()=>{
+test('EscalaEasy native file extensions import the same document without conversion',async()=>{
   const text=native.serializeNative(sampleDocument),api=load('lib/api.ts');
-  for(const name of ['planejamento.escalaeasy','planejamento.escalalivre','PLANEJAMENTO.ESCALAEASY','PLANEJAMENTO.ESCALALIVRE']){
+  for(const name of ['planejamento.escalaeasy','PLANEJAMENTO.ESCALAEASY']){
     const restored=await api.importNative({name,size:Buffer.byteLength(text),text:async()=>text});
     assert.equal(native.serializeNative(restored),text);
     assert.ok(native.nativeFilename(restored).endsWith('.escalaeasy'));

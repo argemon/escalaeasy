@@ -1,4 +1,4 @@
-import type { CompanyRules, Employee, EscalaLivreDocument, ScheduleIssue, ShiftAssignment } from "../../types/schedule";
+import type { CompanyRules, Employee, EscalaEasyDocument, ScheduleIssue, ShiftAssignment } from "../../types/schedule";
 import { civilMillis, civilString, civilWeek } from "../civilTime";
 import { workloadFor } from "./effectiveWork";
 import { activeOn } from "./employment";
@@ -29,7 +29,7 @@ export function restWindows(shifts: ShiftAssignment[], start: number, end: numbe
   if (cursor < end) gaps.push({start:cursor,end});
   return gaps;
 }
-export function weeklyRestSummary(d: EscalaLivreDocument, employee: Employee, week: number) {
+export function weeklyRestSummary(d: EscalaEasyDocument, employee: Employee, week: number) {
   const start = civilMillis(d.planningPeriod.start+"T00:00:00"), end = civilMillis(d.planningPeriod.end+"T00:00:00")+restDayMillis;
   const own = d.assignments.filter(a=>a.employeeId===employee.id);
   const full = week >= start && week+7*restDayMillis <= end && activeOn(employee,civilString(week+7*restDayMillis-1));
@@ -38,7 +38,7 @@ export function weeklyRestSummary(d: EscalaLivreDocument, employee: Employee, we
   return {required:requiredWeeklyRests(d.company,employee), complete:full&&hasSchedule,
     count:windows.reduce((n,w)=>n+Math.floor((w.end-w.start)/restDayMillis),0), windows};
 }
-export function restDayLabel(d: EscalaLivreDocument, employee: Employee, date: string): string {
+export function restDayLabel(d: EscalaEasyDocument, employee: Employee, date: string): string {
   const start = civilMillis(date+"T00:00:00"), end = start+restDayMillis;
   if (!activeOn(employee,date)) return "Pessoa inativa";
   if (employee.absences?.some(a=>civilMillis(a.start)<end&&civilMillis(a.end)>start)) return "Ausência registrada";
@@ -48,7 +48,7 @@ export function restDayLabel(d: EscalaLivreDocument, employee: Employee, date: s
   if (!weeklyRestSummary(d,employee,week).complete) return "Sem turno · descanso não confirmado";
   return "Folga prevista · 24h sem turno";
 }
-export function weeklyRestIssues(d: EscalaLivreDocument): ScheduleIssue[] {
+export function weeklyRestIssues(d: EscalaEasyDocument): ScheduleIssue[] {
   const issues: ScheduleIssue[] = [], start = civilMillis(d.planningPeriod.start+"T00:00:00"), end = civilMillis(d.planningPeriod.end+"T00:00:00")+restDayMillis;
   for (const e of d.employees) {
     const own = d.assignments.filter(a=>a.employeeId===e.id);

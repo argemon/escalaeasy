@@ -1,13 +1,13 @@
 import { selectedNormalDailySeconds } from "./fiveDay42Hours";
 import { explicitLeaveCredit } from "./absence";
-import type { CompanyRules, Employee, EscalaLivreDocument, WeeklyWorkPlan } from "../../types/schedule";
+import type { CompanyRules, Employee, EscalaEasyDocument, WeeklyWorkPlan } from "../../types/schedule";
 import { clockMillis, civilMillis } from "../civilTime";
 import { closedHoliday } from "../holidays";
 import { regimeConstraints } from "../regimes";
 
 export const durationSeconds=(value:string)=>Math.round(clockMillis(value)/1000);
 export const planFor=(company:CompanyRules,employee:Employee)=> (employee.inheritsCompanyDefaults?company.defaultWorkload:employee.workload).weeklyPlan;
-export const hasContractPlans=(planning:EscalaLivreDocument)=>planning.employees.some(e=>planFor(planning.company,e)!=null);
+export const hasContractPlans=(planning:EscalaEasyDocument)=>planning.employees.some(e=>planFor(planning.company,e)!=null);
 
 export const compensationAppliesOn=(plan:WeeklyWorkPlan,date:string)=>Boolean(plan.compensation && date>=plan.compensation.startsOn && date<=plan.compensation.endsOn);
 

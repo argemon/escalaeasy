@@ -7,7 +7,7 @@
     {
       "name": "browser-generation",
       "status": "failed",
-      "error": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert.ok((await current(page)).assignments.length>0)\n\n    at D:\\Projetos\\escalalivre\\tools\\review-browser.cjs:103:12\n    at async step (D:\\Projetos\\escalalivre\\tools\\review-browser.cjs:36:5)\n    at async main (D:\\Projetos\\escalalivre\\tools\\review-browser.cjs:96:3)",
+      "error": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert.ok((await current(page)).assignments.length>0)\n\n    at D:\\Projetos\\escalaeasy\\tools\\review-browser.cjs:103:12\n    at async step (D:\\Projetos\\escalaeasy\\tools\\review-browser.cjs:36:5)\n    at async main (D:\\Projetos\\escalaeasy\\tools\\review-browser.cjs:96:3)",
       "pageErrors": []
     },
     {

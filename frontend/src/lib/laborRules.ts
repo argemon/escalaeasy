@@ -4,7 +4,7 @@ import { contractDailyLimitMillis } from "./policies/weeklyWorkPlan";
 import { normalWeekSeconds } from "./policies/flexibleContract";
 import { civilDay, civilMillis, civilString, civilWeek, clockMillis } from "./civilTime";
 import { authorizedHolidayShift, closedHoliday } from "./holidays";
-import type { DocumentRole, CompanyRules, Employee, EscalaLivreDocument, ScheduleIssue, ShiftAssignment } from "../types/schedule";
+import type { DocumentRole, CompanyRules, Employee, EscalaEasyDocument, ScheduleIssue, ShiftAssignment } from "../types/schedule";
 import { workMillis, workloadFor, exceedsRegimeWork, workMillisInWeek, weeklyLimitHours } from "./policies/effectiveWork";
 import { regimeConstraints } from "./regimes";
 import { restMillis, violatesPreviousRest } from "./policies/rest";
@@ -42,7 +42,7 @@ export function shiftDiagnostics(company:CompanyRules,e:Employee,a:ShiftAssignme
   }
   return result;
 }
-export function diagnoseSchedule(document:EscalaLivreDocument):ScheduleIssue[] {
+export function diagnoseSchedule(document:EscalaEasyDocument):ScheduleIssue[] {
   const issues:ScheduleIssue[]=[];
   for(const a of document.assignments){const e=document.employees.find(e=>e.id===a.employeeId);if(e)issues.push(...shiftDiagnostics(document.company,e,a,document.roles));else issues.push({code:"unknownEmployee",message:"Turno referencia pessoa inexistente.",severity:"error",start:a.start,end:a.end,role:a.role,employeeId:a.employeeId});}
   for(const e of document.employees) {

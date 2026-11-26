@@ -1,6 +1,6 @@
 # Parecer final das correções de publicação
 
-Data: 31/10/2026. Repositório: argemon/escalalivre.
+Data: 31/10/2026. Repositório: argemon/escalaeasy.
 
 **Parecer: aprovação condicionada.** As correções funcionais foram confirmadas
 no ambiente local e nenhum novo defeito bloqueador de código foi reproduzido na
@@ -13,8 +13,8 @@ seguimento registrado a seguir.
 
 O commit `f0dbce7a1fdd49343266a5c54ad444ed3b5aa349`, na branch
 `codex/publication-hardening`, foi enviado com as três entregas, README e evidências.
-O [PR #7](https://github.com/argemon/escalalivre/pull/7) está aberto em rascunho.
-A execução [Validate #27](https://github.com/argemon/escalalivre/actions/runs/41253687438)
+O [PR #7](https://github.com/argemon/escalaeasy/pull/7) está aberto em rascunho.
+A execução [Validate #27](https://github.com/argemon/escalaeasy/actions/runs/41253687438)
 terminou com sucesso nos oito jobs, incluindo frontend, quatro suítes .NET,
 HTTP/worker, paridade em ambos os fusos e gate backend.
 
@@ -93,10 +93,10 @@ Logs completos e comandos estão em
 | TypeScript + Vite build de produção | Aprovado; dois avisos de comentário descritos acima |
 | Frontend em UTC | 487/487 |
 | Frontend em America/New_York | 487/487 |
-| EscalaLivre.Analysis.Tests, Release | 239/239 |
-| EscalaLivre.Adapter.Tests, Release, OR-Tools real | 379/379 |
-| EscalaLivre.Api.Tests, Release | 33/33 |
-| EscalaLivre.Architecture.Tests, Release | 13/13 |
+| EscalaEasy.Analysis.Tests, Release | 239/239 |
+| EscalaEasy.Adapter.Tests, Release, OR-Tools real | 379/379 |
+| EscalaEasy.Api.Tests, Release | 33/33 |
+| EscalaEasy.Architecture.Tests, Release | 13/13 |
 | Diferencial puro C#/TypeScript em UTC | 142/142 |
 | Diferencial puro C#/TypeScript em America/New_York | 142/142 |
 | Build da API, Release | Aprovado |

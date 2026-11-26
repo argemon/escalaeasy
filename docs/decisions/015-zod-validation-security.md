@@ -55,8 +55,8 @@ npm view zod@4.6.7 version
 npm install --prefix frontend zod@4.6.7 --save-exact --ignore-scripts
 npm audit --prefix frontend --omit=dev --json
 npm ls --prefix frontend minimatch
-dotnet restore EscalaLivre.slnx --force --no-http-cache -p:NuGetAudit=true -p:NuGetAuditMode=all -p:NuGetAuditLevel=low
-dotnet list EscalaLivre.slnx package --vulnerable --include-transitive --format json
+dotnet restore EscalaEasy.slnx --force --no-http-cache -p:NuGetAudit=true -p:NuGetAuditMode=all -p:NuGetAuditLevel=low
+dotnet list EscalaEasy.slnx package --vulnerable --include-transitive --format json
 ```
 
 ## Barreiras e compatibilidade
@@ -123,7 +123,7 @@ presentes nessa suíte. Revisão de conteúdo, 45 links locais da documentação
 
 Comandos de validação: `npm --prefix frontend run lint`,
 `npm --prefix frontend run build`, `node --test frontend/tests/*.test.cjs`,
-`dotnet test EscalaLivre.slnx -c Release --no-restore -m:1`,
+`dotnet test EscalaEasy.slnx -c Release --no-restore -m:1`,
 `node tools/parity-differential.cjs` e
 `SECURITY_BUILD_CONFIGURATION=Release` com `node backend/security.integration.cjs`.
 Frontend e diferencial foram executados em UTC e America/New_York.

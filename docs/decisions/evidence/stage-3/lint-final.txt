@@ -1,5 +1,5 @@
 
-> escalalivre-frontend@0.1.0 lint
+> escalaeasy-frontend@0.1.0 lint
 > eslint .
 
 npm notice

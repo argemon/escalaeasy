@@ -39,7 +39,7 @@ Os máximos observados são limites de alerta locais derivados do baseline, regi
 Ferramenta versionada: [architecture-benchmark.cjs](../../tools/architecture-benchmark.cjs). Na raiz, com uma pasta nova (não existente):
 
 ~~~powershell
-node tools/architecture-benchmark.cjs . C:\Temp\escalalivre-benchmark-novo 66659daa2bbfc2384605946ec5b553e0bcd51eed
+node tools/architecture-benchmark.cjs . C:\Temp\escalaeasy-benchmark-novo 66659daa2bbfc2384605946ec5b553e0bcd51eed
 ~~~
 
 O script só cria cópias/arquivos na pasta indicada, não apaga arquivos e não muda fontes do checkout. SDK/dependências precisam estar disponíveis; a execução reconstrói os projetos, e as fontes finais precisam continuar compatíveis com os pontos de instrumentação verificados pelo script.

@@ -36,11 +36,11 @@ Os 12 documentos acrescentam 12 casos puros e 87 testes frontend (12 fronteiras 
 - [lint](evidence/parity/final/lint.txt), [build frontend](evidence/parity/final/frontend-build.txt), [build API](evidence/parity/final/api-build.txt), [HTTP/worker](evidence/parity/final/http-worker.txt).
 
 ~~~powershell
-dotnet build EscalaLivre.slnx -c Release -t:Rebuild
-dotnet test backend/EscalaLivre.Analysis.Tests/EscalaLivre.Analysis.Tests.csproj -c Release
-dotnet test backend/EscalaLivre.Adapter.Tests/EscalaLivre.Adapter.Tests.csproj -c Release
-dotnet test backend/EscalaLivre.Api.Tests/EscalaLivre.Api.Tests.csproj -c Release
-dotnet test backend/EscalaLivre.Architecture.Tests/EscalaLivre.Architecture.Tests.csproj -c Release
+dotnet build EscalaEasy.slnx -c Release -t:Rebuild
+dotnet test backend/EscalaEasy.Analysis.Tests/EscalaEasy.Analysis.Tests.csproj -c Release
+dotnet test backend/EscalaEasy.Adapter.Tests/EscalaEasy.Adapter.Tests.csproj -c Release
+dotnet test backend/EscalaEasy.Api.Tests/EscalaEasy.Api.Tests.csproj -c Release
+dotnet test backend/EscalaEasy.Architecture.Tests/EscalaEasy.Architecture.Tests.csproj -c Release
 node --test frontend/tests/*.test.cjs
 node tools/parity-differential.cjs
 $oldTz=$env:TZ
@@ -51,7 +51,7 @@ try {
 } finally { $env:TZ=$oldTz }
 npm --prefix frontend run lint
 npm --prefix frontend run build
-dotnet build backend/EscalaLivre.Api/EscalaLivre.Api.csproj -c Release
+dotnet build backend/EscalaEasy.Api/EscalaEasy.Api.csproj -c Release
 $env:SECURITY_BUILD_CONFIGURATION='Release'
 node backend/security.integration.cjs
 ~~~
@@ -61,5 +61,5 @@ node backend/security.integration.cjs
 - **Produto:** D2 reproduzida e corrigida após decisão. Cobertura/score antes/depois têm expectativas independentes. Não se alteraram hashes antigos para obter aprovação.
 - **Instrumento/ambiente:** a primeira versão do gerador emitiu descanso da empresa abaixo de 11h, corretamente rejeitado. O gerador foi limitado ao contrato estrutural já vigente. O console Windows inicialmente corrompeu acentos; UTF-8 explícito no probe corrigiu o transporte, sem mudar regras/textos. A propriedade inicial confundiu pausa null com campo ausente, representações já equivalentes no serializador; a comparação passa a normalizar apenas essa ausência, preservando todos os horários e conteúdo restantes. Esses erros ocorreram durante a construção do instrumento e não eram divergências de negócio. A matriz final reexecutou tudo.
 - **Intermitência:** nenhuma observada na matriz final; isso não prova ausência global de intermitência. Sementes, IDs e datas fixos, vocabulário finito e limites exclusivos dos testes evitam busca aleatória sem limite. HTTP mantém os limites de produção existentes.
-- **CI:** [Validate #22](https://github.com/argemon/escalalivre/actions/runs/40377752675), evento push, head SHA b8e88e32893336f2626bd0c557ef751c8fcd3b4d, completed/success, foi reconferida pela API GitHub; [registro](evidence/parity/final/remote-ci.json). A ferramenta de listagem por commit que filtra somente pull_request devolveu vazio, por isso a consulta final foi ao endpoint Actions sem esse filtro. Essa CI valida o baseline, não o diff local. O novo job diferencial está configurado em UTC/NY, participa do gate backend e publica failure.json em falha. A execução remota do diff permanece pendente até publicação autorizada; não houve commit/push, disparo nem reexecução remota nesta entrega.
+- **CI:** [Validate #22](https://github.com/argemon/escalaeasy/actions/runs/40377752675), evento push, head SHA b8e88e32893336f2626bd0c557ef751c8fcd3b4d, completed/success, foi reconferida pela API GitHub; [registro](evidence/parity/final/remote-ci.json). A ferramenta de listagem por commit que filtra somente pull_request devolveu vazio, por isso a consulta final foi ao endpoint Actions sem esse filtro. Essa CI valida o baseline, não o diff local. O novo job diferencial está configurado em UTC/NY, participa do gate backend e publica failure.json em falha. A execução remota do diff permanece pendente até publicação autorizada; não houve commit/push, disparo nem reexecução remota nesta entrega.
 - **Escopo:** paridade de diagnóstico/cobertura não prova equivalência da função objetivo nem de todos os ótimos. Preferências, busca e falhas do gerador permanecem em testes próprios. Redução futura é manual e deve preservar validade estrutural e o mesmo desacordo; o replay usa a entrada gravada, sem depender do gerador atual.

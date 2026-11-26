@@ -30,10 +30,10 @@ test at backend\security.integration.cjs:161:1
 
   504 !== 200
 
-      at C:\Users\eargemon\source\repos\escalalivre\backend\security.integration.cjs:170:12
+      at C:\Users\eargemon\source\repos\escalaeasy\backend\security.integration.cjs:170:12
       at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
-      at async withServer (C:\Users\eargemon\source\repos\escalalivre\backend\security.integration.cjs:97:5)
-      at async TestContext.<anonymous> (C:\Users\eargemon\source\repos\escalalivre\backend\security.integration.cjs:162:3)
+      at async withServer (C:\Users\eargemon\source\repos\escalaeasy\backend\security.integration.cjs:97:5)
+      at async TestContext.<anonymous> (C:\Users\eargemon\source\repos\escalaeasy\backend\security.integration.cjs:162:3)
       at async Test.run (node:internal/test_runner/test:1313:7)
       at async Test.processPendingSubtests (node:internal/test_runner/test:897:7)
   Server output:
@@ -44,42 +44,42 @@ test at backend\security.integration.cjs:161:1
   info: Microsoft.Hosting.Lifetime[0]
         Hosting environment: Production
   info: Microsoft.Hosting.Lifetime[0]
-        Content root path: C:\Users\eargemon\source\repos\escalalivre\backend\EscalaLivre.Api
-  info: EscalaLivre.Api[0]
+        Content root path: C:\Users\eargemon\source\repos\escalaeasy\backend\EscalaEasy.Api
+  info: EscalaEasy.Api[0]
         API HTTP: GET /health returned 200 in 113ms
-  warn: EscalaLivre.Api[0]
+  warn: EscalaEasy.Api[0]
         API failure busy, type ApiFailure
-  warn: EscalaLivre.Api[0]
+  warn: EscalaEasy.Api[0]
         API failure busy, type ApiFailure
-  warn: EscalaLivre.Api[0]
+  warn: EscalaEasy.Api[0]
         API failure busy, type ApiFailure
-  info: EscalaLivre.Api[0]
+  info: EscalaEasy.Api[0]
         API HTTP: POST /solve returned 503 in 120ms
-  info: EscalaLivre.Api[0]
+  info: EscalaEasy.Api[0]
         API HTTP: POST /solve returned 503 in 120ms
-  info: EscalaLivre.Api[0]
+  info: EscalaEasy.Api[0]
         API HTTP: POST /solve returned 503 in 120ms
-  dbug: EscalaLivre.Api.CalculationWorker[0]
+  dbug: EscalaEasy.Api.CalculationWorker[0]
         Calculation solve started
-  info: EscalaLivre.Api.CalculationWorker[0]
+  info: EscalaEasy.Api.CalculationWorker[0]
         Calculation solve completed in 445ms
-  warn: EscalaLivre.Api[0]
+  warn: EscalaEasy.Api[0]
         API failure complexityLimit, type ApiFailure
-  info: EscalaLivre.Api[0]
+  info: EscalaEasy.Api[0]
         API HTTP: POST /solve returned 422 in 562ms
-  info: EscalaLivre.Api[0]
+  info: EscalaEasy.Api[0]
         API HTTP: GET /health returned 200 in 0ms
-  dbug: EscalaLivre.Api.CalculationWorker[0]
+  dbug: EscalaEasy.Api.CalculationWorker[0]
         Calculation solve started
-  info: EscalaLivre.Api.CalculationWorker[0]
+  info: EscalaEasy.Api.CalculationWorker[0]
         Calculation solve completed in 1036ms
-  warn: EscalaLivre.Api[0]
+  warn: EscalaEasy.Api[0]
         API failure calculationTimeout, type ApiFailure
-  info: EscalaLivre.Api[0]
+  info: EscalaEasy.Api[0]
         API HTTP: POST /solve returned 504 in 1039ms
 
-      at withServer (C:\Users\eargemon\source\repos\escalalivre\backend\security.integration.cjs:99:11)
+      at withServer (C:\Users\eargemon\source\repos\escalaeasy\backend\security.integration.cjs:99:11)
       at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
-      at async TestContext.<anonymous> (C:\Users\eargemon\source\repos\escalalivre\backend\security.integration.cjs:162:3)
+      at async TestContext.<anonymous> (C:\Users\eargemon\source\repos\escalaeasy\backend\security.integration.cjs:162:3)
       at async Test.run (node:internal/test_runner/test:1313:7)
       at async Test.processPendingSubtests (node:internal/test_runner/test:897:7)

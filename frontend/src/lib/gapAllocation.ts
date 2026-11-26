@@ -1,4 +1,4 @@
-import type { EscalaLivreDocument, ShiftAssignment, CoverageGap, ScheduleResult, CoverageRequirement } from "../types/schedule";
+import type { EscalaEasyDocument, ShiftAssignment, CoverageGap, ScheduleResult, CoverageRequirement } from "../types/schedule";
 import { analyzeDocument } from "./analysis";
 import { employeeOn, activeOn } from "./policies/employment";
 import { canCover } from "./coverageAllocation";
@@ -8,8 +8,8 @@ import { desiredWorkSeconds } from "./policies/contractWorkTargets";
 import { intervalForCivil } from "./intervals";
 import { previewPlanning } from "./planningEdits";
 const deficit=(result:ScheduleResult,g:CoverageGap)=>result.coverage.filter(b=>b.role===g.role).reduce((n,b)=>n+Math.max(0,b.required-b.assigned)*Math.max(0,Math.min(civilMillis(b.end),civilMillis(g.end))-Math.max(civilMillis(b.start),civilMillis(g.start))),0);
-export function previewGapAssignment(d:EscalaLivreDocument,assignment:ShiftAssignment){const p=previewPlanning(d,{...d,assignments:[...d.assignments,assignment]},"Alocar turno para reduzir lacuna");const errors=p.analysis.conflicts.filter(c=>c.severity==="error"&&c.employeeId===assignment.employeeId);if(errors.length)throw Error(errors.slice(0,5).map(c=>c.message).join(" "));return p;}
-export function gapCandidates(d:EscalaLivreDocument,gap:CoverageGap){
+export function previewGapAssignment(d:EscalaEasyDocument,assignment:ShiftAssignment){const p=previewPlanning(d,{...d,assignments:[...d.assignments,assignment]},"Alocar turno para reduzir lacuna");const errors=p.analysis.conflicts.filter(c=>c.severity==="error"&&c.employeeId===assignment.employeeId);if(errors.length)throw Error(errors.slice(0,5).map(c=>c.message).join(" "));return p;}
+export function gapCandidates(d:EscalaEasyDocument,gap:CoverageGap){
  const before=deficit(analyzeDocument(d),gap),base=civilDay(civilMillis(gap.start));return d.employees.map(person=>{
   const e=employeeOn(person,gap.start);const r:CoverageRequirement={scope:d.company.coverage.find(c=>c.role===gap.role)?.scope??"role",role:gap.role,roleId:gap.roleId??d.roles?.find(r=>r.name===gap.role)?.id,day:0,start:"00:00:00",end:"01:00:00",minimumEmployees:1};let reason="Nenhuma janela proposta ficou viável.";
   if(!activeOn(e,gap.start))return {id:e.id,name:e.name,eligible:false,reason:"Pessoa inativa na data da lacuna."};

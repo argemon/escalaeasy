@@ -1,8 +1,8 @@
 import { nowInstant, deviceTimeZone } from "../lib/dateTime";
 import { defaultPlanningPeriod } from "../lib/planningPeriod";
-import type { EscalaLivreDocument } from "../types/schedule";
+import type { EscalaEasyDocument } from "../types/schedule";
 
-export const sampleDocument: EscalaLivreDocument = {
+export const sampleDocument: EscalaEasyDocument = {
   planningPeriod: { start: "2026-05-18", end: "2026-05-24" },
   schemaVersion: "1.0.0",
   id: "4e8a2937-f61a-46bf-a33f-9ce0f7b13279",
@@ -117,6 +117,6 @@ export const sampleDocument: EscalaLivreDocument = {
   updatedAt: "2026-05-16T17:00:00.000Z"
 };
 
-export function emptyDocument(): EscalaLivreDocument {
+export function emptyDocument(): EscalaEasyDocument {
   return { ...structuredClone(sampleDocument), planningPeriod: defaultPlanningPeriod(), roles: [], setup: { companyConfigured: false }, id: crypto.randomUUID(), company: { ...structuredClone(sampleDocument.company), name: "EscalaEasy", timeZone: deviceTimeZone(), coverageMode:"exclusive", coverage: [] }, employees: [], assignments: [], updatedAt: nowInstant() };
 }

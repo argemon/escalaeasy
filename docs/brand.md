@@ -16,8 +16,8 @@ O conceito **Calendário leve** mantém a geometria original: calendário com ab
 
 Preserve proporções, fundo transparente e espaço ao redor dos SVGs. Para regenerar as curvas do nome, execute `python tools/generate-brand.py` com `fonttools==4.69.1`; o script usa o Inter Bold versionado no backend. A fonte e sua licença vêm do [release oficial Inter 4.1](https://github.com/rsms/inter/releases/tag/v4.1).
 
-## Compatibilidade e publicação
+## Identidade do projeto
 
-EscalaEasy é o nome público. Os novos downloads usam `.escalaeasy`; arquivos antigos `.escalalivre` continuam aceitos. As chaves de armazenamento/recuperação, o schema JSON, os namespaces e assemblies `EscalaLivre.*` e os caminhos de projetos continuam válidos. Esses identificadores técnicos preservam arquivos, dados, builds e integrações existentes.
+O nome público e técnico é **EscalaEasy**: extensão `.escalaeasy`, chaves `escalaeasy-state` e `escalaeasy-recovery`, namespaces e assemblies `EscalaEasy.*`, solução `EscalaEasy.slnx` e projetos/pastas correspondentes. Não há aliases ou migração de armazenamento de uma identidade anterior; o lançamento será feito exclusivamente como EscalaEasy.
 
-O repositório continua em `https://github.com/argemon/escalalivre`. Esta mudança não registra nem presume domínio, altera hospedagem, renomeia o repositório ou publica uma versão. Evidências históricas e capturas anteriores mantêm a marca da época.
+Repositório oficial: [github.com/argemon/escalaeasy](https://github.com/argemon/escalaeasy). Nenhum domínio de hospedagem é presumido e esta atualização não publica uma versão.

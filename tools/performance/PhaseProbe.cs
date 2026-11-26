@@ -1,6 +1,6 @@
 // Copied into isolated benchmark snapshots only. Never compiled into production projects.
 using System.Diagnostics;
-namespace EscalaLivre.Domain.Scheduling;
+namespace EscalaEasy.Domain.Scheduling;
 public static class PerformancePhaseProbe
 {
     public sealed record Sample(string Phase,double Milliseconds,long ManagedBytes);

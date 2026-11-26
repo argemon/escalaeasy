@@ -19,7 +19,7 @@ executados contra a API Release anterior à correção:
 Comandos de reprodução, antes da mudança produtiva:
 
 ```powershell
-dotnet build backend/EscalaLivre.Api/EscalaLivre.Api.csproj -c Release -m:1
+dotnet build backend/EscalaEasy.Api/EscalaEasy.Api.csproj -c Release -m:1
 $env:SECURITY_BUILD_CONFIGURATION='Release'
 node --test --test-name-pattern='generation quota|job quotas|polling and cancellation|forged IP headers' backend/security.integration.cjs
 node --test --test-name-pattern='exhausting polls' backend/security.integration.cjs
@@ -68,7 +68,7 @@ negócio C#/TypeScript precisou mudar.
 - Diferencial puro C#/TypeScript: 142/142 cenários em cada um desses fusos.
 - Revisão do conteúdo, links locais da documentação e `git diff --check` concluídos.
 
-Comandos finais: `dotnet test EscalaLivre.slnx -c Release -m:1`,
+Comandos finais: `dotnet test EscalaEasy.slnx -c Release -m:1`,
 `SECURITY_BUILD_CONFIGURATION=Release` com `node backend/security.integration.cjs`,
 `node --test --test-name-pattern='global concurrency still' backend/security.integration.cjs`,
 `npm --prefix frontend run lint`, `npm --prefix frontend run build`,

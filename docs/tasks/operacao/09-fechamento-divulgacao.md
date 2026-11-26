@@ -16,7 +16,7 @@ Guardar a versão entregue à equipe, exportá-la de forma legível e continuar 
 5. Exportar PDF, imagem PNG e XLSX pela interface, por equipe ou pessoa, reaproveitando os exportadores existentes quando adequados. Exportação de versão fechada usa somente seu snapshot; rascunho deve estar identificado como RASCUNHO.
 6. Incluir empresa, período, versão, horários, pausas e legenda. Dividir saída extensa em páginas/imagens legíveis, com nomes consistentes, sem uma imagem gigante ilegível no celular.
 7. Exportar células como texto/dados seguros, sem fórmulas originadas de nomes ou campos livres. Excluir motivos privados de ausência, anotações internas, dispensas detalhadas e configurações pessoais desnecessárias.
-8. Incluir versões no `.escalalivre`, recuperação e migração idempotente. Definir limites explícitos de quantidade/tamanho compatíveis com cotas atuais; ao atingir limite, orientar arquivamento/exportação, sem apagar versões silenciosamente.
+8. Incluir versões no `.escalaeasy`, recuperação e migração idempotente. Definir limites explícitos de quantidade/tamanho compatíveis com cotas atuais; ao atingir limite, orientar arquivamento/exportação, sem apagar versões silenciosamente.
 9. Conferir desfazer/refazer e geração: um fechamento nunca é mutado por troca de função, exclusão de pessoa, cópia, ausência ou aplicação do solver. Seleção e visualização de versões ficam claras.
 
 ## Pontos de partida

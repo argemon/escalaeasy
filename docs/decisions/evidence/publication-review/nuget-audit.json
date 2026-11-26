@@ -7,31 +7,31 @@
   ],
   "projects": [
     {
-      "path": "D:/Projetos/escalalivre/backend/EscalaLivre.Adapter.Tests/EscalaLivre.Adapter.Tests.csproj"
+      "path": "D:/Projetos/escalaeasy/backend/EscalaEasy.Adapter.Tests/EscalaEasy.Adapter.Tests.csproj"
     },
     {
-      "path": "D:/Projetos/escalalivre/backend/EscalaLivre.Analysis.Tests/EscalaLivre.Analysis.Tests.csproj"
+      "path": "D:/Projetos/escalaeasy/backend/EscalaEasy.Analysis.Tests/EscalaEasy.Analysis.Tests.csproj"
     },
     {
-      "path": "D:/Projetos/escalalivre/backend/EscalaLivre.Api.Tests/EscalaLivre.Api.Tests.csproj"
+      "path": "D:/Projetos/escalaeasy/backend/EscalaEasy.Api.Tests/EscalaEasy.Api.Tests.csproj"
     },
     {
-      "path": "D:/Projetos/escalalivre/backend/EscalaLivre.Api/EscalaLivre.Api.csproj"
+      "path": "D:/Projetos/escalaeasy/backend/EscalaEasy.Api/EscalaEasy.Api.csproj"
     },
     {
-      "path": "D:/Projetos/escalalivre/backend/EscalaLivre.Application/EscalaLivre.Application.csproj"
+      "path": "D:/Projetos/escalaeasy/backend/EscalaEasy.Application/EscalaEasy.Application.csproj"
     },
     {
-      "path": "D:/Projetos/escalalivre/backend/EscalaLivre.Architecture.Tests/EscalaLivre.Architecture.Tests.csproj"
+      "path": "D:/Projetos/escalaeasy/backend/EscalaEasy.Architecture.Tests/EscalaEasy.Architecture.Tests.csproj"
     },
     {
-      "path": "D:/Projetos/escalalivre/backend/EscalaLivre.Domain/EscalaLivre.Domain.csproj"
+      "path": "D:/Projetos/escalaeasy/backend/EscalaEasy.Domain/EscalaEasy.Domain.csproj"
     },
     {
-      "path": "D:/Projetos/escalalivre/backend/EscalaLivre.Infrastructure/EscalaLivre.Infrastructure.csproj"
+      "path": "D:/Projetos/escalaeasy/backend/EscalaEasy.Infrastructure/EscalaEasy.Infrastructure.csproj"
     },
     {
-      "path": "D:/Projetos/escalalivre/tools/EscalaLivre.ParityProbe/EscalaLivre.ParityProbe.csproj"
+      "path": "D:/Projetos/escalaeasy/tools/EscalaEasy.ParityProbe/EscalaEasy.ParityProbe.csproj"
     }
   ]
 }

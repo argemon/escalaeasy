@@ -7,7 +7,7 @@
     "exe": "dotnet",
     "args": [
       "test",
-      "backend/EscalaLivre.Analysis.Tests/EscalaLivre.Analysis.Tests.csproj",
+      "backend/EscalaEasy.Analysis.Tests/EscalaEasy.Analysis.Tests.csproj",
       "-c",
       "Release"
     ]
@@ -20,7 +20,7 @@
     "exe": "dotnet",
     "args": [
       "test",
-      "backend/EscalaLivre.Adapter.Tests/EscalaLivre.Adapter.Tests.csproj",
+      "backend/EscalaEasy.Adapter.Tests/EscalaEasy.Adapter.Tests.csproj",
       "-c",
       "Release"
     ]
@@ -33,7 +33,7 @@
     "exe": "dotnet",
     "args": [
       "test",
-      "backend/EscalaLivre.Api.Tests/EscalaLivre.Api.Tests.csproj",
+      "backend/EscalaEasy.Api.Tests/EscalaEasy.Api.Tests.csproj",
       "-c",
       "Release"
     ]
@@ -46,7 +46,7 @@
     "exe": "dotnet",
     "args": [
       "test",
-      "backend/EscalaLivre.Architecture.Tests/EscalaLivre.Architecture.Tests.csproj",
+      "backend/EscalaEasy.Architecture.Tests/EscalaEasy.Architecture.Tests.csproj",
       "-c",
       "Release"
     ]
@@ -106,7 +106,7 @@
     "exe": "dotnet",
     "args": [
       "build",
-      "backend/EscalaLivre.Api/EscalaLivre.Api.csproj",
+      "backend/EscalaEasy.Api/EscalaEasy.Api.csproj",
       "-c",
       "Release"
     ]

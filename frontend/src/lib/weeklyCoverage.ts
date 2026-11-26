@@ -3,12 +3,12 @@ import { datePart, formatCivilDateTime } from "./dateTime";
 import { canCover } from "./coverageAllocation";
 import { closedHoliday } from "./holidays";
 import { intervalFor, minutesOf, previewPause } from "./intervals";
-import type { EscalaLivreDocument, ShiftAssignment } from "../types/schedule";
+import type { EscalaEasyDocument, ShiftAssignment } from "../types/schedule";
 import { outsideOperatingHours } from "./coverageRules";
 import { weeklyRestSummary } from "./policies/weeklyRest";
 import { civilMillis, civilWeek } from "./civilTime";
 export type WeeklyCoverage = ShiftAssignment & { planned?: boolean };
-export function weeklyCoverage(document: EscalaLivreDocument, date: string): WeeklyCoverage[] {
+export function weeklyCoverage(document: EscalaEasyDocument, date: string): WeeklyCoverage[] {
   if (document.planningPeriod && (date < document.planningPeriod.start || date > document.planningPeriod.end)) return [];
   const actual = document.assignments.filter(a => datePart(a.start) === date);
   if (closedHoliday(document.company,date)) return actual;

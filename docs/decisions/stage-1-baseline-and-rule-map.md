@@ -23,10 +23,10 @@ Comandos na raiz; Release na integração por SECURITY_BUILD_CONFIGURATION. TZ s
 | --- | --- | --- | --- |
 | node --test frontend/tests/*.test.cjs | 339 aprovados, 0 falhas | 349 aprovados, 0 falhas | [antes](evidence/stage-1/frontend-baseline.txt), [depois](evidence/stage-1/frontend-final.txt) |
 | Mesmo comando com TZ=America/New_York | 339 aprovados, 0 falhas | 349 aprovados, 0 falhas | [antes](evidence/stage-1/frontend-new-york-baseline.txt), [depois](evidence/stage-1/frontend-new-york-final.txt) |
-| dotnet test backend/EscalaLivre.Tests/EscalaLivre.Tests.csproj -c Release | 336 aprovados, 0 falhas | 354 aprovados, 0 falhas | [antes](evidence/stage-1/backend-baseline.txt), [depois](evidence/stage-1/backend-final.txt) |
+| dotnet test backend/EscalaEasy.Tests/EscalaEasy.Tests.csproj -c Release | 336 aprovados, 0 falhas | 354 aprovados, 0 falhas | [antes](evidence/stage-1/backend-baseline.txt), [depois](evidence/stage-1/backend-final.txt) |
 | npm --prefix frontend run lint | exit 0 | exit 0 | [antes](evidence/stage-1/lint-baseline.txt), [depois](evidence/stage-1/lint-final.txt) |
 | npm --prefix frontend run build | exit 0 | exit 0 | [antes](evidence/stage-1/frontend-build-baseline.txt), [depois](evidence/stage-1/frontend-build-final.txt) |
-| dotnet build backend/EscalaLivre.Api/EscalaLivre.Api.csproj -c Release | exit 0, 0 avisos/erros | exit 0, 0 avisos/erros | [antes](evidence/stage-1/api-build-baseline.txt), [depois](evidence/stage-1/api-build-final.txt) |
+| dotnet build backend/EscalaEasy.Api/EscalaEasy.Api.csproj -c Release | exit 0, 0 avisos/erros | exit 0, 0 avisos/erros | [antes](evidence/stage-1/api-build-baseline.txt), [depois](evidence/stage-1/api-build-final.txt) |
 | SECURITY_BUILD_CONFIGURATION=Release; node backend/security.integration.cjs | 15 aprovados, 0 falhas | 15 aprovados, 0 falhas | [antes](evidence/stage-1/security-baseline.txt), [depois](evidence/stage-1/security-final.txt) |
 
 Não houve falha anterior nas suítes concluídas nem falha determinística nos resultados finais; a intermitência operacional está registrada abaixo. Isso não significa ausência de defeitos: D1 abaixo já existia e não era detectada. Houve uma falha intermediária introduzida no preparo das fixtures: oito IDs foram duplicados ao reaplicar cenários, causando oito falhas de Single por multiplicidade no backend (346/354 aprovados). Corrigida a composição para os 49 originais + 9 novos, com unicidade conferida, e repetidas as verificações afetadas. [Log da falha intermediária](evidence/stage-1/backend-intermediate-fixture-error.txt). Foi erro do trabalho de teste, não falha anterior nem mudança de regra.
@@ -37,7 +37,7 @@ As primeiras tentativas .NET (NuGet.Config sem acesso) e frontend build (EPERM n
 
 ## Matriz de regras
 
-Caminhos relativos à raiz: ScheduleRules, LaborRules e ScheduleWindow em backend/EscalaLivre.Domain/Scheduling; regimes em Domain/Regimes; solver em Infrastructure/Solver/OrToolsScheduleSolver.cs. TS em frontend/src/lib; testes em backend/EscalaLivre.Tests e frontend/tests. H = obrigatória, E = estrutural/aceitação, P = preferência, O = limitação operacional. Duplicação por si só não demonstra divergência. Nomes de cenários referem-se ao arquivo compartilhado; métodos/classes referem-se às suítes existentes ou novas indicadas.
+Caminhos relativos à raiz: ScheduleRules, LaborRules e ScheduleWindow em backend/EscalaEasy.Domain/Scheduling; regimes em Domain/Regimes; solver em Infrastructure/Solver/OrToolsScheduleSolver.cs. TS em frontend/src/lib; testes em backend/EscalaEasy.Tests e frontend/tests. H = obrigatória, E = estrutural/aceitação, P = preferência, O = limitação operacional. Duplicação por si só não demonstra divergência. Nomes de cenários referem-se ao arquivo compartilhado; métodos/classes referem-se às suítes existentes ou novas indicadas.
 
 | ID / classe | Semântica e fronteira | Política C# / regime | TS equivalente | Diagnóstico / solver | Evidência de fronteira |
 | --- | --- | --- | --- | --- | --- |
@@ -68,7 +68,7 @@ Caminhos relativos à raiz: ScheduleRules, LaborRules e ScheduleWindow em backen
 | R25 O | Grade de 30min/opções de pausa, margem 1min na busca de pausa; 30.000 candidatos/300.000 passos; 5s CP-SAT | BuildCandidates/BuildBreakWindows/PauseDurations/Solve | API/store tratam status, sem busca equivalente | complexidade, solverTimeout/Infeasible/Invalid; não regra legal | SecurityTests.ExcessiveCandidateSearchStopsBeforeBuildingTheModel; integração de limites; geração não promete reproduzir todo horário válido |
 | R26 operação | Falha/cancelamento preserva documento; fila/worker isolados, limites de recursos | API worker/queue/protection; Solve falha retorna original | api/queuedSolve/store | códigos/status/envelopes existentes | ScheduleJobQueueTests; security.integration.cjs; queued-solve/generation-store/preservation.test.cjs |
 
-Fontes: [cenários](../../shared/rule-scenarios.json), [ScheduleRules](../../backend/EscalaLivre.Domain/Scheduling/ScheduleRules.cs), [regimes](../../backend/EscalaLivre.Domain/Regimes/IShiftRegime.cs), [solver](../../backend/EscalaLivre.Infrastructure/Solver/OrToolsScheduleOptimizer.cs), [laborRules.ts](../../frontend/src/lib/laborRules.ts), [analysis.ts](../../frontend/src/lib/analysis.ts), [coverageAllocation.ts](../../frontend/src/lib/coverageAllocation.ts).
+Fontes: [cenários](../../shared/rule-scenarios.json), [ScheduleRules](../../backend/EscalaEasy.Domain/Scheduling/ScheduleRules.cs), [regimes](../../backend/EscalaEasy.Domain/Regimes/IShiftRegime.cs), [solver](../../backend/EscalaEasy.Infrastructure/Solver/OrToolsScheduleOptimizer.cs), [laborRules.ts](../../frontend/src/lib/laborRules.ts), [analysis.ts](../../frontend/src/lib/analysis.ts), [coverageAllocation.ts](../../frontend/src/lib/coverageAllocation.ts).
 
 ## Duplicações, divergências e riscos
 

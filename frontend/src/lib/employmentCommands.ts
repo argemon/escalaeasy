@@ -1,8 +1,8 @@
-import type { EscalaLivreDocument } from "../types/schedule";
+import type { EscalaEasyDocument } from "../types/schedule";
 import { documentSchema } from "./documentSchema";
 import { employeeOn } from "./policies/employment";
 import type { TeamPreview } from "./teamOperations";
-export function previewEmployment(document:EscalaLivreDocument,ids:string[],startsOn:string,roleId:string|undefined,inactivate:boolean,updateFuture:boolean):TeamPreview{
+export function previewEmployment(document:EscalaEasyDocument,ids:string[],startsOn:string,roleId:string|undefined,inactivate:boolean,updateFuture:boolean):TeamPreview{
  if(!ids.length || !/^\d{4}-\d{2}-\d{2}$/.test(startsOn))throw Error("Escolha pessoas e uma data civil válida.");
  const role=document.roles?.find(r=>r.id===roleId);if(!inactivate&&!role)throw Error("Selecione uma função cadastrada.");
  const changes:TeamPreview["changes"]=[];
@@ -19,7 +19,7 @@ export function previewEmployment(document:EscalaLivreDocument,ids:string[],star
  const next={...document,employees,assignments};const result=documentSchema.safeParse(next);if(!result.success)throw Error(result.error.issues[0].message);
  return {baseline:JSON.stringify(document),document:next,changes};
 }
-export function confirmEmployment(current:EscalaLivreDocument,preview:TeamPreview):EscalaLivreDocument {
+export function confirmEmployment(current:EscalaEasyDocument,preview:TeamPreview):EscalaEasyDocument {
  if(JSON.stringify(current)!==preview.baseline)throw Error("Documento alterado. Refaça a prévia.");
  const result=documentSchema.safeParse(preview.document);if(!result.success)throw Error(result.error.issues[0].message);return structuredClone(preview.document);
 }

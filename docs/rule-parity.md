@@ -1,6 +1,6 @@
 # Regras de geração e validação
 
-O diagnóstico local (`frontend/src/lib/laborRules.ts`) e o domínio C# (`backend/EscalaLivre.Domain/Scheduling/ScheduleRules.cs`) implementam o mesmo contrato. `/analyze` e `/validate` usam o mesmo diagnóstico; `/solve` filtra candidatos por esse diagnóstico e acrescenta as restrições coletivas ao modelo e reavalia sua proposta completa antes de aplicar. Nenhuma dessas operações corrige um turno salvo para esconder um conflito.
+O diagnóstico local (`frontend/src/lib/laborRules.ts`) e o domínio C# (`backend/EscalaEasy.Domain/Scheduling/ScheduleRules.cs`) implementam o mesmo contrato. `/analyze` e `/validate` usam o mesmo diagnóstico; `/solve` filtra candidatos por esse diagnóstico e acrescenta as restrições coletivas ao modelo e reavalia sua proposta completa antes de aplicar. Nenhuma dessas operações corrige um turno salvo para esconder um conflito.
 
 ## Inventário e decisões
 
@@ -81,19 +81,19 @@ Datas de escala usam tempo civil da empresa. A aritmética em `civilTime.ts` é 
 `shared/rule-scenarios.json` contém 58 documentos com códigos esperados. Abrange limites de pausa, intervalo fixo, fechamento, jornadas líquidas, disponibilidade, descanso, ciclo, semana, feriados, entrada fixa, função e mudança de horário de verão no dispositivo. Os cenários de geração delimitam disponibilidade para isolar a regra em teste sem depender da busca de uma operação aberta 24h.
 
 - `frontend/tests/rules.test.cjs` verifica os códigos esperados, imutabilidade dos documentos, normalização idempotente, migração identificada e preservação de horários ao editar configurações.
-- `backend/EscalaLivre.Adapter.Tests/SharedRulesTests.cs` lê o mesmo arquivo, compara os casos de uso independentes de análise e validação e revalida as escalas geradas.
-- `backend/EscalaLivre.Analysis.Tests/AnalysisContractTests.cs` executa os casos de uso de análise/validação sem Infrastructure/OR-Tools e compara a resposta completa com hashes capturados antes da extração da etapa 2.
+- `backend/EscalaEasy.Adapter.Tests/SharedRulesTests.cs` lê o mesmo arquivo, compara os casos de uso independentes de análise e validação e revalida as escalas geradas.
+- `backend/EscalaEasy.Analysis.Tests/AnalysisContractTests.cs` executa os casos de uso de análise/validação sem Infrastructure/OR-Tools e compara a resposta completa com hashes capturados antes da extração da etapa 2.
 - `backend/security.integration.cjs` envia esses documentos à API real, passando pelo worker. Compara frontend, `/analyze` e `/validate` por código, gravidade, pessoa, início, fim e função; compara também todos os blocos de cobertura, lacunas e pontuação. Para os cenários de geração, compara `/solve` com a análise local da escala retornada. A redação traduzida das mensagens não integra esse contrato.
 
 Comandos na raiz do repositório:
 
 ```powershell
 node --test frontend/tests/rules.test.cjs
-dotnet test backend/EscalaLivre.Analysis.Tests/EscalaLivre.Analysis.Tests.csproj -c Release
-dotnet test backend/EscalaLivre.Adapter.Tests/EscalaLivre.Adapter.Tests.csproj -c Release
-dotnet test backend/EscalaLivre.Api.Tests/EscalaLivre.Api.Tests.csproj -c Release
-dotnet test backend/EscalaLivre.Architecture.Tests/EscalaLivre.Architecture.Tests.csproj -c Release
-dotnet build backend/EscalaLivre.Api/EscalaLivre.Api.csproj -c Release
+dotnet test backend/EscalaEasy.Analysis.Tests/EscalaEasy.Analysis.Tests.csproj -c Release
+dotnet test backend/EscalaEasy.Adapter.Tests/EscalaEasy.Adapter.Tests.csproj -c Release
+dotnet test backend/EscalaEasy.Api.Tests/EscalaEasy.Api.Tests.csproj -c Release
+dotnet test backend/EscalaEasy.Architecture.Tests/EscalaEasy.Architecture.Tests.csproj -c Release
+dotnet build backend/EscalaEasy.Api/EscalaEasy.Api.csproj -c Release
 $env:SECURITY_BUILD_CONFIGURATION='Release'
 node --test backend/security.integration.cjs
 ```
@@ -249,7 +249,7 @@ A geração passa a exigir um único início civil e uma única duração de int
 
 Esta é uma obrigação da **geração**, sem novo erro estrutural ou diagnóstico para documentos editados/importados. O cliente não gera escalas: análise TypeScript e C# permanecem iguais, sem nova validação de arquivo, migração ou alteração JSON. Os [cenários de rotina](../shared/weekly-interval-scenarios.json) verificam a política sem OR-Tools; o adaptador real verifica exclusão de mudanças diárias, limites semanais e cobertura integral com almoços escalonados. Documentos anteriores continuam carregáveis, editáveis e preservados em falha/cancelamento. Não há alegação de ganho de desempenho.
 
-Validação local: `dotnet test EscalaLivre.slnx -c Release --no-restore -m:1` aprovou 684 casos (248 puros, 390 adaptador, 33 API, 13 arquitetura). Os 498 testes frontend passaram em Cuiabá e Nova York; lint e build passaram, com avisos de anotação do Zod no build. A paridade diferencial aprovou 142 documentos em cada fuso. A integração HTTP completa aprovou 21/22 inicialmente: o teste de duração longa tinha uma simulação sem `setSelectionRange` e `requestAnimationFrame`, exigidos pela máscara já presente no checkout. Após completar apenas essa simulação, os três testes HTTP de fluxo de edição passaram na repetição direcionada. A suíte HTTP completa não foi repetida após esse ajuste. O cenário de 30 dias com duas pessoas e pausas de duas horas também exige cobertura integral e rotina semanal constante, sem comparar uma escala ótima específica. A primeira compilação da API ficou bloqueada pelo servidor local em execução; após encerrá-lo, a compilação e as suítes passaram. API reiniciada com a correção; nenhuma integração/publicação ou CI remota executada nesta entrega.
+Validação local: `dotnet test EscalaEasy.slnx -c Release --no-restore -m:1` aprovou 684 casos (248 puros, 390 adaptador, 33 API, 13 arquitetura). Os 498 testes frontend passaram em Cuiabá e Nova York; lint e build passaram, com avisos de anotação do Zod no build. A paridade diferencial aprovou 142 documentos em cada fuso. A integração HTTP completa aprovou 21/22 inicialmente: o teste de duração longa tinha uma simulação sem `setSelectionRange` e `requestAnimationFrame`, exigidos pela máscara já presente no checkout. Após completar apenas essa simulação, os três testes HTTP de fluxo de edição passaram na repetição direcionada. A suíte HTTP completa não foi repetida após esse ajuste. O cenário de 30 dias com duas pessoas e pausas de duas horas também exige cobertura integral e rotina semanal constante, sem comparar uma escala ótima específica. A primeira compilação da API ficou bloqueada pelo servidor local em execução; após encerrá-lo, a compilação e as suítes passaram. API reiniciada com a correção; nenhuma integração/publicação ou CI remota executada nesta entrega.
 
 ## Fuso automático do dispositivo — 01/11/2026
 

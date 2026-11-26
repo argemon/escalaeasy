@@ -30,7 +30,7 @@ jobs:
         with:
           dotnet-version: '10.0.x'
       - name: Pure domain and application, without native deployment
-        run: dotnet test backend/EscalaLivre.Analysis.Tests/EscalaLivre.Analysis.Tests.csproj --configuration Release
+        run: dotnet test backend/EscalaEasy.Analysis.Tests/EscalaEasy.Analysis.Tests.csproj --configuration Release
   adapter:
     runs-on: ubuntu-24.04
     steps:
@@ -39,7 +39,7 @@ jobs:
         with:
           dotnet-version: '10.0.x'
       - name: Real OR-Tools and import/export adapters
-        run: dotnet test backend/EscalaLivre.Adapter.Tests/EscalaLivre.Adapter.Tests.csproj --configuration Release
+        run: dotnet test backend/EscalaEasy.Adapter.Tests/EscalaEasy.Adapter.Tests.csproj --configuration Release
   architecture-api:
     runs-on: ubuntu-24.04
     steps:
@@ -48,9 +48,9 @@ jobs:
         with:
           dotnet-version: '10.0.x'
       - name: API composition and queue mechanics
-        run: dotnet test backend/EscalaLivre.Api.Tests/EscalaLivre.Api.Tests.csproj --configuration Release
+        run: dotnet test backend/EscalaEasy.Api.Tests/EscalaEasy.Api.Tests.csproj --configuration Release
       - name: Dependency direction and public surface
-        run: dotnet test backend/EscalaLivre.Architecture.Tests/EscalaLivre.Architecture.Tests.csproj --configuration Release
+        run: dotnet test backend/EscalaEasy.Architecture.Tests/EscalaEasy.Architecture.Tests.csproj --configuration Release
   http-worker:
     runs-on: ubuntu-24.04
     steps:
@@ -63,7 +63,7 @@ jobs:
           node-version: '22'
       # The HTTP parity test loads frontend TypeScript through source-loader.cjs.
       - run: npm ci --prefix frontend --include=dev
-      - run: dotnet build backend/EscalaLivre.Api/EscalaLivre.Api.csproj --configuration Release
+      - run: dotnet build backend/EscalaEasy.Api/EscalaEasy.Api.csproj --configuration Release
       - name: Real HTTP, child workers, limits, cancellation and cross-language parity
         run: node backend/security.integration.cjs
         env:

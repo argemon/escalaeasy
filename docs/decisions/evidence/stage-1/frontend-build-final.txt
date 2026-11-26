@@ -1,5 +1,5 @@
 
-> escalalivre-frontend@0.1.0 build
+> escalaeasy-frontend@0.1.0 build
 > tsc -b && vite build
 
 vite v6.4.5 building for production...

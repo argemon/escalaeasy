@@ -34,7 +34,7 @@ Próxima etapa: consumir o plano na geração e admissão, substituir o limite n
 
 ## Validação local desta entrega
 
-- `dotnet test EscalaLivre.slnx -c Release --no-restore -m:1`: 712 aprovados (407 adaptador, 259 puros, 33 API, 13 arquitetura). Após adicionar as quatro fronteiras de vigência ao mesmo teste compartilhado, repetição direcionada de `WeeklyWorkPlanTests`: 4/4 aprovados.
+- `dotnet test EscalaEasy.slnx -c Release --no-restore -m:1`: 712 aprovados (407 adaptador, 259 puros, 33 API, 13 arquitetura). Após adicionar as quatro fronteiras de vigência ao mesmo teste compartilhado, repetição direcionada de `WeeklyWorkPlanTests`: 4/4 aprovados.
 - `node --test frontend/tests/*.test.cjs`: execução final 527/527 em America/Cuiaba e 527/527 em America/New_York. Inclui teste de máscara com segundos inicialmente zero e controles do editor; não houve teste visual em navegador real nesta entrega.
 - Lint e build frontend aprovados; build mantém os avisos existentes de anotação do Zod. Ambiente local Windows, Node 24.14.1 e SDK .NET 10.0.401.
 - `node tools/parity-differential.cjs`: 142 documentos aprovados em Cuiabá e em Nova York. As políticas novas são verificadas pelos oito cenários, quatro saídas e quatro fronteiras de vigência compartilhados; o corpus diferencial legado não foi alterado para acomodar o plano novo.

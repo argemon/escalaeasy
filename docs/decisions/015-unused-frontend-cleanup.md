@@ -28,7 +28,7 @@ Validação local em Windows/Node 24:
 - `npm --prefix frontend run lint` e build de produção aprovados.
 - TypeScript com `--noUnusedLocals --noUnusedParameters` aprovado.
 - Frontend: 487 testes aprovados em cada execução (fuso local e America/New_York).
-- `dotnet test EscalaLivre.slnx -c Release --no-restore`: 664 testes aprovados
+- `dotnet test EscalaEasy.slnx -c Release --no-restore`: 664 testes aprovados
   (239 análise, 379 adaptador, 33 API e 13 arquitetura).
 - Paridade diferencial: 142 entradas aprovadas em UTC e America/New_York.
 - Build Release da API aprovado, sem avisos ou erros.

@@ -8,7 +8,7 @@ preservadas. Não houve publicação nem mudança nas regras de escala.
 
 Foi acrescentado primeiro o teste
 `MoreThanThirtyTwoSmallCompletionsDoNotBlockAdmissionOrEvictResults`. Com a API
-anterior, `dotnet test backend/EscalaLivre.Api.Tests/EscalaLivre.Api.Tests.csproj
+anterior, `dotnet test backend/EscalaEasy.Api.Tests/EscalaEasy.Api.Tests.csproj
 -c Release -m:1 --filter MoreThanThirtyTwoSmallCompletions` falhou na 33ª admissão
 com 503 `queueFull`, apesar de todos os pedidos anteriores estarem concluídos.
 O teste agora conclui 40 pedidos pequenos e consulta todos os resultados.
@@ -100,7 +100,7 @@ Resultados locais finais:
 
 | Verificação | Resultado |
 | --- | --- |
-| `dotnet test EscalaLivre.slnx -c Release -m:1` | 664 aprovados: 379 adaptador, 239 análise/domínio, 33 API e 13 arquitetura |
+| `dotnet test EscalaEasy.slnx -c Release -m:1` | 664 aprovados: 379 adaptador, 239 análise/domínio, 33 API e 13 arquitetura |
 | `SECURITY_BUILD_CONFIGURATION=Release` + `node backend/security.integration.cjs` | 22/22 aprovados, incluindo todas as regressões HTTP da entrega 1 |
 | `npm --prefix frontend run lint` e `npm --prefix frontend run build` | Aprovados |
 | `node --test frontend/tests/*.test.cjs` | 469/469 em UTC e 469/469 em America/New_York |

@@ -25,16 +25,16 @@ Estado em 26/10/2026: implementação das seis etapas verificada localmente. Rev
 
 Seguimento em 26/10/2026: [fronteiras operacionais validadas](decisions/009-validated-operational-boundaries.md) reforça unidades/configuração na geração e a saída do agregado. Validação local atual: 612 testes .NET, 373 frontend em cada fuso e 16 HTTP. A CI verde de d40f887 é evidência do baseline; não cobre este diff local, cuja CI permanece pendente antes de integrar.
 
-Seguimento em 27/10/2026: [extensibilidade dos regimes](decisions/010-regime-extension-boundaries.md) centraliza capacidades e metadados dos regimes, mantendo o contrato público fechado em dayBased/hourBased. Validação local: 623 testes .NET, 381 frontend em cada fuso e 16 HTTP. A CI [Validate #22](https://github.com/argemon/escalalivre/actions/runs/40377752675) de b8e88e3 foi conferida com sucesso; ela é o baseline e não cobre o novo diff local. CI do novo diff continua necessária antes de integrar.
+Seguimento em 27/10/2026: [extensibilidade dos regimes](decisions/010-regime-extension-boundaries.md) centraliza capacidades e metadados dos regimes, mantendo o contrato público fechado em dayBased/hourBased. Validação local: 623 testes .NET, 381 frontend em cada fuso e 16 HTTP. A CI [Validate #22](https://github.com/argemon/escalaeasy/actions/runs/40377752675) de b8e88e3 foi conferida com sucesso; ela é o baseline e não cobre o novo diff local. CI do novo diff continua necessária antes de integrar.
 
 ## Camadas e dependências
 
 | Projeto | Responsabilidade e dependências |
 | --- | --- |
-| EscalaLivre.Domain | Valores/unidades, configuração de regime, agregado de planejamento, políticas e avaliação puras. Sem referências de projeto/pacote, JSON, HTTP, DI ou OR-Tools. |
-| EscalaLivre.Application | DTOs/mapeadores, validação estrutural, comandos e casos de uso, portas IScheduleAnalyzer/IScheduleOptimizer e montagem do resultado. Depende de Domain. |
-| EscalaLivre.Infrastructure | Geração/CP-SAT e importação/exportação. Implementa a porta de otimização; depende de Domain/Application. |
-| EscalaLivre.Api | Transporte, composição, fila/supervisor e execução do worker. Compõe as outras três camadas; não decide regras. |
+| EscalaEasy.Domain | Valores/unidades, configuração de regime, agregado de planejamento, políticas e avaliação puras. Sem referências de projeto/pacote, JSON, HTTP, DI ou OR-Tools. |
+| EscalaEasy.Application | DTOs/mapeadores, validação estrutural, comandos e casos de uso, portas IScheduleAnalyzer/IScheduleOptimizer e montagem do resultado. Depende de Domain. |
+| EscalaEasy.Infrastructure | Geração/CP-SAT e importação/exportação. Implementa a porta de otimização; depende de Domain/Application. |
+| EscalaEasy.Api | Transporte, composição, fila/supervisor e execução do worker. Compõe as outras três camadas; não decide regras. |
 
 Os testes de arquitetura verificam referências de assembly/projeto, imports das camadas internas e tipos exportados, incluindo arrays, genéricos, atributos, eventos e constraints. Tipos de OR-Tools/PDF não aparecem na superfície pública dos projetos. O modelo, variáveis, termos, execução nativa e leitura que usam esses tipos ficam internos a Infrastructure; apenas o projeto de testes do adaptador recebe acesso aos internos necessários.
 
@@ -75,7 +75,7 @@ minutos é preservada sem remoção antecipada; `TimeProvider` permite controlar
 expiração/limpeza nos testes. Esses limites não medem RSS/heap. Decisão e evidências:
 [orçamento de retenção](decisions/014-job-retention-budget.md).
 
-No frontend, componentes apresentam, Zustand coordena estado/recuperação e lib contém análise/construção local. As políticas em lib/policies não dependem de React/Zustand/HTTP/browser nem de chamadas de relógio local do dispositivo. São implementações distintas das políticas C#, verificadas por 58 documentos de paridade, 20 contratos de regime e dois casos de D1. A construção de pausa usa os mesmos limites variáveis da política; aliases temporários foram removidos. O arquivo .escalaeasy, com importação compatível de .escalalivre, continua fonte portátil local-first, sem cadastro/persistência de servidor.
+No frontend, componentes apresentam, Zustand coordena estado/recuperação e lib contém análise/construção local. As políticas em lib/policies não dependem de React/Zustand/HTTP/browser nem de chamadas de relógio local do dispositivo. São implementações distintas das políticas C#, verificadas por 58 documentos de paridade, 20 contratos de regime e dois casos de D1. A construção de pausa usa os mesmos limites variáveis da política; aliases temporários foram removidos. O arquivo .escalaeasy, com importação compatível de .escalaeasy, continua fonte portátil local-first, sem cadastro/persistência de servidor.
 
 ## Validação e evolução
 

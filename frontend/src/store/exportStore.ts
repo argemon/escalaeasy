@@ -1,10 +1,10 @@
 import { create } from "zustand";
 import { cancelQueuedExport, type ExportProgress } from "../lib/queuedExport";
 import { exportSchedulePdf } from "../lib/schedulePdf";
-import type { EscalaLivreDocument } from "../types/schedule";
+import type { EscalaEasyDocument } from "../types/schedule";
 
 type ExportState={active:boolean;cancelling:boolean;progress?:ExportProgress;updatedAt:number;message?:string;failed:boolean;
-  startPdf:(document:EscalaLivreDocument)=>Promise<void>;cancel:()=>Promise<void>;dismiss:()=>void};
+  startPdf:(document:EscalaEasyDocument)=>Promise<void>;cancel:()=>Promise<void>;dismiss:()=>void};
 export const useExportStore=create<ExportState>((set,get)=>({
   active:false,cancelling:false,updatedAt:0,failed:false,
   startPdf:async document=>{

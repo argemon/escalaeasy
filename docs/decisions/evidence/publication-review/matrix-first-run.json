@@ -43,28 +43,28 @@
   },
   {
     "name": "dotnet-analysis",
-    "command": "dotnet test backend/EscalaLivre.Analysis.Tests/EscalaLivre.Analysis.Tests.csproj -c Release",
+    "command": "dotnet test backend/EscalaEasy.Analysis.Tests/EscalaEasy.Analysis.Tests.csproj -c Release",
     "exitCode": 0,
     "elapsedSeconds": 6.12,
     "log": "dotnet-analysis.txt"
   },
   {
     "name": "dotnet-adapter",
-    "command": "dotnet test backend/EscalaLivre.Adapter.Tests/EscalaLivre.Adapter.Tests.csproj -c Release",
+    "command": "dotnet test backend/EscalaEasy.Adapter.Tests/EscalaEasy.Adapter.Tests.csproj -c Release",
     "exitCode": 0,
     "elapsedSeconds": 11.9,
     "log": "dotnet-adapter.txt"
   },
   {
     "name": "dotnet-api",
-    "command": "dotnet test backend/EscalaLivre.Api.Tests/EscalaLivre.Api.Tests.csproj -c Release",
+    "command": "dotnet test backend/EscalaEasy.Api.Tests/EscalaEasy.Api.Tests.csproj -c Release",
     "exitCode": 0,
     "elapsedSeconds": 8.8,
     "log": "dotnet-api.txt"
   },
   {
     "name": "dotnet-architecture",
-    "command": "dotnet test backend/EscalaLivre.Architecture.Tests/EscalaLivre.Architecture.Tests.csproj -c Release",
+    "command": "dotnet test backend/EscalaEasy.Architecture.Tests/EscalaEasy.Architecture.Tests.csproj -c Release",
     "exitCode": 0,
     "elapsedSeconds": 6.22,
     "log": "dotnet-architecture.txt"
@@ -85,7 +85,7 @@
   },
   {
     "name": "api-build",
-    "command": "dotnet build backend/EscalaLivre.Api/EscalaLivre.Api.csproj -c Release",
+    "command": "dotnet build backend/EscalaEasy.Api/EscalaEasy.Api.csproj -c Release",
     "exitCode": 0,
     "elapsedSeconds": 7.32,
     "log": "api-build.txt"

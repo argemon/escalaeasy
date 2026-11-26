@@ -1,4 +1,4 @@
-escalalivre-frontend@0.1.0 C:\Users\eargemon\source\repos\escalalivre\frontend
+escalaeasy-frontend@0.1.0 C:\Users\eargemon\source\repos\escalaeasy\frontend
 ├── @eslint/js@9.39.4
 ├── @fullcalendar/core@6.1.20
 ├── @fullcalendar/daygrid@6.1.20

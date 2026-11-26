@@ -1,4 +1,4 @@
-import type { Employee, EscalaLivreDocument, WorkloadSummary } from "../../types/schedule";
+import type { Employee, EscalaEasyDocument, WorkloadSummary } from "../../types/schedule";
 import { civilDay, civilMillis, civilString, civilWeek } from "../civilTime";
 import { workMillis, workMillisInWeek } from "./effectiveWork";
 import { planFor, excusedSeconds, desiredWorkSeconds, recognizedSeconds } from "./contractWorkTargets";
@@ -10,7 +10,7 @@ export const normalWeekSeconds=(company:CompanyRules,e:Employee,week:number)=>{
  return Math.max(0,plan.contractedSeconds-credits.reduce((n,c)=>n+Math.min(c,basic),0)-Math.min(plan.contractedSeconds%count,credits.filter(c=>c>basic).length));
 };
 
-export function summarizeFlexible(planning:EscalaLivreDocument,e:Employee,start:string,end:string):WorkloadSummary[] {
+export function summarizeFlexible(planning:EscalaEasyDocument,e:Employee,start:string,end:string):WorkloadSummary[] {
  const plan=planFor(planning.company,e)!,count=plan.flexibleWorkDays!,shifts=planning.assignments.filter(a=>a.employeeId===e.id);
  const from=civilDay(civilMillis(start)),to=civilDay(civilMillis(end)),result:WorkloadSummary[]=[];
  for(let week=civilWeek(from);week<=to;week+=7*86400000){

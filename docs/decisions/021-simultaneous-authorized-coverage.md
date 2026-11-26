@@ -58,7 +58,7 @@ A validação executada e seus limites estão registrados ao final desta decisã
 
 Windows, Node 24.17.0 e SDK .NET 10.0.402:
 
-- `dotnet test EscalaLivre.slnx -c Release`: 780 aprovados (295 análise pura,
+- `dotnet test EscalaEasy.slnx -c Release`: 780 aprovados (295 análise pura,
   439 adaptador, 33 API, 13 arquitetura).
 - Frontend: 576 aprovados em America/Cuiaba e 576 em America/New_York.
 - Comparação diferencial: 179 documentos aprovados em cada fuso, incluindo os

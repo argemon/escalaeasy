@@ -5,7 +5,7 @@ from fontTools.pens.svgPathPen import SVGPathPen
 from fontTools.pens.transformPen import TransformPen
 
 root = Path(__file__).resolve().parents[1]
-font = TTFont(root / "backend/EscalaLivre.Infrastructure/ImportExport/Fonts/Inter-Bold.ttf")
+font = TTFont(root / "backend/EscalaEasy.Infrastructure/ImportExport/Fonts/Inter-Bold.ttf")
 glyphs, cmap = font.getGlyphSet(), font.getBestCmap()
 scale = 48 / font["head"].unitsPerEm
 x = 78.0

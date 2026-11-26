@@ -1,4 +1,4 @@
-import type { EscalaLivreDocument } from "../types/schedule";
+import type { EscalaEasyDocument } from "../types/schedule";
 
 export type PlanningPeriod = { start: string; end: string };
 const dayKey = (d: Date) => [d.getFullYear(), String(d.getMonth()+1).padStart(2,"0"), String(d.getDate()).padStart(2,"0")].join("-");
@@ -23,16 +23,16 @@ export function migratePlanningPeriod<T extends { assignments: { start: string }
   const first = document.assignments.map(a => a.start).sort()[0];
   return { ...document, planningPeriod: defaultPlanningPeriod(first ? new Date(first) : new Date()) };
 }
-export function planningPeriod(document: EscalaLivreDocument) {
+export function planningPeriod(document: EscalaEasyDocument) {
   const error = periodError(document.planningPeriod);
   if (error) throw new Error(error);
   return { start: document.planningPeriod.start+"T00:00:00", end: document.planningPeriod.end+"T23:59:59" };
 }
-export function planningDays(document: EscalaLivreDocument): string[] {
+export function planningDays(document: EscalaEasyDocument): string[] {
   const days: string[] = [];
   for (const day = new Date(document.planningPeriod.start+"T12:00:00"); dayKey(day) <= document.planningPeriod.end; day.setDate(day.getDate()+1)) days.push(dayKey(day));
   return days;
 }
-export function exclusivePeriodEnd(document: EscalaLivreDocument): string {
+export function exclusivePeriodEnd(document: EscalaEasyDocument): string {
   const end = new Date(document.planningPeriod.end+"T12:00:00"); end.setDate(end.getDate()+1); return dayKey(end);
 }

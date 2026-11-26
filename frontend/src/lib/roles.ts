@@ -1,6 +1,6 @@
-import type { EscalaLivreDocument } from "../types/schedule";
+import type { EscalaEasyDocument } from "../types/schedule";
 
-export function normalizeRoles(document: EscalaLivreDocument): EscalaLivreDocument {
+export function normalizeRoles(document: EscalaEasyDocument): EscalaEasyDocument {
   const roles = [...(document.roles ?? [])];
   const key = (name: string) => name.trim().toLocaleLowerCase("pt-BR");
   const resolve = (item: { role: string; roleId?: string }) => {
@@ -15,7 +15,7 @@ export function normalizeRoles(document: EscalaLivreDocument): EscalaLivreDocume
 }
 
 // Legacy names are imported once; an explicit ID list (including []) is authoritative.
-export function migrateCoverageRoles(document: EscalaLivreDocument): EscalaLivreDocument {
+export function migrateCoverageRoles(document: EscalaEasyDocument): EscalaEasyDocument {
   const roles = [...(document.roles ?? [])];
   const key = (name: string) => name.trim().toLocaleLowerCase("pt-BR");
   const employees = document.employees.map(employee => {
@@ -34,7 +34,7 @@ export function migrateCoverageRoles(document: EscalaLivreDocument): EscalaLivre
 }
 
 // Derive transport names without modifying unrelated fields during native validation.
-export function normalizeCoverageRoles(document: EscalaLivreDocument): EscalaLivreDocument {
+export function normalizeCoverageRoles(document: EscalaEasyDocument): EscalaEasyDocument {
   return { ...document, employees: document.employees.map(employee => employee.coverageRoleIds === undefined ? employee : {
     ...employee,
     coverageRoles: [...new Set(employee.coverageRoleIds.map(id => document.roles?.find(role => role.id === id)?.name).filter((name): name is string => Boolean(name)))],

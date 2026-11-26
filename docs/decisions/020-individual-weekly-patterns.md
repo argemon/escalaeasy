@@ -106,7 +106,7 @@ para analisar os cenários e gerar as duas escalas.
 
 | Verificação local | Resultado |
 | --- | --- |
-| `dotnet test EscalaLivre.slnx -c Release --no-restore -m:1` | 774 aprovados: 294 análise, 434 adaptador, 33 API e 13 arquitetura |
+| `dotnet test EscalaEasy.slnx -c Release --no-restore -m:1` | 774 aprovados: 294 análise, 434 adaptador, 33 API e 13 arquitetura |
 | Frontend completo, Cuiabá e Nova York | 571 aprovados em cada fuso |
 | Seletor de escala após a última revisão da troca para personalizado | 6 testes dirigidos aprovados; a matriz integral anterior não foi repetida após essa última alteração de interface |
 | Paridade diferencial, Cuiabá e Nova York | 174 documentos em cada fuso; todos os campos de carga e códigos de transição comparados |

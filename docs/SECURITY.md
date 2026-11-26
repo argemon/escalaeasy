@@ -29,7 +29,7 @@ infraestrutura, nem representam uma garantia de disponibilidade.
 | Candidatos / operações de montagem mais caras | 30.000 / 300.000 |
 
 Os valores de tráfego, concorrência, espera e recursos estão em
-`backend/EscalaLivre.Api/appsettings.json`, seção `Protection`. Podem ser alterados
+`backend/EscalaEasy.Api/appsettings.json`, seção `Protection`. Podem ser alterados
 por variáveis como `Protection__SolvesPerMinute=6`. As opções são validadas ao
 iniciar. Aumente os limites somente após medir CPU, memória e latência sob carga.
 
@@ -132,8 +132,8 @@ riscos restantes estão em [Zod e validação segura](decisions/015-zod-validati
 Auditorias devem ser repetidas: esse resultado não representa garantia permanente.
 
 ```sh
-dotnet build EscalaLivre.slnx
-dotnet test EscalaLivre.slnx --no-build
+dotnet build EscalaEasy.slnx
+dotnet test EscalaEasy.slnx --no-build
 node backend/security.integration.cjs
 cd frontend
 npm run build
