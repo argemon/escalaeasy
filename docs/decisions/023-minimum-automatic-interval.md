@@ -107,7 +107,7 @@ campo JSON, migração, regra de carga ou duração legal é alterado.
 
 Verificação local concluída:
 
-- `dotnet test EscalaLivre.slnx -c Release --no-restore -m:1`: 815 aprovados
+- `dotnet test EscalaEasy.slnx -c Release --no-restore -m:1`: 815 aprovados
   (449 adaptador, 320 puros, 33 API e 13 arquitetura).
 - `node --test tests/*.test.cjs`: 609 aprovados no frontend em cada um dos fusos
   Cuiabá e Nova York. Inclui 11 cenários compartilhados C#/TS de preferência,

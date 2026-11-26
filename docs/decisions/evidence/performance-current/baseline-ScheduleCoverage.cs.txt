@@ -1,10 +1,10 @@
-namespace EscalaLivre.Domain.Scheduling;
+namespace EscalaEasy.Domain.Scheduling;
 
 public sealed record CoverageAssessment(IReadOnlyList<CoverageBlock> Blocks, IReadOnlyList<CoverageGap> Gaps, double Score);
 
 public static class ScheduleCoverage
 {
-    public static CoverageAssessment Evaluate(EscalaLivreDocument document, DateTime start, DateTime end, IReadOnlyList<ShiftAssignment> assignments)
+    public static CoverageAssessment Evaluate(EscalaEasyDocument document, DateTime start, DateTime end, IReadOnlyList<ShiftAssignment> assignments)
     {
         var coverage = BuildCoverage(document, start, end, assignments).ToList();
         var gaps=new List<CoverageGap>();
@@ -21,7 +21,7 @@ public static class ScheduleCoverage
         return new(coverage, gaps, Math.Round(score, 3, MidpointRounding.AwayFromZero));
     }
 
-    private static IEnumerable<CoverageBlock> BuildCoverage(EscalaLivreDocument document, DateTime start, DateTime end,IReadOnlyList<ShiftAssignment> assignments)
+    private static IEnumerable<CoverageBlock> BuildCoverage(EscalaEasyDocument document, DateTime start, DateTime end,IReadOnlyList<ShiftAssignment> assignments)
     {
         foreach((DateTime Start, DateTime End, List<CoverageRequirement> Rules) block in CoverageDemand.Blocks(document.Company,start,end,assignments)) {
             var people=document.Employees.Where(e=>assignments.Any(a=>a.EmployeeId==e.Id && CoverageDemand.Covers(a,block.Start,block.End))).ToList();

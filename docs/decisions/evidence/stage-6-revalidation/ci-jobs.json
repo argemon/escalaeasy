@@ -104,7 +104,7 @@
             "number": 5
           },
           {
-            "name": "Run dotnet build backend/EscalaLivre.Api/EscalaLivre.Api.csproj --configuration Release",
+            "name": "Run dotnet build backend/EscalaEasy.Api/EscalaEasy.Api.csproj --configuration Release",
             "status": "completed",
             "conclusion": "success",
             "number": 6

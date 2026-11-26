@@ -1,6 +1,6 @@
 {
   "checkedAt": "2026-10-27",
-  "query": "https://api.github.com/repos/argemon/escalalivre/actions/runs?head_sha=b8e88e32893336f2626bd0c557ef751c8fcd3b4d&per_page=10",
+  "query": "https://api.github.com/repos/argemon/escalaeasy/actions/runs?head_sha=b8e88e32893336f2626bd0c557ef751c8fcd3b4d&per_page=10",
   "scope": "HEAD baseline only; uncommitted working tree not covered",
   "runs": [
     {
@@ -10,7 +10,7 @@
       "event": "push",
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/argemon/escalalivre/actions/runs/40377752675",
+      "url": "https://github.com/argemon/escalaeasy/actions/runs/40377752675",
       "updatedAt": "2026-10-26T18:28:38Z"
     }
   ]

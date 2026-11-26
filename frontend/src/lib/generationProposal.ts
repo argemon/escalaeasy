@@ -1,11 +1,11 @@
 import { contractMinimums, invalidContractDistributions } from './policies/contractMinimum';
-import type { EscalaLivreDocument, ScheduleResult, ShiftAssignment } from "../types/schedule";
+import type { EscalaEasyDocument, ScheduleResult, ShiftAssignment } from "../types/schedule";
 import { normalizeResultTimes } from "./dateTime";
 import { periodError, type PlanningPeriod } from "./planningPeriod";
 import { belongsToPeriod, replacePeriodAssignments } from "./scheduleWindow";
 import { previewPlanning } from "./planningEdits";
 const canonical=(a:ShiftAssignment)=>JSON.stringify({...a,break:a.break??null},(_key,value)=>value&&typeof value==="object"&&!Array.isArray(value)?Object.fromEntries(Object.keys(value).sort().map(k=>[k,value[k]])):value);
-export function generationProposal(document:EscalaLivreDocument,result:ScheduleResult,range:PlanningPeriod=document.planningPeriod){
+export function generationProposal(document:EscalaEasyDocument,result:ScheduleResult,range:PlanningPeriod=document.planningPeriod){
  const error=periodError(range);if(error||range.start<document.planningPeriod.start||range.end>document.planningPeriod.end)throw Error(error??"O recorte precisa estar dentro do período selecionado.");
  result=normalizeResultTimes(result,document.company.timeZone);
  result={...result,assignments:result.assignments.map(a=>({...a,pinned:a.pinned??undefined}))};

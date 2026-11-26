@@ -17,7 +17,7 @@ Ambiente Windows, Node v24.17.0, .NET 10, Edge headless para os fluxos. A matriz
 | Grupo | Evidência e resultado final por escopo |
 | --- | --- |
 | Frontend lint/build | npm run lint --prefix frontend e npm run build --prefix frontend aprovados nos fontes finais; logs frontend-lint-final.log/frontend-build-final.log. |
-| Solução .NET | dotnet build EscalaLivre.slnx -c Release --no-restore aprovado após ajustes finais, zero erros/avisos. |
+| Solução .NET | dotnet build EscalaEasy.slnx -c Release --no-restore aprovado após ajustes finais, zero erros/avisos. |
 | Domain/Application | Execução integral: 346 aprovados. Fechamento ampliado/rechecado depois: PublicationTests, 5 aprovados, incluindo novo caso compartilhado de preferências e limite de 48h. Inventário final coberto: 347. |
 | Adaptadores reais | 462 aprovados na execução integral, OR-Tools e exportadores incluídos. Nenhuma mudança posterior em solver/exportadores. |
 | API e arquitetura | 33 + 13 aprovados integralmente; 13 de arquitetura também rechecados após fechamento. |
@@ -37,7 +37,7 @@ No inventário final, 855 casos .NET e 674 frontend por fuso estão cobertos pel
 
 Logs locais: C:/Users/eargemon/Documents/operation-final-evidence/validation. summary.json conserva o resultado inicial; frontend-contract-recheck-UTC/NY.log, publication-recheck-UTC/NY.log, publication-dotnet-final.log, http-contract-recheck.log e http-history-recheck.log contêm as rechecagens. O primeiro recheck HTTP passou edição e revelou a diferença opcional de coverage; o último aprovou o histórico restante. Não há falha de teste pendente.
 
-Comandos reproduzíveis principais: dotnet test backend/EscalaLivre.{Analysis,Adapter,Api,Architecture}.Tests/EscalaLivre.{Analysis,Adapter,Api,Architecture}.Tests.csproj -c Release (cada projeto separadamente); node --test frontend/tests/*.test.cjs com TZ=UTC e America/New_York; SECURITY_BUILD_CONFIGURATION=Release node backend/security.integration.cjs; node tools/parity-differential.cjs --output DIRETORIO nos dois fusos. Rechecagens usaram --filter FullyQualifiedName~PublicationTests e --test-name-pattern nos casos HTTP identificados. --no-build só foi usado após build atual correspondente.
+Comandos reproduzíveis principais: dotnet test backend/EscalaEasy.{Analysis,Adapter,Api,Architecture}.Tests/EscalaEasy.{Analysis,Adapter,Api,Architecture}.Tests.csproj -c Release (cada projeto separadamente); node --test frontend/tests/*.test.cjs com TZ=UTC e America/New_York; SECURITY_BUILD_CONFIGURATION=Release node backend/security.integration.cjs; node tools/parity-differential.cjs --output DIRETORIO nos dois fusos. Rechecagens usaram --filter FullyQualifiedName~PublicationTests e --test-name-pattern nos casos HTTP identificados. --no-build só foi usado após build atual correspondente.
 
 ## Cenário final de aceite
 
@@ -45,7 +45,7 @@ Loja fictícia Ipê criada a partir de documento vazio, cadastro inicial e gera�
 
 A interface Edge reconheceu a lacuna residual e fechou a versão 1. Baixou PDF equipe, PDF pessoa, XLSX e PNG em ZIP. Alterar o período/desfazer e recarregar o navegador não alterou a versão. Exportação/importação HTTP do arquivo nativo preservou exatamente o snapshot. Tags internas e categoria médica não foram copiadas para o snapshot nem para as saídas. O teste integra regras/store de produção, HTTP/worker e interface de fechamento/download; não afirma que repetiu manualmente os cadastros/edições já conferidos na UI das tasks anteriores.
 
-Script local: C:/Users/eargemon/Documents/task9-final-browser.cjs. Artefatos fictícios em C:/Users/eargemon/Documents/operation-final-evidence: aceite.escalalivre, escala-v1.pdf, escala-v1-pessoa.pdf, escala-v1.xlsx, escala-v1.zip e fechamento.png. Scripts de navegador usam runtime Playwright local de verificação, sem dependência nova no produto.
+Script local: C:/Users/eargemon/Documents/task9-final-browser.cjs. Artefatos fictícios em C:/Users/eargemon/Documents/operation-final-evidence: aceite.escalaeasy, escala-v1.pdf, escala-v1-pessoa.pdf, escala-v1.xlsx, escala-v1.zip e fechamento.png. Scripts de navegador usam runtime Playwright local de verificação, sem dependência nova no produto.
 
 ## Conferência visual e de conteúdo
 

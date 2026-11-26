@@ -7,7 +7,7 @@
     "exe": "dotnet",
     "args": [
       "build",
-      "EscalaLivre.slnx",
+      "EscalaEasy.slnx",
       "-c",
       "Release",
       "-t:Rebuild"

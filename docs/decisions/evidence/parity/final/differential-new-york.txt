@@ -1,9 +1,9 @@
-{"started":"2026-10-27T13:12:41.735Z","cwd":"C:/Users/eargemon/source/repos/escalalivre","exe":"node","args":["tools/parity-differential.cjs","--output","C:/Users/eargemon/Documents/escalalivre-parity-results/final/failures-new-york"],"TZ":"America/New_York"}
+{"started":"2026-10-27T13:12:41.735Z","cwd":"C:/Users/eargemon/source/repos/escalaeasy","exe":"node","args":["tools/parity-differential.cjs","--output","C:/Users/eargemon/Documents/escalaeasy-parity-results/final/failures-new-york"],"TZ":"America/New_York"}
   Determinando os projetos a serem restaurados...
   Todos os projetos estão atualizados para restauração.
-  EscalaLivre.Domain -> C:\Users\eargemon\source\repos\escalalivre\backend\EscalaLivre.Domain\bin\Release\net10.0\EscalaLivre.Domain.dll
-  EscalaLivre.Application -> C:\Users\eargemon\source\repos\escalalivre\backend\EscalaLivre.Application\bin\Release\net10.0\EscalaLivre.Application.dll
-  EscalaLivre.ParityProbe -> C:\Users\eargemon\source\repos\escalalivre\tools\EscalaLivre.ParityProbe\bin\Release\net10.0\EscalaLivre.ParityProbe.dll
+  EscalaEasy.Domain -> C:\Users\eargemon\source\repos\escalaeasy\backend\EscalaEasy.Domain\bin\Release\net10.0\EscalaEasy.Domain.dll
+  EscalaEasy.Application -> C:\Users\eargemon\source\repos\escalaeasy\backend\EscalaEasy.Application\bin\Release\net10.0\EscalaEasy.Application.dll
+  EscalaEasy.ParityProbe -> C:\Users\eargemon\source\repos\escalaeasy\tools\EscalaEasy.ParityProbe\bin\Release\net10.0\EscalaEasy.ParityProbe.dll
 
 Compilação com êxito.
     0 Aviso(s)
@@ -12,4 +12,4 @@ Compilação com êxito.
 Tempo Decorrido 00:00:01.96
 {"status":"passed","cases":142,"seeds":[439041101,1592594996,12648430],"node":"v24.17.0","tz":"America/New_York","properties":["input immutability","migration idempotence","whole-shift preservation","bilateral replacement"],"comparison":["diagnostic code/severity/person/period/role","coverage","gaps","score"]}
 
-{"name":"differential-new-york","started":"2026-10-27T13:12:41.735Z","ended":"2026-10-27T13:12:46.541Z","code":0,"exe":"node","args":["tools/parity-differential.cjs","--output","C:/Users/eargemon/Documents/escalalivre-parity-results/final/failures-new-york"],"TZ":"America/New_York"}
+{"name":"differential-new-york","started":"2026-10-27T13:12:41.735Z","ended":"2026-10-27T13:12:46.541Z","code":0,"exe":"node","args":["tools/parity-differential.cjs","--output","C:/Users/eargemon/Documents/escalaeasy-parity-results/final/failures-new-york"],"TZ":"America/New_York"}

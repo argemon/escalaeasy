@@ -7,13 +7,13 @@
     {
       "name": "browser-generation",
       "status": "failed",
-      "error": "AssertionError [ERR_ASSERTION]: Timed out waiting for local state\n    at until (D:\\Projetos\\escalalivre\\tools\\review-browser.cjs:26:34)\n    at async D:\\Projetos\\escalalivre\\tools\\review-browser.cjs:101:5\n    at async step (D:\\Projetos\\escalalivre\\tools\\review-browser.cjs:36:5)\n    at async main (D:\\Projetos\\escalalivre\\tools\\review-browser.cjs:96:3)",
+      "error": "AssertionError [ERR_ASSERTION]: Timed out waiting for local state\n    at until (D:\\Projetos\\escalaeasy\\tools\\review-browser.cjs:26:34)\n    at async D:\\Projetos\\escalaeasy\\tools\\review-browser.cjs:101:5\n    at async step (D:\\Projetos\\escalaeasy\\tools\\review-browser.cjs:36:5)\n    at async main (D:\\Projetos\\escalaeasy\\tools\\review-browser.cjs:96:3)",
       "pageErrors": []
     },
     {
       "name": "browser-cancellation",
       "status": "failed",
-      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ 'processing'\n- 'cancelled'\n\n    at D:\\Projetos\\escalalivre\\tools\\review-browser.cjs:113:14\n    at async step (D:\\Projetos\\escalalivre\\tools\\review-browser.cjs:36:5)\n    at async main (D:\\Projetos\\escalalivre\\tools\\review-browser.cjs:105:3)",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ 'processing'\n- 'cancelled'\n\n    at D:\\Projetos\\escalaeasy\\tools\\review-browser.cjs:113:14\n    at async step (D:\\Projetos\\escalaeasy\\tools\\review-browser.cjs:36:5)\n    at async main (D:\\Projetos\\escalaeasy\\tools\\review-browser.cjs:105:3)",
       "pageErrors": []
     },
     {

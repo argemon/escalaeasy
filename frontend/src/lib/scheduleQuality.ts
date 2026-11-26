@@ -1,4 +1,4 @@
-import type { CompanyRules, Employee, EscalaLivreDocument, ShiftAssignment } from "../types/schedule";
+import type { CompanyRules, Employee, EscalaEasyDocument, ShiftAssignment } from "../types/schedule";
 import { civilDay, civilMillis, civilString, endOn } from "./civilTime";
 import { isNight } from "./policies/eligibility";
 import { employeeOn, activeOn } from "./policies/employment";
@@ -23,7 +23,7 @@ export function qualityComparisonGroup(company: CompanyRules, person: Employee, 
   const duration = parts[0]*3600+parts[1]*60+(parts[2]??0);
   return `${e.roleId??e.role}|${rule.weeklyPlan?.contractedSeconds??duration}|${rule.weeklyPlan ? "True" : "False"}`;
 }
-export function qualitySummary(d: EscalaLivreDocument) {
+export function qualitySummary(d: EscalaEasyDocument) {
   const from = d.planningPeriod.start, through = d.planningPeriod.end;
   const historyStart = civilString(civilMillis(from+"T00:00:00")-qualityHistoryDays*86400000).slice(0,10);
   return { historyStart, people: d.employees.filter(e => activeOn(e,from)).map(e => {
@@ -36,8 +36,8 @@ export function qualitySummary(d: EscalaLivreDocument) {
     return { id:e.id, name:e.name, role:employeeOn(e,from).role, reference, group:qualityComparisonGroup(d.company,e,from), current:counts(false), history:counts(true) };
   }) };
 }
-export function changedPeople(before: EscalaLivreDocument, after: EscalaLivreDocument): number {
+export function changedPeople(before: EscalaEasyDocument, after: EscalaEasyDocument): number {
   const signature = (a:ShiftAssignment) => JSON.stringify([a.employeeId,a.roleId??null,a.role,a.start,a.end,a.break?.start??null,a.break?.end??null]);
-  const own = (d:EscalaLivreDocument,id:string) => d.assignments.filter(a=>a.employeeId===id).map(signature).sort().join("|");
+  const own = (d:EscalaEasyDocument,id:string) => d.assignments.filter(a=>a.employeeId===id).map(signature).sort().join("|");
   return before.employees.filter(e=>own(before,e.id)!==own(after,e.id)).length;
 }

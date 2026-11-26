@@ -34,7 +34,7 @@ try {
         Step 'frontend-new-york' 'TZ=America/New_York node22 --test tests/*.test.cjs' { & $NodeBinary --test 'tests/*.test.cjs' }
     } finally { Pop-Location }
     foreach ($suite in @('Analysis','Adapter','Api','Architecture')) {
-        $project="backend/EscalaLivre.$suite.Tests/EscalaLivre.$suite.Tests.csproj"
+        $project="backend/EscalaEasy.$suite.Tests/EscalaEasy.$suite.Tests.csproj"
         Step ("dotnet-"+$suite.ToLowerInvariant()) "dotnet test $project -c Release" { dotnet test $project -c Release }
     }
     $env:TZ='UTC'
@@ -42,7 +42,7 @@ try {
     $env:TZ='America/New_York'
     Step 'parity-new-york' 'TZ=America/New_York node22 tools/parity-differential.cjs' { & $NodeBinary tools/parity-differential.cjs }
     $env:TZ='UTC'
-    Step 'api-build' 'dotnet build backend/EscalaLivre.Api/EscalaLivre.Api.csproj -c Release' { dotnet build backend/EscalaLivre.Api/EscalaLivre.Api.csproj -c Release }
+    Step 'api-build' 'dotnet build backend/EscalaEasy.Api/EscalaEasy.Api.csproj -c Release' { dotnet build backend/EscalaEasy.Api/EscalaEasy.Api.csproj -c Release }
     $previousSecurityConfiguration=$env:SECURITY_BUILD_CONFIGURATION
     try {
         $env:SECURITY_BUILD_CONFIGURATION='Release'

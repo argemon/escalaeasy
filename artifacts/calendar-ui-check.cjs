@@ -65,7 +65,7 @@ const path = require('node:path');
       await page.mouse.move(0, 0);
     }
     await page.getByRole('button', { name: 'Como usar', exact: true }).click();
-    await page.getByRole('dialog', { name: 'Como usar o EscalaLivre' }).waitFor();
+    await page.getByRole('dialog', { name: 'Como usar o EscalaEasy' }).waitFor();
     await page.waitForTimeout(150);
     assert.equal(await page.locator('dialog:modal').count(), 1);
     await page.keyboard.press('Escape');

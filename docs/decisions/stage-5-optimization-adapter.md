@@ -43,4 +43,4 @@ CI remota Ubuntu/Node 22 e SDK exato 10.0.201 não foram executados; precisam pa
 
 ## Próximos passos e rollback
 
-Etapa 6 ainda não iniciada: testes de arquitetura mais amplos, migração/remoção das fachadas, medição nos mesmos cenários e validação da CI. Nenhuma migração de dados precisa ser revertida. Para rollback técnico, repor coordenador anterior e registros/fachada junto dos componentes; correção D1 e proteção da aplicação são partes independentes e não devem ser revertidas inadvertidamente com a extração. Cópias anteriores/staging em Documents/escalalivre-stage5; logs permanentes abaixo de evidence/stage-5.
+Etapa 6 ainda não iniciada: testes de arquitetura mais amplos, migração/remoção das fachadas, medição nos mesmos cenários e validação da CI. Nenhuma migração de dados precisa ser revertida. Para rollback técnico, repor coordenador anterior e registros/fachada junto dos componentes; correção D1 e proteção da aplicação são partes independentes e não devem ser revertidas inadvertidamente com a extração. Cópias anteriores/staging em Documents/escalaeasy-stage5; logs permanentes abaixo de evidence/stage-5.

@@ -1,4 +1,4 @@
-{"started":"2026-10-27T13:13:00.190Z","cwd":"C:/Users/eargemon/source/repos/escalalivre","exe":"node","args":["backend/security.integration.cjs"],"TZ":null}
+{"started":"2026-10-27T13:13:00.190Z","cwd":"C:/Users/eargemon/source/repos/escalaeasy","exe":"node","args":["backend/security.integration.cjs"],"TZ":null}
 ✔ asynchronous generation returns a private ticket, survives polling and supports cancellation (2839.228ms)
 ✔ API rejects abusive inputs and keeps normal scheduling and exports working (3099.2101ms)
 ✔ solve limit cannot be bypassed by forging a forwarded IP or changing path case (1140.4998ms)

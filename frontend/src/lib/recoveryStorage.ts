@@ -1,11 +1,11 @@
 import type { PersistStorage, StorageValue } from "zustand/middleware";
-import type { EscalaLivreDocument } from "../types/schedule";
+import type { EscalaEasyDocument } from "../types/schedule";
 import { parseNativeText, serializeNative, validateNativeDocument } from "./nativeDocument";
 import { nowInstant } from "./dateTime";
 
-export const STATE_KEY = "escalalivre-state";
-export const RECOVERY_KEY = "escalalivre-recovery";
-export type SavedSchedule = { document:EscalaLivreDocument; theme:"light"|"dark"; viewMode:string };
+export const STATE_KEY = "escalaeasy-state";
+export const RECOVERY_KEY = "escalaeasy-recovery";
+export type SavedSchedule = { document:EscalaEasyDocument; theme:"light"|"dark"; viewMode:string };
 export type RecoveryCopy = { id:string; createdAt:string; reason:string; contents:string; native:boolean; durable:boolean; downloaded:boolean; restorable:boolean; original?:boolean };
 type Phase = "ready"|"saved"|"read-error"|"invalid"|"write-error"|"backup-error";
 export type RecoveryStatus = { phase:Phase; message:string; copies:RecoveryCopy[]; protected:boolean };
@@ -13,10 +13,10 @@ type BrowserStorage = Pick<Storage,"getItem"|"setItem"|"removeItem">;
 const modes = new Set(["timeline","week","month","heatmap","coverage","solver"]);
 
 // Browser recovery shares the native schema, but is limited by storage quota rather than file size.
-export function parseRecoveryDocument(contents:string):EscalaLivreDocument {
+export function parseRecoveryDocument(contents:string):EscalaEasyDocument {
   return validateNativeDocument(JSON.parse(contents));
 }
-function serializeRecoveryDocument(document:EscalaLivreDocument):string {
+function serializeRecoveryDocument(document:EscalaEasyDocument):string {
   // Preserve raw data as a download even when it cannot be restored as a valid document.
   try {return serializeNative(document);}catch {return JSON.stringify(document);}
 }
@@ -75,7 +75,7 @@ export function createRecoveryStorage(provider:()=>BrowserStorage = ()=>window.l
       return false;
     }
   }
-  function checkpoint(document:EscalaLivreDocument,reason:string):boolean {
+  function checkpoint(document:EscalaEasyDocument,reason:string):boolean {
     const contents=serializeRecoveryDocument(document);
     readCopies();
     const existing=status.copies.find(c=>c.contents===contents&&(c.durable||c.downloaded));

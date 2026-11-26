@@ -99,7 +99,7 @@ export type ShiftAssignment = {
 
 export type DocumentRole = { id:string; name:string; coverageRoleIds?:string[] };
 
-export type EscalaLivreDocument = {
+export type EscalaEasyDocument = {
   publications?: import("../lib/publicationSchema").Publication[];
   publicationSelections?: import("../lib/publicationSchema").PublicationSelection[];
   planningPeriod: { start: string; end: string };

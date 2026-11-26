@@ -3,11 +3,11 @@ using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
-using EscalaLivre.Application.Contracts;
-using EscalaLivre.Application.Scheduling;
-using EscalaLivre.Api;
-using EscalaLivre.Domain.Scheduling;
-using EscalaLivre.Infrastructure.Solver;
+using EscalaEasy.Application.Contracts;
+using EscalaEasy.Application.Scheduling;
+using EscalaEasy.Api;
+using EscalaEasy.Domain.Scheduling;
+using EscalaEasy.Infrastructure.Solver;
 using Microsoft.Extensions.DependencyInjection;
 Console.InputEncoding=Encoding.UTF8;Console.OutputEncoding=new UTF8Encoding(false);CultureInfo.CurrentCulture=CultureInfo.InvariantCulture;
 if(args[0]=="--monitor") {
@@ -18,7 +18,7 @@ if(args[0]=="--monitor") {
     Console.WriteLine(JsonSerializer.Serialize(new{sampledPeakWorkingSetBytes=working,sampledPeakPrivateBytes=privateBytes,samples,intervalMs=50}));return;
 }
 var options=ScheduleJson.CreateOptions();var request=JsonSerializer.Deserialize<ScheduleRequest>(File.ReadAllText(args[0]),options)!;
-var validation=await new EscalaLivre.Application.Validation.ScheduleRequestValidator().ValidateAsync(request);if(!validation.IsValid)throw new Exception(validation.ToString());
+var validation=await new EscalaEasy.Application.Validation.ScheduleRequestValidator().ValidateAsync(request);if(!validation.IsValid)throw new Exception(validation.ToString());
 var before=JsonSerializer.Serialize(request,options);
 using var provider=new ServiceCollection().AddScheduleAnalysis().AddScheduleOptimization().BuildServiceProvider();
 var analyze=provider.GetRequiredService<AnalyzeSchedule>();var generate=provider.GetRequiredService<GenerateSchedule>();

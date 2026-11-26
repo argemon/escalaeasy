@@ -25,7 +25,7 @@ cd frontend
 npm audit
 npm audit --omit=dev
 cd ..
-dotnet list EscalaLivre.slnx package --vulnerable --include-transitive
+dotnet list EscalaEasy.slnx package --vulnerable --include-transitive
 ~~~
 
 ## Carregamento por funcionalidade

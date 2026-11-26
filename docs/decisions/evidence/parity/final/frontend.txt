@@ -1,4 +1,4 @@
-{"started":"2026-10-27T13:12:20.382Z","cwd":"C:/Users/eargemon/source/repos/escalalivre","exe":"node","args":["--test","frontend/tests/*.test.cjs"],"TZ":null}
+{"started":"2026-10-27T13:12:20.382Z","cwd":"C:/Users/eargemon/source/repos/escalaeasy","exe":"node","args":["--test","frontend/tests/*.test.cjs"],"TZ":null}
 ✔ HTTP 429 explains the wait even with a non-JSON proxy response (218.4001ms)
 ✔ HTTP 503 explains the wait even with a non-JSON proxy response (33.5714ms)
 ✔ timeout and oversized planning have actionable messages (57.209ms)

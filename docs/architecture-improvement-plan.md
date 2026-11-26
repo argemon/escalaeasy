@@ -4,7 +4,7 @@ Data: 23/10/2026. Estado atualizado em 26/10/2026: etapas 1–5 validadas localm
 
 Seguimento em 26/10/2026: [fronteiras operacionais validadas](decisions/009-validated-operational-boundaries.md) reforça unidades/configuração na geração e a saída do agregado. Validação local atual: 612 testes .NET, 373 frontend em cada fuso e 16 HTTP. A CI verde de d40f887 é evidência do baseline; não cobre este diff local, cuja CI permanece pendente antes de integrar.
 
-Seguimento em 27/10/2026: [extensibilidade dos regimes](decisions/010-regime-extension-boundaries.md) centraliza capacidades e metadados dos regimes, mantendo o contrato público fechado em dayBased/hourBased. Validação local: 623 testes .NET, 381 frontend em cada fuso e 16 HTTP. A CI [Validate #22](https://github.com/argemon/escalalivre/actions/runs/40377752675) de b8e88e3 foi conferida com sucesso; ela é o baseline e não cobre o novo diff local. CI do novo diff continua necessária antes de integrar.
+Seguimento em 27/10/2026: [extensibilidade dos regimes](decisions/010-regime-extension-boundaries.md) centraliza capacidades e metadados dos regimes, mantendo o contrato público fechado em dayBased/hourBased. Validação local: 623 testes .NET, 381 frontend em cada fuso e 16 HTTP. A CI [Validate #22](https://github.com/argemon/escalaeasy/actions/runs/40377752675) de b8e88e3 foi conferida com sucesso; ela é o baseline e não cobre o novo diff local. CI do novo diff continua necessária antes de integrar.
 
 ## Objetivo e ponto de partida
 
@@ -26,7 +26,7 @@ Referências: [instruções](../AGENTS.md), [arquitetura atual e alvo](architect
 ## Contratos que devem ser preservados
 
 - Endpoints, envelopes, diagnósticos (código, gravidade, pessoa, início, fim e função), blocos, lacunas e pontuação.
-- Formato `.escalaeasy`, importação compatível de `.escalalivre`, versões suportadas, migrações identificadas/idempotentes e recuperação local.
+- Formato `.escalaeasy`, importação compatível de `.escalaeasy`, versões suportadas, migrações identificadas/idempotentes e recuperação local.
 - Tempo civil, segundos, períodos inclusivos conforme contrato, semana civil, viradas noturnas e histórico anterior/posterior.
 - Restrições obrigatórias separadas de preferências, autorizações específicas e limites de busca do solver.
 - Turnos fora do período e exceções autorizadas; falha ou cancelamento não substitui a escala existente.
@@ -191,13 +191,13 @@ Comandos existentes, na raiz, a executar nas etapas de código conforme impacto 
 
 ```powershell
 node --test frontend/tests/*.test.cjs
-dotnet test backend/EscalaLivre.Analysis.Tests/EscalaLivre.Analysis.Tests.csproj -c Release
-dotnet test backend/EscalaLivre.Adapter.Tests/EscalaLivre.Adapter.Tests.csproj -c Release
-dotnet test backend/EscalaLivre.Api.Tests/EscalaLivre.Api.Tests.csproj -c Release
-dotnet test backend/EscalaLivre.Architecture.Tests/EscalaLivre.Architecture.Tests.csproj -c Release
+dotnet test backend/EscalaEasy.Analysis.Tests/EscalaEasy.Analysis.Tests.csproj -c Release
+dotnet test backend/EscalaEasy.Adapter.Tests/EscalaEasy.Adapter.Tests.csproj -c Release
+dotnet test backend/EscalaEasy.Api.Tests/EscalaEasy.Api.Tests.csproj -c Release
+dotnet test backend/EscalaEasy.Architecture.Tests/EscalaEasy.Architecture.Tests.csproj -c Release
 npm --prefix frontend run lint
 npm --prefix frontend run build
-dotnet build backend/EscalaLivre.Api/EscalaLivre.Api.csproj -c Release
+dotnet build backend/EscalaEasy.Api/EscalaEasy.Api.csproj -c Release
 $env:SECURITY_BUILD_CONFIGURATION = 'Release'
 node backend/security.integration.cjs
 ```

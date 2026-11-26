@@ -4,7 +4,7 @@ Data: 23/10/2026. Estado: implementado progressivamente na etapa 3 em 26/10/2026
 
 ## Contexto anterior à implementação
 
-[ScheduleModels.cs](../../backend/EscalaLivre.Domain/Scheduling/ScheduleModels.cs) representa o documento por records e coleções recebidas do chamador. Não há agregado com operações protegidas. [ScheduleWindow.Replace](../../backend/EscalaLivre.Domain/Scheduling/ScheduleWindow.cs) substitui pela data inicial; [PreservedShiftsTests](../../backend/EscalaLivre.Adapter.Tests/PreservedShiftsTests.cs) comprova preservação do histórico e propriedade de turnos noturnos.
+[ScheduleModels.cs](../../backend/EscalaEasy.Domain/Scheduling/ScheduleModels.cs) representa o documento por records e coleções recebidas do chamador. Não há agregado com operações protegidas. [ScheduleWindow.Replace](../../backend/EscalaEasy.Domain/Scheduling/ScheduleWindow.cs) substitui pela data inicial; [PreservedShiftsTests](../../backend/EscalaEasy.Adapter.Tests/PreservedShiftsTests.cs) comprova preservação do histórico e propriedade de turnos noturnos.
 
 ## Decisão
 

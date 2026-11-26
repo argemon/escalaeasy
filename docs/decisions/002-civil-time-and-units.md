@@ -4,7 +4,7 @@ Data: 23/10/2026. Estado: contrato atual preservado; tipos internos implementado
 
 ## Contexto
 
-[Contrato temporal](../date-time.md), [ScheduleWindow](../../backend/EscalaLivre.Domain/Scheduling/ScheduleWindow.cs) e [civilTime.ts](../../frontend/src/lib/civilTime.ts) distinguem calendário da empresa e instante de atualização. WorkUnits/RestUnits são inteiros cujo significado depende do regime; WeeklyLimitHours é double. Records não validam sua construção.
+[Contrato temporal](../date-time.md), [ScheduleWindow](../../backend/EscalaEasy.Domain/Scheduling/ScheduleWindow.cs) e [civilTime.ts](../../frontend/src/lib/civilTime.ts) distinguem calendário da empresa e instante de atualização. WorkUnits/RestUnits são inteiros cujo significado depende do regime; WeeklyLimitHours é double. Records não validam sua construção.
 
 ## Decisão
 

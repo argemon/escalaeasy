@@ -2,7 +2,7 @@ import { normalizeResultTimes } from "./dateTime";
 import { calculationDocument, restoreCalculationLabels } from "./calculationDocument";
 import { downloadText, nativeFilename, readNativeFile, serializeNative } from "./nativeDocument";
 export { serializeNative } from "./nativeDocument";
-import type { EscalaLivreDocument, ScheduleResult } from "../types/schedule";
+import type { EscalaEasyDocument, ScheduleResult } from "../types/schedule";
 
 export const API_URL = (import.meta.env.VITE_API_URL ?? (import.meta.env.DEV ? "http://localhost:5003" : "")).replace(/\/$/, "");
 export { planningPeriod } from "./analysis";
@@ -16,7 +16,7 @@ type ApiEnvelope<T> = {
   metadata: Record<string, unknown>;
 };
 
-export async function solveSchedule(document: EscalaLivreDocument): Promise<ScheduleResult> {
+export async function solveSchedule(document: EscalaEasyDocument): Promise<ScheduleResult> {
   const local = document;
   document = calculationDocument(document);
   // Measure the exact serialized UTF-8 body before opening the connection.
@@ -51,10 +51,10 @@ export async function solveSchedule(document: EscalaLivreDocument): Promise<Sche
   return restoreCalculationLabels(normalizeResultTimes(envelope.data,document.company?.timeZone),local);
 }
 
-export function exportNative(document: EscalaLivreDocument) {
+export function exportNative(document: EscalaEasyDocument) {
   downloadText(serializeNative(document), nativeFilename(document));
 }
 
-export async function importNative(file: File): Promise<EscalaLivreDocument> {
+export async function importNative(file: File): Promise<EscalaEasyDocument> {
   return readNativeFile(file);
 }

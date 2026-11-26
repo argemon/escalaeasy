@@ -1,4 +1,4 @@
-import type { EscalaLivreDocument, ShiftAssignment, ScheduleResult } from "../types/schedule";
+import type { EscalaEasyDocument, ShiftAssignment, ScheduleResult } from "../types/schedule";
 
 // Company schedule values are civil times, never UTC instants.
 // Historical fallback for legacy files without zone metadata.
@@ -41,7 +41,7 @@ export function utcInstant(value: string): string {
   if (!/(?:Z|[+-]\d{2}:\d{2})$/.test(value) || !Number.isFinite(Date.parse(value))) throw new Error("A atualização deve informar um instante com fuso horário.");
   return new Date(value).toISOString();
 }
-export function normalizeDocumentTimes(document: EscalaLivreDocument): EscalaLivreDocument {
+export function normalizeDocumentTimes(document: EscalaEasyDocument): EscalaEasyDocument {
   if (!document?.company) return document;
   const zone=document.company.timeZone ?? DEFAULT_TIME_ZONE;
   if (!validTimeZone(zone)) throw new Error("Fuso horário da empresa inválido.");

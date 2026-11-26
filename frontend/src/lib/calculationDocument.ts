@@ -1,4 +1,4 @@
-import type { EscalaLivreDocument, ScheduleResult, WorkloadRule } from "../types/schedule";
+import type { EscalaEasyDocument, ScheduleResult, WorkloadRule } from "../types/schedule";
 import { normalizeDocumentTimes } from "./dateTime";
 
 export type GenerationPreferences = { preserveExisting: boolean; balanceUndesirableShifts: boolean };
@@ -10,7 +10,7 @@ const workload = (rule: WorkloadRule): WorkloadRule => ({ ...rule, weeklyPlan: r
 
 // Minimize personal data while preserving all temporal boundaries and identifiers.
 // Schedules and functional role names remain personal data; this is not anonymization.
-export function calculationDocument(input: EscalaLivreDocument): EscalaLivreDocument {
+export function calculationDocument(input: EscalaEasyDocument): EscalaEasyDocument {
   const d = normalizeDocumentTimes(input);
   return {
     schemaVersion: d.schemaVersion, id: d.id, updatedAt: d.updatedAt, planningPeriod: { ...d.planningPeriod }, roles: d.roles,
@@ -23,7 +23,7 @@ export function calculationDocument(input: EscalaLivreDocument): EscalaLivreDocu
   };
 }
 
-export function restoreCalculationLabels(result: ScheduleResult, local: EscalaLivreDocument): ScheduleResult {
+export function restoreCalculationLabels(result: ScheduleResult, local: EscalaEasyDocument): ScheduleResult {
   const names = new Map(local.employees.map(e => [alias(e.id), e.name]));
   const label = (value: string) => value.replace(/Pessoa [0-9a-f-]{36}/gi, match => names.get(match) ?? match);
   return { ...result,

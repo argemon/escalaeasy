@@ -73,8 +73,8 @@ Verificações finais e limitações de ambiente serão registradas abaixo. CI r
 
 | Verificação | Evidência |
 | --- | --- |
-| `dotnet test EscalaLivre.slnx -c Release --no-restore -m:1` | 738 aprovados: 272 puros, 420 adaptador, 33 API, 13 arquitetura; sem falhas/ignorados |
-| `dotnet build EscalaLivre.slnx -c Release --no-restore` | Aprovado, zero avisos/erros |
+| `dotnet test EscalaEasy.slnx -c Release --no-restore -m:1` | 738 aprovados: 272 puros, 420 adaptador, 33 API, 13 arquitetura; sem falhas/ignorados |
+| `dotnet build EscalaEasy.slnx -c Release --no-restore` | Aprovado, zero avisos/erros |
 | Frontend completo, TZ=America/Cuiaba | 539/539 aprovados |
 | Frontend completo, TZ=America/New_York | 539/539 aprovados; TZ restaurado após execução |
 | `node tools/parity-differential.cjs`, Cuiabá e Nova York | 154 documentos por fuso aprovados, incluindo os doze novos; diagnóstico, cobertura, lacunas, score e todos os campos de carga/relatórios |
@@ -99,10 +99,10 @@ o envio e a integração de todas as alterações à main, sem nova confirmaçã
 As restrições anteriores de não commitar/integrar e o estado de CI pendente acima
 registram o momento da entrega local; foram sucedidos por essa autorização.
 
-O [PR #9](https://github.com/argemon/escalalivre/pull/9) reúne as três etapas e
+O [PR #9](https://github.com/argemon/escalaeasy/pull/9) reúne as três etapas e
 preserva o histórico das decisões. A integração exige aprovação integral do
 workflow Validate para seu head atual, incluindo frontend, domínio/análise,
 adaptador, arquitetura/API, HTTP/worker e paridade nos dois fusos. A evidência
 remota e a efetivação ficam vinculadas aos
-[checks do PR](https://github.com/argemon/escalalivre/pull/9/checks) e ao seu estado
+[checks do PR](https://github.com/argemon/escalaeasy/pull/9/checks) e ao seu estado
 de merge. Não se presume CI aprovada apenas por criar o PR ou enviar a branch.

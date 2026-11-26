@@ -1,5 +1,5 @@
 import { normalizeDocumentTimes, datePart, displayClock } from "./dateTime";
-import type { EscalaLivreDocument, ShiftAssignment } from "../types/schedule";
+import type { EscalaEasyDocument, ShiftAssignment } from "../types/schedule";
 
 export function dateKey(date: Date): string {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
@@ -24,7 +24,7 @@ export function periodDays(start: string, end: string): string[] {
   return days.length <= 366 ? days : [];
 }
 
-export function printWeeks(document: EscalaLivreDocument, start: string, end: string) {
+export function printWeeks(document: EscalaEasyDocument, start: string, end: string) {
   document = normalizeDocumentTimes(document);
   const selectedDays = periodDays(start, end);
   if (!selectedDays.length) return [];
@@ -67,7 +67,7 @@ export function dayOffset(value: string, start: string) {
   return days > 0 ? ` (+${days}d)` : "";
 }
 
-export function employeePrintRows(document: EscalaLivreDocument, month: string) {
+export function employeePrintRows(document: EscalaEasyDocument, month: string) {
   document = normalizeDocumentTimes(document);
   const bounds = monthBounds(month);
   if (!bounds) return [];

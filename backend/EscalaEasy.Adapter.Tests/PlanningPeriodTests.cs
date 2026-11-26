@@ -1,0 +1,53 @@
+using System.Text;
+using System.Text.Json;
+using EscalaEasy.Application.Contracts;
+using EscalaEasy.Application.Validation;
+using EscalaEasy.Domain.Scheduling;
+using EscalaEasy.Infrastructure.ImportExport;
+
+namespace EscalaEasy.Adapter.Tests;
+
+public sealed class PlanningPeriodTests
+{
+    private static EscalaEasyDocument Document()
+    {
+        var rule = new WorkloadRule("dayBased", 5, 2, 44, TimeSpan.FromHours(8));
+        var company = new CompanyRules("Loja", new(8,0), new(18,0), [DayOfWeek.Monday], rule,
+            new(TimeSpan.FromHours(1), TimeSpan.FromHours(1), TimeSpan.FromHours(4)), TimeSpan.FromHours(11), []);
+        return new("1.0.0", Guid.NewGuid(), company, [], [], DateTimeOffset.UtcNow);
+    }
+
+    [Fact]
+    public void NativeRoundTripPreservesExplicitPeriod()
+    {
+        var serializer = new NativeScheduleSerializer();
+        var document = Document() with { PlanningPeriod = new(new(2026,10,1), new(2026,10,31)) };
+        var exported = serializer.Export(new(document,"native"));
+        Assert.Equal(document.PlanningPeriod, serializer.Import(new(exported.FileName,exported.ContentBase64,"native")).PlanningPeriod);
+    }
+
+    [Fact]
+    public void LegacyImportMigratesWithoutAssignments()
+    {
+        var document = Document();
+        var zone = TimeZoneInfo.FindSystemTimeZoneById(document.Company.TimeZone);
+        var before = DateOnly.FromDateTime(TimeZoneInfo.ConvertTime(DateTimeOffset.UtcNow, zone).DateTime);
+        var bytes = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(document, new JsonSerializerOptions(JsonSerializerDefaults.Web)));
+        var migrated = new NativeScheduleSerializer().Import(new("legacy.escalaeasy",Convert.ToBase64String(bytes),"native"));
+        var after = DateOnly.FromDateTime(TimeZoneInfo.ConvertTime(DateTimeOffset.UtcNow, zone).DateTime);
+        Assert.InRange(migrated.PlanningPeriod!.Start, before, after);
+        Assert.Equal(migrated.PlanningPeriod.Start.AddDays(6), migrated.PlanningPeriod.End);
+    }
+
+    [Fact]
+    public void SchedulingRejectsADifferentPeriodAndAllowsASingleDay()
+    {
+        var doc = Document() with { PlanningPeriod = new(new(2026,10,19),new(2026,10,19)) };
+        var request = new ScheduleRequest(doc, new(2026,10,19), new(2026,10,19,23,59,59));
+        var validator = new ScheduleRequestValidator();
+        Assert.True(validator.Validate(request).IsValid);
+        Assert.False(validator.Validate(request with { End = request.End.AddDays(1) }).IsValid);
+        Assert.NotNull(DocumentSafety.Error(doc with { PlanningPeriod = new(new(2026,10,1),new(2026,11,1)) }));
+        Assert.NotNull(DocumentSafety.Error(doc with { PlanningPeriod = new(new(2026,10,2),new(2026,10,1)) }));
+    }
+}

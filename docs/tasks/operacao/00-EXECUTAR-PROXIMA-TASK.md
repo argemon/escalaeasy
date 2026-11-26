@@ -1,4 +1,4 @@
-# EscalaLivre — execução sequencial das melhorias de operação
+# EscalaEasy — execução sequencial das melhorias de operação
 
 Plano criado em 11/11/2026. Este documento é o ponto de entrada para executar **todas as tasks com um único pedido, uma por vez, em sequência, até concluir**.
 
@@ -12,9 +12,9 @@ Informe o progresso brevemente após cada task e continue trabalhando. Compacta�
 
 ## Uso no repositório
 
-Coloque esta pasta, com seus dez arquivos Markdown, em `docs/tasks/operacao/` no repositório `argemon/escalalivre`. Os links entre os arquivos são relativos e devem ser mantidos. Os caminhos de código citados nas tasks são relativos à raiz do repositório.
+Coloque esta pasta, com seus dez arquivos Markdown, em `docs/tasks/operacao/` no repositório `argemon/escalaeasy`. Os links entre os arquivos são relativos e devem ser mantidos. Os caminhos de código citados nas tasks são relativos à raiz do repositório.
 
-O checkout encontrado na elaboração foi `C:\Users\eargemon\source\repos\escalalivre`, na branch `fix/minimum-lunch-and-inline-role-edit`, cujo conteúdo correspondia à main consultada, commit `2a322b0`. Isso é uma referência histórica: confira o estado atual antes de começar. Não presuma que uma funcionalidade continua ausente.
+O checkout encontrado na elaboração foi `C:\Users\eargemon\source\repos\escalaeasy`, na branch `fix/minimum-lunch-and-inline-role-edit`, cujo conteúdo correspondia à main consultada, commit `2a322b0`. Isso é uma referência histórica: confira o estado atual antes de começar. Não presuma que uma funcionalidade continua ausente.
 
 Leia o `AGENTS.md` aplicável e os documentos relevantes: `docs/architecture.md`, `docs/architecture-improvement-plan.md`, `docs/rule-parity.md` e `docs/testing.md`. Inspecione apenas o necessário à task selecionada. Preserve mudanças preexistentes e não troque de branch, descarte arquivos, publique ou faça push apenas por causa deste plano. Uma restrição real de escrita deve ser reportada; não simule que a implementação foi gravada no repositório.
 
@@ -39,7 +39,7 @@ Dependência linear: cada task depende das anteriores. Uma entrega não pode dec
 ## Princípios obrigatórios
 
 - Manter experiência local, sem login obrigatório, banco de dados ou persistência de servidor.
-- Preservar o arquivo `.escalalivre`; novos campos persistidos precisam de contrato, limites, migração idempotente e round-trip.
+- Preservar o arquivo `.escalaeasy`; novos campos persistidos precisam de contrato, limites, migração idempotente e round-trip.
 - Regras canônicas em Domain C#; Application orquestra; Infrastructure adapta o solver/exportadores; API trata transporte; frontend mantém políticas puras separadas de React/Zustand.
 - Alterações intencionais de regra devem atualizar `docs/rule-parity.md` e cenários compartilhados. Não remover testes antigos para esconder regressões: ajustar expectativas apenas com decisão explícita.
 - Preservar tempo civil, segundos, turnos noturnos, histórico em ambos os lados do período e semana domingo–sábado.

@@ -1,16 +1,16 @@
-import type { EscalaLivreDocument } from "../../types/schedule";
+import type { EscalaEasyDocument } from "../../types/schedule";
 import { planFor, excusedSeconds } from "./contractWorkTargets";
 import { selectedNormalDailySeconds } from "./fiveDay42Hours";
 import { summarizeWorkloads } from "./weeklyWorkPlan";
 import { civilMillis, civilString } from "../civilTime";
 import { activeOn } from "./employment";
 
-export const invalidContractDistributions=(planning:EscalaLivreDocument,start:string)=>planning.employees.filter(employee=>{
+export const invalidContractDistributions=(planning:EscalaEasyDocument,start:string)=>planning.employees.filter(employee=>{
   const plan=planFor(planning.company,employee);
   return activeOn(employee,start)&&plan&&!plan.flexibleWorkDays&&plan.dailySeconds.reduce((sum,s)=>sum+s,0)!==plan.contractedSeconds;
 });
 
-export function contractMinimums(planning:EscalaLivreDocument,start:string,end:string) {
+export function contractMinimums(planning:EscalaEasyDocument,start:string,end:string) {
   return planning.employees.flatMap(employee=>{
     const activeEnd=employee.inactiveFrom&&employee.inactiveFrom<=end.slice(0,10)
       ?civilString(civilMillis(employee.inactiveFrom+"T00:00:00")-1000):end;

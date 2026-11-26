@@ -68,19 +68,19 @@ test('API generation sends the saved period rather than assignment dates',async(
 
 test('browser restoration migrates once and period changes recalculate and persist',()=>{
   const legacy=clone();delete legacy.planningPeriod;
-  const data=new Map([['escalalivre-state',JSON.stringify({state:{document:legacy,theme:'dark',viewMode:'month'},version:0})]]);
+  const data=new Map([['escalaeasy-state',JSON.stringify({state:{document:legacy,theme:'dark',viewMode:'month'},version:0})]]);
   persistedStorage={getItem:key=>data.get(key)??null,setItem:(key,value)=>data.set(key,value),removeItem:key=>data.delete(key)};
   const {useScheduleStore:store}=load('store/scheduleStore.ts');
   assert.deepEqual(plain(store.getState().document.planningPeriod),{start:'2026-05-18',end:'2026-05-24'});
   assert.equal(store.getState().theme,'dark');
-  assert.equal(JSON.parse(data.get('escalalivre-state')).version,2);
-  assert.deepEqual(JSON.parse(data.get('escalalivre-state')).state.document.planningPeriod,{start:'2026-05-18',end:'2026-05-24'});
+  assert.equal(JSON.parse(data.get('escalaeasy-state')).version,2);
+  assert.deepEqual(JSON.parse(data.get('escalaeasy-state')).state.document.planningPeriod,{start:'2026-05-18',end:'2026-05-24'});
   const period={start:'2026-10-19',end:'2026-10-19'};
   store.getState().setPlanningPeriod(period);
   assert.deepEqual(plain(store.getState().document.planningPeriod),period);
   assert.ok(store.getState().analysis.coverage.length);
   assert.ok(store.getState().analysis.coverage.every(b=>b.start.startsWith('2026-10-19')));
-  assert.deepEqual(JSON.parse(data.get('escalalivre-state')).state.document.planningPeriod,period);
+  assert.deepEqual(JSON.parse(data.get('escalaeasy-state')).state.document.planningPeriod,period);
   const count=store.getState().document.assignments.length;
   store.getState().upsertAssignment({...legacy.assignments[0],start:'2020-01-01T09:00:00',end:'2020-01-01T17:00:00',break:undefined});
   assert.equal(store.getState().document.assignments.length,count);

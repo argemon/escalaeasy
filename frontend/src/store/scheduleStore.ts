@@ -19,7 +19,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { sampleDocument, emptyDocument } from "../data/sample";
 import { analyzeDocument } from "../lib/analysis";
-import type { Employee, EscalaLivreDocument, ScheduleResult, ShiftAssignment } from "../types/schedule";
+import type { Employee, EscalaEasyDocument, ScheduleResult, ShiftAssignment } from "../types/schedule";
 
 type Theme = "light" | "dark";
 export type ViewMode = "timeline" | "week" | "month" | "heatmap" | "coverage" | "solver";
@@ -32,30 +32,30 @@ type ScheduleState = {
   selectedShift?:{id?:string;employeeId:string;date:string;draft?:ShiftAssignment};
   selectShift:(selection:ScheduleState["selectedShift"])=>void;
   applyPlanningPreview:(preview:PlanningPreview,allowDraft:boolean)=>void;
-  document: EscalaLivreDocument; analysis: ScheduleResult; theme: Theme; viewMode: ViewMode;
+  document: EscalaEasyDocument; analysis: ScheduleResult; theme: Theme; viewMode: ViewMode;
   solverStatus: SolverStatus; selectedRole: string; selectedEmployeeId?: string;
   applyEmploymentPreview: (preview: TeamPreview) => void;
   applyTeamPreview: (preview: TeamPreview) => void;
   upsertEmployee: (employee: Employee) => void; deleteEmployee: (id: string) => void;
   setTheme: (theme: Theme) => void; setViewMode: (mode: ViewMode) => void;
   setSolverStatus: (status: SolverStatus) => void; setSelectedRole: (role: string) => void;
-  setSelectedEmployeeId: (id?: string) => void; setDocument: (document: EscalaLivreDocument) => void;
+  setSelectedEmployeeId: (id?: string) => void; setDocument: (document: EscalaEasyDocument) => void;
   setPlanningPeriod: (period: PlanningPeriod) => void;
-  importDocument: (document: EscalaLivreDocument) => boolean;
+  importDocument: (document: EscalaEasyDocument) => boolean;
   restoreRecovery: (contents: string) => boolean;
   retryStorage: () => boolean;
   clearAll: () => void;
   setAnalysis: (analysis: ScheduleResult) => void;
-  applyGeneratedSchedule: (submitted: EscalaLivreDocument, result: ScheduleResult, range?:PlanningPeriod) => void;
+  applyGeneratedSchedule: (submitted: EscalaEasyDocument, result: ScheduleResult, range?:PlanningPeriod) => void;
   moveAssignment: (id: string, start: string, end: string) => void;
   upsertAssignment: (assignment: ShiftAssignment) => void;
 };
 // Edits and hydration recompute analysis without silently rewriting any shift.
-const presentDocument=(input:EscalaLivreDocument)=>{
+const presentDocument=(input:EscalaEasyDocument)=>{
   const document=freezePublications(normalizeDocument(input));
   return {document,analysis:analyzeDocument(document),solverStatus:"idle" as const};
 };
-const recovered=(input:EscalaLivreDocument)=>presentDocument(validateNativeDocument(input));
+const recovered=(input:EscalaEasyDocument)=>presentDocument(validateNativeDocument(input));
 let hydratedOnce = false;
 export const useScheduleStore = create<ScheduleState>()(persist((rawSet, get) => {
  const history=new PlanningHistory();
@@ -135,7 +135,7 @@ export const useScheduleStore = create<ScheduleState>()(persist((rawSet, get) =>
     return presentDocument(document);
   })
 });},{
-  name:"escalalivre-state",
+  name:"escalaeasy-state",
   version: 2,
   storage: recovery.storage,
   migrate: persisted => {
@@ -148,7 +148,6 @@ export const useScheduleStore = create<ScheduleState>()(persist((rawSet, get) =>
     const saved=persisted as SavedSchedule | undefined;
     if(!saved) return first && recovery.getSnapshot().protected ? {...current,...presentDocument(emptyDocument())} : current;
     const document=structuredClone(validateNativeDocument(saved.document));
-    if(document.company.name === "EscalaLivre Demo")document.company.name="EscalaEasy";
     return {...current,theme:saved.theme,viewMode:saved.viewMode as ViewMode,...recovered(document)};
   }
 }));

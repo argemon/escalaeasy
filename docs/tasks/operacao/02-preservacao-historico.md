@@ -14,7 +14,7 @@ Mudar função e inativar pessoas sem reescrever turnos antigos ou apagar seu hi
 3. Inativar a partir de data inclusiva: impedir novas alocações com início nessa data ou depois. Turnos noturnos iniciados antes preservam seu pertencimento por data inicial. Sinalizar futuros existentes e oferecer tratamento explícito, sem apagamento automático.
 4. Manter inativos pesquisáveis no histórico e ocultáveis na operação. Diferenciar inativação de exclusão definitiva; explicar a remoção de turnos na exclusão e preservar snapshots fechados independentes introduzidos na task 09.
 5. Fazer geração, elegibilidade, cobertura e edição consultarem vigências, sem depender apenas da função atual do cadastro. Preservar a função exercida registrada no turno e suas autorizações efetivas.
-6. Persistir os campos novos em `.escalalivre` e DTOs. Na migração, manter turnos legados como registrados, sem inventar datas de promoção ou admissão. Sem inativação explícita, manter pessoa ativa.
+6. Persistir os campos novos em `.escalaeasy` e DTOs. Na migração, manter turnos legados como registrados, sem inventar datas de promoção ou admissão. Sem inativação explícita, manter pessoa ativa.
 7. Habilitar mudança de função em lote usando o mesmo comando de vigência e prévia, caso a infraestrutura da task 01 já a suporte.
 
 ## Pontos de partida

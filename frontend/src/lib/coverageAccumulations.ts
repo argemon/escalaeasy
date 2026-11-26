@@ -1,11 +1,11 @@
-import type { CoverageBlock, EscalaLivreDocument } from "../types/schedule";
+import type { CoverageBlock, EscalaEasyDocument } from "../types/schedule";
 import { coverageAllocation } from "./coverageAllocation";
 import { civilMillis } from "./civilTime";
 
 export type CoverageAccumulation={employeeId:string;employeeName:string;start:string;end:string;roles:string[]};
 
 // Presentation of actual contributions, rather than a list of possible permissions.
-export function coverageAccumulations(planning:EscalaLivreDocument,blocks:CoverageBlock[]):CoverageAccumulation[] {
+export function coverageAccumulations(planning:EscalaEasyDocument,blocks:CoverageBlock[]):CoverageAccumulation[] {
   const roleRules=new Map(planning.company.coverage.filter(r=>r.scope!=="team").map(r=>[r.role,r]));
   const periods=new Map<string,CoverageBlock[]>();
   for(const block of blocks)if(block.required>0&&roleRules.has(block.role)){

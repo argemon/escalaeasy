@@ -1,7 +1,7 @@
 export { planFor, hasContractPlans, compensationAppliesOn, nominalSeconds, excusedSeconds, targetSeconds, normalLimitSeconds, contractDailyLimitMillis, desiredWorkSeconds, recognizedSeconds, durationSeconds } from "./contractWorkTargets";
 import { selectedNormalDailySeconds } from "./fiveDay42Hours";
 import { planFor, nominalSeconds, excusedSeconds, recognizedSeconds, durationSeconds } from "./contractWorkTargets";
-import type { CompanyRules, EscalaLivreDocument, WeeklyWorkPlan, WorkloadSummary, DailyWorkload } from "../../types/schedule";
+import type { CompanyRules, EscalaEasyDocument, WeeklyWorkPlan, WorkloadSummary, DailyWorkload } from "../../types/schedule";
 import { civilMillis, civilString, civilDay, civilWeek } from "../civilTime";
 import { workMillis, workMillisInWeek } from "./effectiveWork";
 import { hoursToDuration, formatDuration } from "../duration";
@@ -46,7 +46,7 @@ export const weeklyPlanMessages:Record<string,string>={
 
 export const weeklyPlanTotal=(plan:WeeklyWorkPlan)=>plan.dailySeconds.reduce((a,b)=>a+b,0);
 
-export function summarizeWorkloads(planning:EscalaLivreDocument,start:string,end:string):WorkloadSummary[]|undefined {
+export function summarizeWorkloads(planning:EscalaEasyDocument,start:string,end:string):WorkloadSummary[]|undefined {
  const summaries:WorkloadSummary[]=[];
  for(const e of planning.employees) {
   const plan=planFor(planning.company,e);if(!plan)continue;

@@ -72,7 +72,7 @@ repetidos, entrada excessiva, erros e preservação do snapshot/nome. Navegador
 verifica posição, navegação, cancelamento, download e desktop/celular.
 
 `SchedulePdfExporter.cs` e `SchedulePdfRows.cs` não foram alterados. Regras de
-escala, formato `.escalalivre` e cadastros não receberam mudanças nesta entrega.
+escala, formato `.escalaeasy` e cadastros não receberam mudanças nesta entrega.
 Resultados finais e limitações da execução são registrados abaixo.
 
 ### Resultado local

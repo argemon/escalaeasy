@@ -1,13 +1,15 @@
 # Validação e fronteiras de teste
 
+Em 26/11/2026, a nomenclatura de caminhos, projetos, namespaces e identificadores foi uniformizada para EscalaEasy em todo o repositório, inclusive nas referências e transcrições históricas. Essa normalização textual não representa uma nova execução das verificações antigas. Resultados da migração atual são registrados separadamente.
+
 Os projetos têm dependências e objetivos distintos; helpers de teste retornam capacidades reais, sem uma fachada combinando análise/validação/geração.
 
 | Grupo | Projeto/comando | Fronteira verificada |
 | --- | --- | --- |
-| Puro | EscalaLivre.Analysis.Tests (239 casos) | Apenas Application/Domain: valores/agregados, políticas, regimes, hashes completos, comandos e admissão. Deployment sem Infrastructure/API/OR-Tools. |
-| Adaptador | EscalaLivre.Adapter.Tests (379 casos) | Infrastructure/Application/Domain: OR-Tools real, limites/modelos, documentos atuais/legados, importação/exportação/PDF e recuperação. Sem referência ao projeto API. |
-| API | EscalaLivre.Api.Tests (33 casos) | Composição das capacidades/famílias, fila/retenção/orçamentos, amostragem de memória e opções de proteção; sem servidor HTTP nesses testes unitários. |
-| Arquitetura | EscalaLivre.Architecture.Tests (13 casos) | Grafo de referências, imports e superfície pública; scanner verificado também com formas proibidas, sem executar solver. |
+| Puro | EscalaEasy.Analysis.Tests (239 casos) | Apenas Application/Domain: valores/agregados, políticas, regimes, hashes completos, comandos e admissão. Deployment sem Infrastructure/API/OR-Tools. |
+| Adaptador | EscalaEasy.Adapter.Tests (379 casos) | Infrastructure/Application/Domain: OR-Tools real, limites/modelos, documentos atuais/legados, importação/exportação/PDF e recuperação. Sem referência ao projeto API. |
+| API | EscalaEasy.Api.Tests (33 casos) | Composição das capacidades/famílias, fila/retenção/orçamentos, amostragem de memória e opções de proteção; sem servidor HTTP nesses testes unitários. |
+| Arquitetura | EscalaEasy.Architecture.Tests (13 casos) | Grafo de referências, imports e superfície pública; scanner verificado também com formas proibidas, sem executar solver. |
 | Frontend | frontend/tests/*.test.cjs (487 casos) | Paridade, contratos, recuperação, coleções inválidas/excessivas, store, construção/edição, arquiteturas das políticas e independência do fuso. |
 | HTTP/worker | backend/security.integration.cjs (22 casos) | API e processos filhos reais, envelope/status, frontend/analyze/validate/solve, fila, cancelamento, tempo/memória, recuperação e cotas por endpoint/IP/operação. |
 
@@ -25,14 +27,14 @@ separada de aprovação operacional.
 Na raiz, em Release:
 
 ~~~powershell
-dotnet test backend/EscalaLivre.Analysis.Tests/EscalaLivre.Analysis.Tests.csproj -c Release
-dotnet test backend/EscalaLivre.Adapter.Tests/EscalaLivre.Adapter.Tests.csproj -c Release
-dotnet test backend/EscalaLivre.Api.Tests/EscalaLivre.Api.Tests.csproj -c Release
-dotnet test backend/EscalaLivre.Architecture.Tests/EscalaLivre.Architecture.Tests.csproj -c Release
+dotnet test backend/EscalaEasy.Analysis.Tests/EscalaEasy.Analysis.Tests.csproj -c Release
+dotnet test backend/EscalaEasy.Adapter.Tests/EscalaEasy.Adapter.Tests.csproj -c Release
+dotnet test backend/EscalaEasy.Api.Tests/EscalaEasy.Api.Tests.csproj -c Release
+dotnet test backend/EscalaEasy.Architecture.Tests/EscalaEasy.Architecture.Tests.csproj -c Release
 node --test frontend/tests/*.test.cjs
 npm --prefix frontend run lint
 npm --prefix frontend run build
-dotnet build backend/EscalaLivre.Api/EscalaLivre.Api.csproj -c Release
+dotnet build backend/EscalaEasy.Api/EscalaEasy.Api.csproj -c Release
 $env:SECURITY_BUILD_CONFIGURATION='Release'
 node backend/security.integration.cjs
 ~~~
@@ -51,7 +53,7 @@ global.json permite latestFeature: 10.0.402 foi uma seleção válida para 10.0.
 
 Os 581 casos .NET anteriores foram preservados: 197 puros + 384 mistos passaram antes; 207 puros + 366 adaptador + 8 API passaram após migração e antes da remoção. A arquitetura acrescenta 13, totalizando 594 casos .NET. Contagens são evidências desta entrega, não uma meta artificial de cobertura.
 
-Recompilação atual: `dotnet build EscalaLivre.slnx -c Release -t:Rebuild` passou antes de executar as suítes; os comandos `dotnet test` também compilaram os respectivos projetos. Integração usou Release após build atual da API, sem carga concorrente de build/testes. Resultado: 594 .NET, 373 frontend em cada fuso e 16 HTTP aprovados, sem falhas/ignorados; lint e builds passaram. Logs/comandos e limites de conclusão estão na [revalidação](decisions/stage-6-current-validation.md).
+Recompilação atual: `dotnet build EscalaEasy.slnx -c Release -t:Rebuild` passou antes de executar as suítes; os comandos `dotnet test` também compilaram os respectivos projetos. Integração usou Release após build atual da API, sem carga concorrente de build/testes. Resultado: 594 .NET, 373 frontend em cada fuso e 16 HTTP aprovados, sem falhas/ignorados; lint e builds passaram. Logs/comandos e limites de conclusão estão na [revalidação](decisions/stage-6-current-validation.md).
 
 Relatório de aceite/limitações: [revisão final](decisions/stage-6-final-review.md). Medição separada/reproduzível: [desempenho](decisions/stage-6-performance.md).
 
@@ -98,8 +100,8 @@ As nove tasks estão concluídas localmente. [Validação consolidada](tasks/ope
 
 ## Isolamento dos testes nativos — 13/11/2026
 
-A execução [Validate da main](https://github.com/argemon/escalalivre/actions/runs/43300832565) falhou em `MixedContractsAreMandatoryEvenWithNoCoverageDemand(false)`: o solver retornou `timeout` nos cinco segundos disponíveis. A execução anterior da PR havia passado. A mesma falha foi reproduzida localmente com a suíte de adaptador em dois processadores; os outros 469 testes passaram.
+A execução [Validate da main](https://github.com/argemon/escalaeasy/actions/runs/43300832565) falhou em `MixedContractsAreMandatoryEvenWithNoCoverageDemand(false)`: o solver retornou `timeout` nos cinco segundos disponíveis. A execução anterior da PR havia passado. A mesma falha foi reproduzida localmente com a suíte de adaptador em dois processadores; os outros 469 testes passaram.
 
-`EscalaLivre.Adapter.Tests/TestExecution.cs` desativa o paralelismo entre coleções xUnit apenas nesse assembly. Isso evita que os testes de OR-Tools disputem CPU entre si dentro de prazos medidos por tempo decorrido. Os 470 testes, suas exigências de carga/cobertura e o limite real de cinco segundos permanecem; nenhum teste aceita timeout como sucesso. O solver, a fila e as regras de produção não foram alterados.
+`EscalaEasy.Adapter.Tests/TestExecution.cs` desativa o paralelismo entre coleções xUnit apenas nesse assembly. Isso evita que os testes de OR-Tools disputem CPU entre si dentro de prazos medidos por tempo decorrido. Os 470 testes, suas exigências de carga/cobertura e o limite real de cinco segundos permanecem; nenhum teste aceita timeout como sucesso. O solver, a fila e as regras de produção não foram alterados.
 
 Após a mudança, a suíte completa foi executada três vezes em Release, com afinidade limitada a dois processadores: 470/470 em cada repetição. Essa evidência verifica o caso reproduzido, sem prometer ausência de timeout sob qualquer carga. A CI completa continua obrigatória antes da integração.

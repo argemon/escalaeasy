@@ -1,4 +1,4 @@
-import type { EscalaLivreDocument, ShiftAssignment } from "../../types/schedule";
+import type { EscalaEasyDocument, ShiftAssignment } from "../../types/schedule";
 import { civilMillis } from "../civilTime";
 import { validCivilDateTime } from "../dateTime";
 
@@ -20,16 +20,16 @@ export function introducedShiftOverlap(before:ShiftAssignment[],after:ShiftAssig
     }
   }
 }
-function overlapMessage(d:EscalaLivreDocument,overlap:NonNullable<ReturnType<typeof introducedShiftOverlap>>) {
+function overlapMessage(d:EscalaEasyDocument,overlap:NonNullable<ReturnType<typeof introducedShiftOverlap>>) {
   const name=d.employees.find(e=>e.id===overlap.assignment.employeeId)?.name??"Esta pessoa";
   const format=(value:string)=>{const [date,time]=value.split("T");return `${date.split("-").reverse().join("/")} às ${time.endsWith(":00")?time.slice(0,5):time}`;};
   return `${name} já possui um turno de ${format(overlap.existing.start)} até ${format(overlap.existing.end)}. Escolha outro horário ou edite esse turno.`;
 }
-export function assertNoNewShiftOverlap(d:EscalaLivreDocument,next:EscalaLivreDocument) {
+export function assertNoNewShiftOverlap(d:EscalaEasyDocument,next:EscalaEasyDocument) {
   const overlap=introducedShiftOverlap(d.assignments,next.assignments);
   if(overlap)throw Error(overlapMessage(d,overlap));
 }
-export function shiftOverlapMessage(d:EscalaLivreDocument,assignment:ShiftAssignment) {
+export function shiftOverlapMessage(d:EscalaEasyDocument,assignment:ShiftAssignment) {
   if(!validCivilDateTime(assignment.start)||!validCivilDateTime(assignment.end)||assignment.end<=assignment.start)return undefined;
   const overlap=introducedShiftOverlap(d.assignments,[...d.assignments.filter(a=>a.id!==assignment.id),assignment]);
   return overlap?overlapMessage(d,overlap):undefined;

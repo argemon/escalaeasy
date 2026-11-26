@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup><InternalsVisibleTo Include="EscalaEasy.Adapter.Tests" /></ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EscalaEasy.Application\EscalaEasy.Application.csproj" />
+    <ProjectReference Include="..\EscalaEasy.Domain\EscalaEasy.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Pin the MIT-licensed release; review licensing and advisories before updating. -->
+    <PackageReference Include="PDFsharp-MigraDoc" Version="[6.2.4]" />
+    <PackageReference Include="PDFsharp" Version="[6.2.4]" />
+    <PackageReference Include="Google.OrTools" Version="9.12.4544" />
+    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="10.0.13" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="ImportExport/Fonts/*.ttf" LogicalName="EscalaEasy.Fonts.%(Filename)%(Extension)" />
+    <None Update="ImportExport/Fonts/OFL.txt" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="ImportExport/Fonts/Inter-OFL.txt" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>

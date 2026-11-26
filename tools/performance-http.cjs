@@ -5,8 +5,8 @@ const {digest}=require('../shared/parity-contract.cjs');const load=require('../f
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 async function run(snapshot,repetition){
  const portServer=net.createServer();await new Promise(r=>portServer.listen(0,'127.0.0.1',r));const port=portServer.address().port;await new Promise(r=>portServer.close(r));
- const directory=path.join(snapshot,'backend/EscalaLivre.Api'),url='http://127.0.0.1:'+port,started=performance.now();
- const server=spawn('dotnet',[path.join(directory,'bin/Release/net10.0/EscalaLivre.Api.dll')],{cwd:directory,env:{...env,ASPNETCORE_ENVIRONMENT:'Production',ASPNETCORE_URLS:url},windowsHide:true});let logs='';server.stdout.on('data',b=>logs+=b);server.stderr.on('data',b=>logs+=b);
+ const directory=path.join(snapshot,'backend/EscalaEasy.Api'),url='http://127.0.0.1:'+port,started=performance.now();
+ const server=spawn('dotnet',[path.join(directory,'bin/Release/net10.0/EscalaEasy.Api.dll')],{cwd:directory,env:{...env,ASPNETCORE_ENVIRONMENT:'Production',ASPNETCORE_URLS:url},windowsHide:true});let logs='';server.stdout.on('data',b=>logs+=b);server.stderr.on('data',b=>logs+=b);
  let monitor,memory='';const rows=[];
  const request=JSON.parse(fs.readFileSync(path.join(snapshot,'inputs/fortnight-history.json'),'utf8'));
  const post=(route,body)=>fetch(url+route,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body),signal:AbortSignal.timeout(45000)});

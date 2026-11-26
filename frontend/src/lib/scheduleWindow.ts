@@ -1,5 +1,5 @@
 import { datePart } from "./dateTime";
-import type { EscalaLivreDocument, ShiftAssignment } from "../types/schedule";
+import type { EscalaEasyDocument, ShiftAssignment } from "../types/schedule";
 import type { PlanningPeriod } from "./planningPeriod";
 
 // Date ownership is based on the start day; never split a shift during replacement.
@@ -7,7 +7,7 @@ export function belongsToPeriod(shift: ShiftAssignment, period: PlanningPeriod):
   const date = datePart(shift.start);
   return date >= period.start && date <= period.end;
 }
-export function replacePeriodAssignments(document: EscalaLivreDocument, generated: ShiftAssignment[]): ShiftAssignment[] {
+export function replacePeriodAssignments(document: EscalaEasyDocument, generated: ShiftAssignment[]): ShiftAssignment[] {
   const retained=document.assignments.filter(a => a.pinned || !belongsToPeriod(a, document.planningPeriod));
   return [...retained,...generated.filter(a => belongsToPeriod(a, document.planningPeriod)&&!retained.some(old=>old.pinned&&old.id===a.id))];
 }

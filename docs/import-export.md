@@ -1,6 +1,6 @@
 # Importacao E Exportacao
 
-EscalaEasy é local-first. A persistência principal é um arquivo `.escalaeasy` com JSON estruturado. Os novos downloads usam `.escalaeasy`, enquanto a importação continua aceitando `.escalalivre` e os aliases existentes. O schema JSON permanece igual; não é necessário converter ou renomear arquivos antigos. PDF e PNG passam a identificar a marca como EscalaEasy; os dados da empresa, as demais partes dos nomes de download e os formatos de exportação permanecem iguais.
+EscalaEasy é local-first. A persistência principal é um arquivo `.escalaeasy` com JSON estruturado. A identidade do projeto, os arquivos nativos e os downloads usam exclusivamente EscalaEasy.
 
 ## Arquivo nativo
 
@@ -8,7 +8,7 @@ O download usa o padrão `Nome da empresa - DD-MM-AAAA a DD-MM-AAAA.escalaeasy`,
 
 O botão **Baixar PDF** usa a mesma convenção, trocando apenas a extensão: `Minha Empresa - 01-11-2026 a 30-11-2026.pdf`. O nome é calculado pela mesma função da exportação nativa. Essa alteração não modifica o conteúdo, a aparência nem a geração do PDF. Verificação: testes de nomes nativos e exportação do PDF.
 
-A nova extensão vale para os downloads no navegador, cópias nativas de recuperação e exportação nativa da API. O conteúdo JSON e as regras da escala permanecem iguais. A API aceita os formatos `native`, `escalaeasy` e o alias legado `escalalivre`, sempre exportando `escala.escalaeasy`. A importação reconhece `.escalaeasy` e `.escalalivre`, sem diferenciar maiúsculas e minúsculas. A verificação inclui exportação sem turnos, período entre anos, reimportação, caracteres proibidos, compilação, lint e testes de recuperação.
+A nova extensão vale para os downloads no navegador, cópias nativas de recuperação e exportação nativa da API. O conteúdo JSON e as regras da escala permanecem iguais. A API aceita os formatos `native` e `escalaeasy`, sempre exportando `escala.escalaeasy`. A importação reconhece `.escalaeasy`, sem diferenciar maiúsculas e minúsculas. A verificação inclui exportação sem turnos, período entre anos, reimportação, caracteres proibidos, compilação, lint e testes de recuperação.
 
 O arquivo nativo deve reconstruir completamente o estado:
 

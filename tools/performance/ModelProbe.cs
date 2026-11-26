@@ -1,6 +1,6 @@
 // Instrumentation compiled exclusively in isolated benchmark Infrastructure copies.
 using Google.OrTools.Sat;
-namespace EscalaLivre.Infrastructure.Solver;
+namespace EscalaEasy.Infrastructure.Solver;
 public static class PerformanceModelProbe
 {
     public static int Candidates,Variables,Constraints,SerializedBytes,Steps;

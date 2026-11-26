@@ -5,12 +5,12 @@
 Após os ajustes de nome do arquivo, agrupamento da função e compactação da tabela,
 o usuário aprovou o resultado e marcou a parte de PDF como concluída. O aceite
 inclui a tabela compacta atual, com nome e função sem repetição desnecessária,
-separação visual por funcionário e nome do arquivo no mesmo padrão do `.escalalivre`.
+separação visual por funcionário e nome do arquivo no mesmo padrão do `.escalaeasy`.
 
 O usuário aprovou expressamente o resultado atual e solicitou que a geração de
 PDF não seja mais alterada. Este é o contrato final: download direto em PDF da
 escala salva, agrupamento dos dias/horários/intervalos por funcionário, sem a linha
-de cabeçalho anterior e com a logo Escala Livre ao lado da paginação no rodapé.
+de cabeçalho anterior e com a logo EscalaEasy ao lado da paginação no rodapé.
 Qualquer mudança futura nesta geração depende de um novo pedido explícito do
 usuário para modificar o PDF. A orientação está registrada também no AGENTS.md
 do repositório para ser observada em trabalhos futuros.
@@ -61,8 +61,8 @@ sanitizada de nomes/funções/turnos. Propostas não aplicadas e prévias não s
 O documento atual não recebe marca de rascunho ou versão. O texto abaixo registra
 o contrato histórico, não o fluxo atual da interface.
 
-Ajuste visual de 19/11/2026: removido o cabeçalho “ESCALA LIVRE / ESCALA DA EQUIPE”.
-A logo vetorial do calendário e o nome Escala Livre aparecem no rodapé de todas
+Ajuste visual de 19/11/2026: removido o cabeçalho “ESCALAEASY / ESCALA DA EQUIPE”.
+A logo vetorial do calendário e o nome EscalaEasy aparecem no rodapé de todas
 as páginas, à esquerda da paginação. Exportação real renderizada e conferida;
 os 10 testes de agrupamento/PDF e a compilação da API passaram.
 

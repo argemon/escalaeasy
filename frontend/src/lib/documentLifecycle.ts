@@ -1,13 +1,13 @@
 import { normalizeDocumentTimes } from "./dateTime";
 import { migratePlanningPeriod } from "./planningPeriod";
 import { migrateCoverageRoles, normalizeRoles } from "./roles";
-import type { EscalaLivreDocument, ShiftAssignment } from "../types/schedule";
+import type { EscalaEasyDocument, ShiftAssignment } from "../types/schedule";
 
 export const DOCUMENT_MIGRATIONS = {
   companyZone:"company-time-zone-v1", civilTimes:"qualified-times-to-company-civil-v1",
   precision:"schedule-second-precision-v1", period:"explicit-planning-period-v1", updatedAt:"utc-update-instant-v1", coverageRoles:"coverage-role-ids-v1"
 } as const;
-export function migrateDocument(input:EscalaLivreDocument):{document:EscalaLivreDocument;applied:string[]} {
+export function migrateDocument(input:EscalaEasyDocument):{document:EscalaEasyDocument;applied:string[]} {
   const applied:string[]=[];
   if(!input.company.timeZone)applied.push(DOCUMENT_MIGRATIONS.companyZone);
   const windows=[...input.assignments.flatMap(a=>[a,...(a.break?[a.break]:[])]),...input.employees.flatMap(e=>[...e.availability,...e.restrictions,...(e.absences??[])])];
@@ -19,7 +19,7 @@ export function migrateDocument(input:EscalaLivreDocument):{document:EscalaLivre
   return {document:migrateCoverageRoles(migratePlanningPeriod(normalizeDocumentTimes(input))),applied};
 }
 // No time conversion, duration repair, pause insertion or role substitution is allowed here.
-export function normalizeDocument(input:EscalaLivreDocument):EscalaLivreDocument {return normalizeRoles(input);}
-export function replaceAssignment(document:EscalaLivreDocument,assignment:ShiftAssignment):EscalaLivreDocument {
+export function normalizeDocument(input:EscalaEasyDocument):EscalaEasyDocument {return normalizeRoles(input);}
+export function replaceAssignment(document:EscalaEasyDocument,assignment:ShiftAssignment):EscalaEasyDocument {
   return {...document,assignments:[...document.assignments.filter(a=>a.id!==assignment.id),assignment]};
 }

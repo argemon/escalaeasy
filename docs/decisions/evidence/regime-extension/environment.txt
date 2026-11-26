@@ -48,7 +48,7 @@ Environment variables:
   Not set
 
 global.json file:
-  C:\Users\eargemon\source\repos\escalalivre\global.json
+  C:\Users\eargemon\source\repos\escalaeasy\global.json
 
 Learn more:
   https://aka.ms/dotnet/info

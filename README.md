@@ -4,7 +4,7 @@
 
 **Sua escala. Sem complicação.**
 
-A marca passou de EscalaLivre para **EscalaEasy**. Os novos arquivos são exportados como `.escalaeasy`; arquivos antigos `.escalalivre`, dados locais, contratos e caminhos técnicos existentes permanecem compatíveis. O endereço deste repositório continua o mesmo. Consulte a [identidade visual e a política de compatibilidade](docs/brand.md).
+O projeto oficial está em [github.com/argemon/escalaeasy](https://github.com/argemon/escalaeasy). O formato nativo é `.escalaeasy`. Consulte a [identidade visual](docs/brand.md).
 
 ### Planeje a equipe. Enxergue as lacunas. Tome decisões melhores.
 
@@ -175,7 +175,7 @@ No menu **Dados e opções**, no cabeçalho:
 | Ação | Quando usar |
 | --- | --- |
 | **Exportar** | Baixar empresa, equipe, regras, turnos e versões fechadas em `.escalaeasy` para arquivar ou continuar em outro dispositivo. |
-| **Importar** | Abrir um arquivo `.escalaeasy` ou `.escalalivre` e confirmar a substituição do planejamento atual e de suas versões. |
+| **Importar** | Abrir um arquivo `.escalaeasy` e confirmar a substituição do planejamento atual e de suas versões. |
 | **Cópias e recuperação de dados** | Baixar ou restaurar cópias anteriores, exportar os dados disponíveis ou tentar salvar novamente após uma falha. |
 | **Limpar tudo** | Apagar o planejamento atual após digitar a confirmação solicitada. Exporte antes o que deseja guardar. |
 
@@ -417,7 +417,7 @@ Sem demanda, o score é `1`; o backend arredonda o resultado a três casas decim
 
 As explicações são geradas por regras e modelos de texto do projeto. As sugestões de contratação agrupam lacunas por função, com estimativa limitada a 44 horas e até sete janelas no backend; são pistas para revisão, não um segundo solver de contratação nem uma prova da causa de cada decisão.
 
-**Onde ler o código:** [solver CP-SAT](backend/EscalaLivre.Infrastructure/Solver/OrToolsScheduleOptimizer.cs), [política de intervalos](backend/EscalaLivre.Domain/Scheduling/IntervalPolicy.cs), [feriados](backend/EscalaLivre.Domain/Scheduling/LaborRules.cs), [alocação de cobertura no navegador](frontend/src/lib/coverageAllocation.ts) e [análise local](frontend/src/lib/analysis.ts).
+**Onde ler o código:** [solver CP-SAT](backend/EscalaEasy.Infrastructure/Solver/OrToolsScheduleOptimizer.cs), [política de intervalos](backend/EscalaEasy.Domain/Scheduling/IntervalPolicy.cs), [feriados](backend/EscalaEasy.Domain/Scheduling/LaborRules.cs), [alocação de cobertura no navegador](frontend/src/lib/coverageAllocation.ts) e [análise local](frontend/src/lib/analysis.ts).
 
 ## Experimente localmente
 
@@ -428,15 +428,15 @@ As explicações são geradas por regras e modelos de texto do projeto. As suges
 - Git para clonar o repositório.
 
 ```bash
-git clone https://github.com/argemon/escalalivre.git
-cd escalalivre
+git clone https://github.com/argemon/escalaeasy.git
+cd escalaeasy
 ```
 
 Em um terminal, inicie a API:
 
 ```bash
-dotnet restore backend/EscalaLivre.Api/EscalaLivre.Api.csproj
-dotnet run --project backend/EscalaLivre.Api/EscalaLivre.Api.csproj --launch-profile http
+dotnet restore backend/EscalaEasy.Api/EscalaEasy.Api.csproj
+dotnet run --project backend/EscalaEasy.Api/EscalaEasy.Api.csproj --launch-profile http
 ```
 
 Em outro terminal, inicie o frontend:
@@ -485,14 +485,14 @@ frontend/
   src/store/                     Estado e persistência no navegador
   tests/                         Regressões da análise de cobertura
 backend/
-  EscalaLivre.Domain/            Modelos e regimes de jornada
-  EscalaLivre.Application/       Contratos e interfaces de serviços
-  EscalaLivre.Infrastructure/    Solver e importação/exportação
-  EscalaLivre.Api/               Endpoints HTTP
-  EscalaLivre.Analysis.Tests/    Testes puros de domínio e aplicação
-  EscalaLivre.Adapter.Tests/     Adaptadores e OR-Tools real
-  EscalaLivre.Api.Tests/         Composição e fila
-  EscalaLivre.Architecture.Tests/ Dependências e superfície pública
+  EscalaEasy.Domain/            Modelos e regimes de jornada
+  EscalaEasy.Application/       Contratos e interfaces de serviços
+  EscalaEasy.Infrastructure/    Solver e importação/exportação
+  EscalaEasy.Api/               Endpoints HTTP
+  EscalaEasy.Analysis.Tests/    Testes puros de domínio e aplicação
+  EscalaEasy.Adapter.Tests/     Adaptadores e OR-Tools real
+  EscalaEasy.Api.Tests/         Composição e fila
+  EscalaEasy.Architecture.Tests/ Dependências e superfície pública
 docs/                           Documentação técnica
 ```
 
@@ -524,10 +524,10 @@ Na raiz do repositório:
 
 ```bash
 node --test frontend/tests/*.test.cjs
-dotnet test backend/EscalaLivre.Analysis.Tests/EscalaLivre.Analysis.Tests.csproj -c Release
-dotnet test backend/EscalaLivre.Adapter.Tests/EscalaLivre.Adapter.Tests.csproj -c Release
-dotnet test backend/EscalaLivre.Api.Tests/EscalaLivre.Api.Tests.csproj -c Release
-dotnet test backend/EscalaLivre.Architecture.Tests/EscalaLivre.Architecture.Tests.csproj -c Release
+dotnet test backend/EscalaEasy.Analysis.Tests/EscalaEasy.Analysis.Tests.csproj -c Release
+dotnet test backend/EscalaEasy.Adapter.Tests/EscalaEasy.Adapter.Tests.csproj -c Release
+dotnet test backend/EscalaEasy.Api.Tests/EscalaEasy.Api.Tests.csproj -c Release
+dotnet test backend/EscalaEasy.Architecture.Tests/EscalaEasy.Architecture.Tests.csproj -c Release
 
 node tools/parity-differential.cjs
 ```
@@ -542,7 +542,7 @@ npm run build
 Para o teste de integração de segurança, compile a API em Debug e execute na raiz do repositório:
 
 ```bash
-dotnet build backend/EscalaLivre.Api/EscalaLivre.Api.csproj
+dotnet build backend/EscalaEasy.Api/EscalaEasy.Api.csproj
 node backend/security.integration.cjs
 ```
 
